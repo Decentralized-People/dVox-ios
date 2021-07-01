@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D8481F5268E6E9900C03ED6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8481F4268E6E9900C03ED6 /* LoginViewController.swift */; };
+		0D8481F7268E703000C03ED6 /* PasswordUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8481F6268E703000C03ED6 /* PasswordUtilities.swift */; };
 		8BD1A0EF268D43B300D87DAB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD1A0EE268D43B300D87DAB /* AppDelegate.swift */; };
 		8BD1A0F1268D43B300D87DAB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD1A0F0268D43B300D87DAB /* SceneDelegate.swift */; };
 		8BD1A0F3268D43B300D87DAB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD1A0F2268D43B300D87DAB /* ViewController.swift */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D8481F4268E6E9900C03ED6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		0D8481F6268E703000C03ED6 /* PasswordUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordUtilities.swift; sourceTree = "<group>"; };
 		8BD1A0EB268D43B300D87DAB /* dVox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dVox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BD1A0EE268D43B300D87DAB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8BD1A0F0268D43B300D87DAB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,7 +62,9 @@
 			children = (
 				8BD1A0EE268D43B300D87DAB /* AppDelegate.swift */,
 				8BD1A0F0268D43B300D87DAB /* SceneDelegate.swift */,
+				0D8481F6268E703000C03ED6 /* PasswordUtilities.swift */,
 				8BD1A0F2268D43B300D87DAB /* ViewController.swift */,
+				0D8481F4268E6E9900C03ED6 /* LoginViewController.swift */,
 				8BD1A0F4268D43B300D87DAB /* Main.storyboard */,
 				8BD1A0F7268D43B400D87DAB /* Assets.xcassets */,
 				8BD1A0F9268D43B400D87DAB /* LaunchScreen.storyboard */,
@@ -137,6 +143,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D8481F7268E703000C03ED6 /* PasswordUtilities.swift in Sources */,
+				0D8481F5268E6E9900C03ED6 /* LoginViewController.swift in Sources */,
 				8BD1A0F3268D43B300D87DAB /* ViewController.swift in Sources */,
 				8BD1A0EF268D43B300D87DAB /* AppDelegate.swift in Sources */,
 				8BD1A0F1268D43B300D87DAB /* SceneDelegate.swift in Sources */,
