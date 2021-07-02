@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B75E39A268E8A3100D0A4F0 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B75E399268E8A3100D0A4F0 /* MainController.swift */; };
 		8BD1A0EF268D43B300D87DAB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD1A0EE268D43B300D87DAB /* AppDelegate.swift */; };
 		8BD1A0F1268D43B300D87DAB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD1A0F0268D43B300D87DAB /* SceneDelegate.swift */; };
 		8BD1A0F3268D43B300D87DAB /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD1A0F2268D43B300D87DAB /* LoginController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8B75E399268E8A3100D0A4F0 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		8BD1A0EB268D43B300D87DAB /* dVox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dVox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BD1A0EE268D43B300D87DAB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8BD1A0F0268D43B300D87DAB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				8BD1A0EE268D43B300D87DAB /* AppDelegate.swift */,
 				8BD1A0F0268D43B300D87DAB /* SceneDelegate.swift */,
 				8BD1A0F2268D43B300D87DAB /* LoginController.swift */,
+				8B75E399268E8A3100D0A4F0 /* MainController.swift */,
 				8BD1A0F4268D43B300D87DAB /* Main.storyboard */,
 				8BD1A0F7268D43B400D87DAB /* Assets.xcassets */,
 				8BD1A0F9268D43B400D87DAB /* LaunchScreen.storyboard */,
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B75E39A268E8A3100D0A4F0 /* MainController.swift in Sources */,
 				8BD1A0F3268D43B300D87DAB /* LoginController.swift in Sources */,
 				8BD1A0EF268D43B300D87DAB /* AppDelegate.swift in Sources */,
 				8BD1A0F1268D43B300D87DAB /* SceneDelegate.swift in Sources */,
