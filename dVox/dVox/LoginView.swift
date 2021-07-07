@@ -3,14 +3,18 @@
 //  dVox
 //
 //  Created by Aleksandr Molchagin on 7/7/21.
-//
+//  Modified by Fatima R. Ortega on 7/7/21.
 
 import SwiftUI
 
+let storedEmail = "Fatima"
 
 struct LoginView: View {
     
     @State var email_input = ""
+    
+    @State var authenticationFail: Bool = false
+    @State var authenticationSuccess: Bool = false
 
     var body: some View {
         
@@ -40,24 +44,29 @@ struct LoginView: View {
                         .padding([.top, .leading, .trailing], 15)
                         .frame(maxWidth: .infinity, maxHeight: 50, alignment: .leading)
                     
-                    TextField("name@college.edu", text: $email_input)
-                        .padding(15)
-
-    
-                    
-                    Button(action: {
-                    
-                    }) {
-                        Text("NEXT")
-                            .padding()
-                            .background(Color.white)
-                            .foregroundColor(Color.black)
-                            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: 50, alignment: .bottom)
+                    EmailTextField(email_input: $email_input)
+                    if authenticationFail {
+                        Text("Information not valid. Try again!")
+                            .foregroundColor(.red)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: 50)
-                    .background(Color.white)
-                    .cornerRadius(15)
-                    .padding([.top, .leading, .trailing], 15)
+
+                    Button(action: {
+                        if self.email_input == storedEmail {
+                            self.authenticationSuccess = true
+                            self.authenticationFail = false
+                        } else {
+                            self.authenticationFail = true
+                            self.authenticationSuccess = false
+                        }
+                    }) {
+                        LoginButtonContent()
+                    }
+            
+                    if authenticationSuccess {
+                 Text("Login Successful")
+                    }
+                    
+                    
                 }
                
                 .background(Color.white)
@@ -78,3 +87,25 @@ struct LoginView_Previews: PreviewProvider {
     }
 }
 
+
+struct LoginButtonContent: View {
+    var body: some View {
+        Text("NEXT")
+            .padding()
+            .background(Color.white)
+            .foregroundColor(Color.black)
+            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: 50, alignment: .bottom)
+            .frame(maxWidth: .infinity, maxHeight: 50)
+            .background(Color.white)
+            .cornerRadius(15)
+            .padding([.top, .leading, .trailing], 15)
+    }
+}
+
+struct EmailTextField: View {
+    @Binding var email_input: String
+    var body: some View {
+        TextField("name@college.edu", text: $email_input)
+            .padding(15)
+    }
+}
