@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  dVox
 //
-//  Created by Aleksandr Molchagin on 7/1/21.
+//  Created by Aleksandr Molchagin on 7/7/21.
 //
 
 import UIKit
