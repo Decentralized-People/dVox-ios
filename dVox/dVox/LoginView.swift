@@ -6,6 +6,8 @@
 //  Modified by Fatima R. Ortega on 7/7/21.
 
 import SwiftUI
+import UIKit
+import MessageUI
 
 let storedEmail = "Fatima"
 
@@ -18,7 +20,7 @@ struct LoginView: View {
 
     var body: some View {
         
-        
+        NavigationView{
         ZStack{
             
             Color("BlackColor")
@@ -31,7 +33,7 @@ struct LoginView: View {
 
                     Text("voice\nyour\nthoughts")
                         .padding(15)
-                        .font(.system(size: 100))
+                        .font(.system(size: 95))
                         .minimumScaleFactor(0.01)
                         .foregroundColor(Color("GreyColor"))
                      }
@@ -63,7 +65,7 @@ struct LoginView: View {
                     }
             
                     if authenticationSuccess {
-                 Text("Login Successful")
+                        NavigationLink(destination: Chat()){Text("Login Successful Click Here")}
                     }
                     
                     
@@ -76,6 +78,7 @@ struct LoginView: View {
         
         }
         
+    }
     }
     
 }
@@ -109,3 +112,5 @@ struct EmailTextField: View {
             .padding(15)
     }
 }
+
+

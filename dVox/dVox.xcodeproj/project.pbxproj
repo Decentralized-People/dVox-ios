@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D44E9BB2696599500697753 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D44E9BA2696599500697753 /* Chat.swift */; };
 		8B6C722D26951D4D004A34A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C722C26951D4D004A34A3 /* AppDelegate.swift */; };
 		8B6C722F26951D4D004A34A3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C722E26951D4D004A34A3 /* SceneDelegate.swift */; };
 		8B6C723126951D4D004A34A3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C723026951D4D004A34A3 /* LoginView.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D44E9BA2696599500697753 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		8B6C722926951D4D004A34A3 /* dVox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dVox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B6C722C26951D4D004A34A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B6C722E26951D4D004A34A3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				8B6C722C26951D4D004A34A3 /* AppDelegate.swift */,
 				8B6C722E26951D4D004A34A3 /* SceneDelegate.swift */,
 				8B6C723026951D4D004A34A3 /* LoginView.swift */,
+				0D44E9BA2696599500697753 /* Chat.swift */,
 				8B6C723226951D4D004A34A3 /* Assets.xcassets */,
 				8B6C723726951D4D004A34A3 /* LaunchScreen.storyboard */,
 				8B6C723A26951D4D004A34A3 /* Info.plist */,
@@ -146,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B6C722D26951D4D004A34A3 /* AppDelegate.swift in Sources */,
+				0D44E9BB2696599500697753 /* Chat.swift in Sources */,
 				8B6C722F26951D4D004A34A3 /* SceneDelegate.swift in Sources */,
 				8B6C723126951D4D004A34A3 /* LoginView.swift in Sources */,
 			);
