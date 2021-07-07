@@ -52,6 +52,10 @@ struct LoginView: View {
                             .foregroundColor(.red)
                     }
 
+                    NavigationLink(destination: Chat())
+                    {Text("NEXT")
+                        
+                    }
                     Button(action: {
                         if self.email_input == storedEmail {
                             self.authenticationSuccess = true
