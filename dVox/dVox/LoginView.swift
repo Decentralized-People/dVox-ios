@@ -9,6 +9,10 @@ import SwiftUI
 import UIKit
 import MessageUI
 
+// Custom Toasts
+import AlertToast
+
+
 let storedEmail = "Fatima"
 
 struct LoginView: View {
@@ -20,67 +24,75 @@ struct LoginView: View {
 
     var body: some View {
         
-        NavigationView{
-        ZStack{
-            
-            Color("BlackColor")
-                .ignoresSafeArea()
         
-            VStack{
+NavigationView {
+        
+            ZStack {
+            
+                Color("BlackColor")
+                    .ignoresSafeArea()
+            
+                VStack{
+                            
+                    ZStack {
+        
+
+                        Text("voice\nyour\nthoughts")
+                            .padding(0.0)
+                            .font(.system(size: 95))
+                            .minimumScaleFactor(0.01)
+                            .foregroundColor(Color("GreyColor"))
+                    }
+                    .padding([.leading, .bottom, .trailing])
+                       
+
+                    VStack(alignment: .center) {
                         
-                ZStack {
-    
+                        Text("Enter your college email")
+                            .multilineTextAlignment(.leading)
+                            .padding([.top, .leading, .trailing], 15)
+                            .frame(maxWidth: .infinity, maxHeight: 50, alignment: .leading)
+                        
+                        EmailTextField(email_input: $email_input)
 
-                    Text("voice\nyour\nthoughts")
-                        .padding(15)
-                        .font(.system(size: 95))
-                        .minimumScaleFactor(0.01)
-                        .foregroundColor(Color("GreyColor"))
-                     }
-                   
+                        Button(action: {
+                            if self.email_input == storedEmail {
+                                self.authenticationSuccess = true
+                                self.authenticationFail = false
+                            } else {
+                                self.authenticationFail = true
+                                self.authenticationSuccess = false
+                            }
+                        }) {
+                            NavigationLink(destination: MainView(), isActive: $authenticationSuccess) {
+                                             EmptyView()
+                                         }
+                            (Text("NEXT")
+                                .padding([.leading, .bottom, .trailing], 15.0))
 
-                VStack(alignment: .center) {
-                    
-                    Text("Enter your college email")
-                        .multilineTextAlignment(.leading)
-                        .padding([.top, .leading, .trailing], 15)
-                        .frame(maxWidth: .infinity, maxHeight: 50, alignment: .leading)
-                    
-                    EmailTextField(email_input: $email_input)
-                    if authenticationFail {
-                        Text("Information not valid. Try again!")
-                            .foregroundColor(.red)
-                    }
-
-                    Button(action: {
-                        if self.email_input == storedEmail {
-                            self.authenticationSuccess = true
-                            self.authenticationFail = false
-                        } else {
-                            self.authenticationFail = true
-                            self.authenticationSuccess = false
                         }
-                    }) {
-                        NavigationLink(destination: MainView(), isActive: $authenticationSuccess) {
-                                         EmptyView()
-                                     }
-                        (Text("NEXT")
-                            .padding([.leading, .bottom, .trailing], 15.0))
+                        .toast(isPresenting: $authenticationFail, tapToDismiss: false){
 
+                            // `.alert` is the default displayMode
+                            AlertToast(type: .complete(.green), title: "Completed!", subTitle: nil)
+
+                            
+                            //Choose .hud to toast alert from the top of the screen
+                            //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")
+                            
+                            //Choose .banner to slide/pop alert from the bottom of the screen
+                            //AlertToast(displayMode: .banner(.slide), type: .regular, title: "Message Sent!")
+                        }
+                
                     }
-            
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    .padding(.horizontal, 15)
+                    .padding(.bottom, 120)
                 }
-               
-                .background(Color.white)
-                .cornerRadius(15)
-                .padding(15)
             }
-        
         }
-        
     }
-    }
-    
 }
 
 struct LoginView_Previews: PreviewProvider {
