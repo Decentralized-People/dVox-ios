@@ -6,8 +6,6 @@
 //  Modified by Fatima R. Ortega on 7/7/21.
 
 import SwiftUI
-import UIKit
-import MessageUI
 
 // Custom Toasts
 import AlertToast
@@ -34,16 +32,12 @@ NavigationView {
             
                 VStack{
                             
-                    ZStack {
-        
-
-                        Text("voice\nyour\nthoughts")
-                            .padding(0.0)
-                            .font(.system(size: 95))
-                            .minimumScaleFactor(0.01)
-                            .foregroundColor(Color("GreyColor"))
-                    }
-                    .padding([.leading, .bottom, .trailing])
+                    Text("voice\nyour\nthoughts")
+                        .padding(0.0)
+                        .font(.system(size: 100))
+                        .minimumScaleFactor(0.01)
+                        .foregroundColor(Color("GreyColor"))
+                    
                        
 
                     VStack(alignment: .center) {
@@ -54,6 +48,12 @@ NavigationView {
                             .frame(maxWidth: .infinity, maxHeight: 50, alignment: .leading)
                         
                         EmailTextField(email_input: $email_input)
+                            .padding(.bottom, 0.0)
+                        
+                        Divider()
+                            .padding(.horizontal, 15)
+                            .padding(.bottom, 15)
+                    
 
                         Button(action: {
                             if self.email_input == storedEmail {
@@ -69,12 +69,14 @@ NavigationView {
                                          }
                             (Text("NEXT")
                                 .padding([.leading, .bottom, .trailing], 15.0))
+                                .foregroundColor(Color("BlackColor"))
 
                         }
                         .toast(isPresenting: $authenticationFail, tapToDismiss: false){
 
                             // `.alert` is the default displayMode
-                            AlertToast(type: .complete(.green), title: "Completed!", subTitle: nil)
+                            AlertToast(type: .complete(.green), title: "The field cannot be empty", subTitle: nil)
+                            
 
                             
                             //Choose .hud to toast alert from the top of the screen
@@ -83,7 +85,6 @@ NavigationView {
                             //Choose .banner to slide/pop alert from the bottom of the screen
                             //AlertToast(displayMode: .banner(.slide), type: .regular, title: "Message Sent!")
                         }
-                
                     }
                     .background(Color.white)
                     .cornerRadius(15)
@@ -102,26 +103,11 @@ struct LoginView_Previews: PreviewProvider {
     }
 }
 
-
-struct LoginButtonContent: View {
-    var body: some View {
-        Text("NEXT")
-            .padding()
-            .background(Color.white)
-            .foregroundColor(Color.black)
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: 50, alignment: .bottom)
-            .frame(maxWidth: .infinity, maxHeight: 50)
-            .background(Color.white)
-            .cornerRadius(15)
-            .padding([.top, .leading, .trailing], 15)
-    }
-}
-
 struct EmailTextField: View {
     @Binding var email_input: String
     var body: some View {
         TextField("name@college.edu", text: $email_input)
-            .padding(15)
+            .padding(.horizontal, 15)
     }
 }
 
