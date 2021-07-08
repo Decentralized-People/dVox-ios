@@ -52,10 +52,6 @@ struct LoginView: View {
                             .foregroundColor(.red)
                     }
 
-                    NavigationLink(destination: Chat())
-                    {Text("NEXT")
-                        
-                    }
                     Button(action: {
                         if self.email_input == storedEmail {
                             self.authenticationSuccess = true
@@ -65,14 +61,14 @@ struct LoginView: View {
                             self.authenticationSuccess = false
                         }
                     }) {
-                        LoginButtonContent()
+                        NavigationLink(destination: MainView(), isActive: $authenticationSuccess) {
+                                         EmptyView()
+                                     }
+                        (Text("NEXT")
+                            .padding([.leading, .bottom, .trailing], 15.0))
+
                     }
             
-                    if authenticationSuccess {
-                        NavigationLink(destination: Chat()){Text("Login Successful Click Here")}
-                    }
-                    
-                    
                 }
                
                 .background(Color.white)

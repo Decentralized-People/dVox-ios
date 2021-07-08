@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 import MessageUI
 
-struct Chat: View {
+struct MainView: View {
     
     var body: some View {
         
@@ -25,9 +25,9 @@ struct Chat: View {
     
 
 
-struct Chat_Previews: PreviewProvider {
+struct MainView_Previews: PreviewProvider {
             static var previews: some View {
-                Chat()
+                MainView()
                     
             }
         }
