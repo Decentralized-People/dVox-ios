@@ -57,7 +57,8 @@ NavigationView {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.custom("Montserrat-Regular", size: 20))
                             .minimumScaleFactor(0.01)
-                            .lineLimit(3)
+                            .lineLimit(1)
+                            .fixedSize(horizontal: false, vertical: true)
                         
                         EmailTextField(email_input: $email_input)
                             .padding(.bottom, 0.0)
@@ -83,8 +84,6 @@ NavigationView {
                                 .minimumScaleFactor(0.01)
                                 .lineLimit(3)
                                 .padding(.top, 20)
-
-
                         }
                         .toast(isPresenting: $authenticationFail, tapToDismiss: false){
 
@@ -103,6 +102,7 @@ NavigationView {
                     .background(Color.white)
                     .cornerRadius(15)
                     .padding(.horizontal, 20)
+                    .padding(.bottom, 50)
                 }
             }
         }
