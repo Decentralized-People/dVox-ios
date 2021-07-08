@@ -11,9 +11,20 @@ import SwiftUI
 import AlertToast
 
 
+
 let storedEmail = "Fatima"
 
 struct LoginView: View {
+    init(){
+        for family in UIFont.familyNames {
+             print(family)
+
+             for names in UIFont.fontNames(forFamilyName: family){
+             print("== \(names)")
+             }
+        }
+    }
+    
     
     @State var email_input = ""
     
@@ -31,14 +42,10 @@ NavigationView {
                     .ignoresSafeArea()
             
                 VStack{
-                            
-                    Text("voice\nyour\nthoughts")
-                        .padding(0.0)
-                        .font(.system(size: 100))
-                        .minimumScaleFactor(0.01)
-                        .foregroundColor(Color("GreyColor"))
                     
-                       
+                            
+                    VoiceYourThoughts()
+                    
 
                     VStack(alignment: .center) {
                         
@@ -50,9 +57,6 @@ NavigationView {
                         EmailTextField(email_input: $email_input)
                             .padding(.bottom, 0.0)
                         
-                        Divider()
-                            .padding(.horizontal, 15)
-                            .padding(.bottom, 15)
                     
 
                         Button(action: {
@@ -96,6 +100,8 @@ NavigationView {
     }
 }
 
+
+
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
@@ -103,11 +109,31 @@ struct LoginView_Previews: PreviewProvider {
     }
 }
 
+struct VoiceYourThoughts: View {
+    var body: some View{
+        
+        Text("voice\nyour\nthoughts")
+            .font(.custom("Montserrat-Light", size: 100))
+            .minimumScaleFactor(0.01)
+            .lineLimit(3)
+            .foregroundColor(Color("GreyColor"))
+            .padding(.horizontal, 15)
+            .padding(.bottom, 15)
+            .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
 struct EmailTextField: View {
     @Binding var email_input: String
     var body: some View {
+        
         TextField("name@college.edu", text: $email_input)
             .padding(.horizontal, 15)
+        
+        Divider()
+            .padding(.horizontal, 15)
+            .padding(.bottom, 15)
+        
     }
 }
 
