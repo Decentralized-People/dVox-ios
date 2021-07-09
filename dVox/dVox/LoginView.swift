@@ -11,6 +11,16 @@ import SwiftUI
 import AlertToast
 
 struct LoginView: View {
+    init(){
+        for family in UIFont.familyNames {
+             print(family)
+
+             for names in UIFont.fontNames(forFamilyName: family){
+             print("== \(names)")
+             }
+        }
+    }
+    
     
     @State var email_input = ""
     
@@ -27,28 +37,27 @@ NavigationView {
                     .ignoresSafeArea()
             
                 VStack{
-                            
-                    Text("voice\nyour\nthoughts")
-                        .padding(0.0)
-                        .font(.system(size: 100))
-                        .minimumScaleFactor(0.01)
-                        .foregroundColor(Color("GreyColor"))
                     
-                       
+                            
+                    VoiceYourThoughts()
+                    
 
                     VStack(alignment: .center) {
                         
                         Text("Enter your college email")
                             .multilineTextAlignment(.leading)
-                            .padding([.top, .leading, .trailing], 15)
-                            .frame(maxWidth: .infinity, maxHeight: 50, alignment: .leading)
+                            .padding(.top, 20)
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 5)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.custom("Montserrat-Regular", size: 20))
+                            .minimumScaleFactor(0.01)
+                            .lineLimit(1)
+                            .fixedSize(horizontal: false, vertical: true)
                         
                         EmailTextField(email_input: $email_input)
                             .padding(.bottom, 0.0)
                         
-                        Divider()
-                            .padding(.horizontal, 15)
-                            .padding(.bottom, 15)
                     
 
                         Button(action: {
@@ -85,9 +94,12 @@ NavigationView {
                                              EmptyView()
                                          }
                             (Text("NEXT")
-                                .padding([.leading, .bottom, .trailing], 15.0))
+                                .padding([.leading, .bottom, .trailing], 20))
                                 .foregroundColor(Color("BlackColor"))
-
+                                .font(.custom("Montserrat-Bold", size: 20))
+                                .minimumScaleFactor(0.01)
+                                .lineLimit(3)
+                                .padding(.top, 20)
                         }
                         
                         //Green Checkmark
@@ -100,13 +112,15 @@ NavigationView {
                     }
                     .background(Color.white)
                     .cornerRadius(15)
-                    .padding(.horizontal, 15)
-                    .padding(.bottom, 120)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 50)
                 }
             }
         }
     }
 }
+
+
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
@@ -115,11 +129,33 @@ struct LoginView_Previews: PreviewProvider {
     }
 }
 
+struct VoiceYourThoughts: View {
+    var body: some View{
+        
+        Text("voice\nyour\nthoughts")
+            .font(.custom("Montserrat-Thin", size: 100))
+            .minimumScaleFactor(0.01)
+            .lineLimit(3)
+            .foregroundColor(Color("GreyColor"))
+            .padding(.horizontal, 20)
+            .padding(.bottom, 20)
+            .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
 struct EmailTextField: View {
     @Binding var email_input: String
     var body: some View {
+        
         TextField("name@college.edu", text: $email_input)
-            .padding(.horizontal, 15)
+            .font(.custom("Montserrat-Regular", size: 20))
+            .minimumScaleFactor(0.01)
+            .lineLimit(3)
+            .padding(.horizontal, 20)
+        
+        Divider()
+            .padding(.horizontal, 20)
+        
     }
 }
 
