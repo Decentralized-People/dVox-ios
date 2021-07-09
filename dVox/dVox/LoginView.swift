@@ -10,14 +10,10 @@ import SwiftUI
 // Custom Toasts
 import AlertToast
 
-
-let storedEmail = "Fatima"
-
 struct LoginView: View {
     
     @State var email_input = ""
     
-    @State var authenticationFail: Bool = false
     @State var authenticationSuccess: Bool = false
 
     var body: some View {
@@ -56,14 +52,35 @@ NavigationView {
                     
 
                         Button(action: {
-                            if self.email_input == storedEmail {
+                            
+                            //Checking for valid University email
+                            func isValidCollegeEmail(testStr:String) -> Bool {
+                                
+                                let emailRegEx =                             "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[(edu)]{2,64}"
+                                        
+                                let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+                                
+                                return emailTest.evaluate(with: testStr)
+                            }
+                            
+                            let email = isValidCollegeEmail(testStr: email_input)
+                            
+                            //In case of incorrect email input
+                            if !email{
+//                                email_input = ""  //Input gets deleted if it is invalid
+//                                !!!Need to add Shaking animation!!!
+                            }
+
+                            //If email is valid, anuthentication is successful
+                            if isValidCollegeEmail(testStr: self.email_input) {
                                 self.authenticationSuccess = true
-                                self.authenticationFail = false
+                                print("valid email");   //For Debugging purposes
                             } else {
-                                self.authenticationFail = true
                                 self.authenticationSuccess = false
+                                print("INVALID email"); //For Debugging purposes
                             }
                         }) {
+                            //Changing the Page
                             NavigationLink(destination: MainView(), isActive: $authenticationSuccess) {
                                              EmptyView()
                                          }
@@ -72,19 +89,14 @@ NavigationView {
                                 .foregroundColor(Color("BlackColor"))
 
                         }
-                        .toast(isPresenting: $authenticationFail, tapToDismiss: false){
+                        
+                        //Green Checkmark
+                        .toast(isPresenting: $authenticationSuccess, tapToDismiss: false){
 
                             // `.alert` is the default displayMode
                             AlertToast(type: .complete(.green), title: "The field cannot be empty", subTitle: nil)
-                            
-
-                            
-                            //Choose .hud to toast alert from the top of the screen
-                            //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")
-                            
-                            //Choose .banner to slide/pop alert from the bottom of the screen
-                            //AlertToast(displayMode: .banner(.slide), type: .regular, title: "Message Sent!")
                         }
+                        
                     }
                     .background(Color.white)
                     .cornerRadius(15)
