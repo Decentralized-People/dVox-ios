@@ -10,6 +10,8 @@ import SwiftUI
 // Custom Toasts
 import AlertToast
 
+import Firebase
+
 struct LoginView: View {
     init(){
         for family in UIFont.familyNames {
@@ -27,10 +29,8 @@ struct LoginView: View {
 
     var body: some View {
         
-        
         NavigationView {
     
-        
             //******* MAIN Z STACK *******//
             ZStack {
             
@@ -81,33 +81,7 @@ struct LoginView: View {
                         
 
                         //******************** NEXT BUTTON *********************//
-                        Button(action: {
-                            
-                            //Checking for valid University email
-                            func isValidCollegeEmail(testStr:String) -> Bool {
-                                
-                                let emailRegEx =                             "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[(edu)]{2,64}"
-                                        
-                                let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-                                
-                                return emailTest.evaluate(with: testStr)
-                            }
-                            
-                            let email = isValidCollegeEmail(testStr: email_input)
-                            
-                            //Incorrect email input
-                            if !email{
-                                
-                            //!!! ADD SHAKING ANIMATION !!!//
-                            
-                            }
-                            //Vaild email input
-                            if isValidCollegeEmail(testStr: self.email_input) {
-                                self.authenticationSuccess = true
-                            } else {
-                                self.authenticationSuccess = false
-                            }
-                        }) {
+                        Button(action: {nextClick(input: email_input)}) {
                             //Switch to main activity
                             NavigationLink(destination: MainView(), isActive: $authenticationSuccess) { EmptyView() }
                             (Text("NEXT")
@@ -142,6 +116,77 @@ struct LoginView: View {
         static var previews: some View {
             LoginView()
                 
+        }
+    }
+    
+    // Next button click function
+    //
+    //  @param String - email input
+    func nextClick(input: String){
+        if input == ""{
+            
+            NSLog("The field cannot be empty");
+
+            
+            //!!! ADD TOAST HERE !!!//
+
+            //!!! ADD SHAKING ANIMATION !!!//
+            
+        }
+        let email = isValidCollegeEmail(testStr: email_input)
+        //Incorrect email input
+        if !email{
+            
+            NSLog("Please use a vaild (.edu) college email");
+
+            //!!! ADD TOAST HERE !!!//
+            
+            //!!! ADD SHAKING ANIMATION !!!//
+            
+            return
+        
+        }
+        //Vaild email input
+        if isValidCollegeEmail(testStr: self.email_input) {
+            googleLogin(email: email_input)
+        } else {
+            self.authenticationSuccess = false
+        }
+    }
+    
+    //Checking for valid University email
+    func isValidCollegeEmail(testStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[(edu)]{2,64}"
+        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
+    }
+    
+    // Google login function that sends email
+    //
+    //  @param String - email address
+    func googleLogin(email: String){
+        // Prepare email
+        let actionCodeSettings = ActionCodeSettings()
+        actionCodeSettings.url = URL(string: "https://projectdies-55a14.firebaseapp.com/__/auth/action?mode=action&oobCode=code")
+        actionCodeSettings.handleCodeInApp = true
+        actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
+        actionCodeSettings.setAndroidPackageName("com.dpearth.dvox",
+                                                 installIfNotAvailable: true, minimumVersion: "12")
+        //Send email
+        Auth.auth().sendSignInLink(toEmail: email,
+                                   actionCodeSettings: actionCodeSettings) { error in
+            if let error = error {
+                NSLog(error.localizedDescription);
+                
+                //!!! ADD ERROR TOAST HERE !!!//
+                
+              return
+            }
+            NSLog("The link is sent!");
+            
+            //!!! ADD SUCCESS TOAST HERE !!!//
+            
+            UserDefaults.standard.set(email, forKey: "Email")
         }
     }
 }
