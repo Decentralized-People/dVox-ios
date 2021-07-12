@@ -1,9 +1,9 @@
-//
-//  ContentView.swift
 //  dVox
+//  LoginView.swift
 //
-//  Created by Aleksandr Molchagin on 7/7/21.
-//  Modified by Fatima R. Ortega on 7/7/21.
+//  Login screen activity.
+//
+//  Created by Aleksandr Molchagin, Fatima Ortega and Revaz Bakuradze.
 
 import SwiftUI
 
@@ -21,7 +21,6 @@ struct LoginView: View {
         }
     }
     
-    
     @State var email_input = ""
     
     @State var authenticationSuccess: Bool = false
@@ -29,19 +28,31 @@ struct LoginView: View {
     var body: some View {
         
         
-NavigationView {
+        NavigationView {
+    
         
+            //******* MAIN Z STACK *******//
             ZStack {
             
                 Color("BlackColor")
                     .ignoresSafeArea()
-            
+                
+                //******* MAIN V STACK *******//
                 VStack{
                     
-                            
-                    VoiceYourThoughts()
+                    //***************** VOICE  YOUR THOUGHTS *****************//
+                    Text("voice\nyour\nthoughts")
+                        .font(.custom("Montserrat-Thin", size: 100))
+                        .minimumScaleFactor(0.01)
+                        .lineLimit(3)
+                        .foregroundColor(Color("GreyColor"))
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
+                        .fixedSize(horizontal: false, vertical: true)
+                    //***************** VOICE  YOUR THOUGHTS *****************//
                     
 
+                    //************************** WHITE CARD **************************//
                     VStack(alignment: .center) {
                         
                         Text("Enter your college email")
@@ -55,11 +66,21 @@ NavigationView {
                             .lineLimit(1)
                             .fixedSize(horizontal: false, vertical: true)
                         
-                        EmailTextField(email_input: $email_input)
-                            .padding(.bottom, 0.0)
                         
-                    
+                        //********************* TEXT INPUT *********************//
+                        TextField("name@college.edu", text: $email_input)
+                            .font(.custom("Montserrat-Regular", size: 20))
+                            .minimumScaleFactor(0.01)
+                            .lineLimit(3)
+                            .padding(.horizontal, 20)
+                        
+                        Divider()
+                            .padding(.horizontal, 20)
+                        //********************* TEXT INPUT *********************//
+                        
+                        
 
+                        //******************** NEXT BUTTON *********************//
                         Button(action: {
                             
                             //Checking for valid University email
@@ -74,25 +95,21 @@ NavigationView {
                             
                             let email = isValidCollegeEmail(testStr: email_input)
                             
-                            //In case of incorrect email input
+                            //Incorrect email input
                             if !email{
-//                                email_input = ""  //Input gets deleted if it is invalid
-//                                !!!Need to add Shaking animation!!!
+                                
+                            //!!! ADD SHAKING ANIMATION !!!//
+                            
                             }
-
-                            //If email is valid, anuthentication is successful
+                            //Vaild email input
                             if isValidCollegeEmail(testStr: self.email_input) {
                                 self.authenticationSuccess = true
-                                print("valid email");   //For Debugging purposes
                             } else {
                                 self.authenticationSuccess = false
-                                print("INVALID email"); //For Debugging purposes
                             }
                         }) {
-                            //Changing the Page
-                            NavigationLink(destination: MainView(), isActive: $authenticationSuccess) {
-                                             EmptyView()
-                                         }
+                            //Switch to main activity
+                            NavigationLink(destination: MainView(), isActive: $authenticationSuccess) { EmptyView() }
                             (Text("NEXT")
                                 .padding([.leading, .bottom, .trailing], 20))
                                 .foregroundColor(Color("BlackColor"))
@@ -101,62 +118,30 @@ NavigationView {
                                 .lineLimit(3)
                                 .padding(.top, 20)
                         }
+                        //******************** NEXT BUTTON *********************//
                         
-                        //Green Checkmark
-                        .toast(isPresenting: $authenticationSuccess, tapToDismiss: false){
-
+                        //!!! ALERT TOAST - SHOULD BE REDONE !!!//
+                        .toast(isPresenting: $authenticationSuccess, tapToDismiss: false) {
                             // `.alert` is the default displayMode
                             AlertToast(type: .complete(.green), title: "The field cannot be empty", subTitle: nil)
                         }
-                        
                     }
                     .background(Color.white)
                     .cornerRadius(15)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 50)
                 }
+                //************************** WHITE CARD **************************//
             }
+            //******* MAIN V STACK *******//
+        }
+        //******* MAIN Z STACK *******//
+    }
+
+    struct LoginView_Previews: PreviewProvider {
+        static var previews: some View {
+            LoginView()
+                
         }
     }
 }
-
-
-
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView()
-            
-    }
-}
-
-struct VoiceYourThoughts: View {
-    var body: some View{
-        
-        Text("voice\nyour\nthoughts")
-            .font(.custom("Montserrat-Thin", size: 100))
-            .minimumScaleFactor(0.01)
-            .lineLimit(3)
-            .foregroundColor(Color("GreyColor"))
-            .padding(.horizontal, 20)
-            .padding(.bottom, 20)
-            .fixedSize(horizontal: false, vertical: true)
-    }
-}
-
-struct EmailTextField: View {
-    @Binding var email_input: String
-    var body: some View {
-        
-        TextField("name@college.edu", text: $email_input)
-            .font(.custom("Montserrat-Regular", size: 20))
-            .minimumScaleFactor(0.01)
-            .lineLimit(3)
-            .padding(.horizontal, 20)
-        
-        Divider()
-            .padding(.horizontal, 20)
-        
-    }
-}
-
-
