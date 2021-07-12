@@ -18,6 +18,7 @@
 		8BB34018269747F700AEE389 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34015269747F700AEE389 /* Montserrat-Regular.ttf */; };
 		8BB34019269747F700AEE389 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34016269747F700AEE389 /* Montserrat-Bold.ttf */; };
 		8BB3401A269747F800AEE389 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34017269747F700AEE389 /* Montserrat-Light.ttf */; };
+		8BBD443C269C955B002E1979 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BBD443B269C955B002E1979 /* GoogleService-Info.plist */; };
 		8BF667992697613B009D92E3 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BF667982697613B009D92E3 /* Montserrat-Thin.ttf */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		8BB34015269747F700AEE389 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		8BB34016269747F700AEE389 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		8BB34017269747F700AEE389 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.ttf"; sourceTree = "<group>"; };
+		8BBD443B269C955B002E1979 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8BF667982697613B009D92E3 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Thin.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +70,7 @@
 		8B6C722B26951D4D004A34A3 /* dVox */ = {
 			isa = PBXGroup;
 			children = (
+				8BBD443B269C955B002E1979 /* GoogleService-Info.plist */,
 				8BB34013269686FB00AEE389 /* Assets */,
 				8B6C722C26951D4D004A34A3 /* AppDelegate.swift */,
 				8B6C722E26951D4D004A34A3 /* SceneDelegate.swift */,
@@ -172,6 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BB3401A269747F800AEE389 /* Montserrat-Light.ttf in Resources */,
+				8BBD443C269C955B002E1979 /* GoogleService-Info.plist in Resources */,
 				8BB34019269747F700AEE389 /* Montserrat-Bold.ttf in Resources */,
 				8BB34018269747F700AEE389 /* Montserrat-Regular.ttf in Resources */,
 				8B6C723926951D4D004A34A3 /* LaunchScreen.storyboard in Resources */,
