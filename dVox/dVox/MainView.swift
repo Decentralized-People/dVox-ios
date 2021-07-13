@@ -124,8 +124,27 @@ struct MainView: View {
     
     var body: some View {
         
-    Text("Welcome " + randomNameGenerator())
+        TabView {
             
+            HomeView()
+                .tabItem {
+                    Image(systemName: "house")
+                    Text("Home")
+                }
+            
+            ComposeView()
+                .tabItem {
+                    Image(systemName: "plus.circle")
+                    Text("Compose")
+                }
+            
+            ProfileView()
+                .tabItem {
+                    Image(systemName: "person")
+                    Text("Profile")
+                }
+            
+        }
     }
     
 
@@ -133,9 +152,45 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
             static var previews: some View {
                 MainView()
-                    
             }
         }
+    
+    
+    struct HomeView: View {
+        var body: some View {
+            NavigationView {
+                ZStack {
+                    Color.red
+                }
+                .navigationTitle("Home")
+                
+//                Text("Welcome " + randomNameGenerator())  //Cannot use RNG here >:-(
+            }
+        }
+    }
+    
+    struct ComposeView: View {
+        var body: some View {
+            NavigationView {
+                ZStack {
+                    Color.green
+                }
+                .navigationTitle("Compose")
+            }
+        }
+    }
+    
+    struct ProfileView: View {
+        var body: some View {
+            NavigationView {
+                ZStack {
+                    Color.blue
+                }
+                .navigationTitle("Profile")
+            }
+        }
+    }
+    
     
     func randomNameGenerator() -> String {
         
