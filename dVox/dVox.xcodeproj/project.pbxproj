@@ -53,6 +53,7 @@
 		8B6C723526951D4D004A34A3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8B6C723826951D4D004A34A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B6C723A26951D4D004A34A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8B749F4C269E693F00380245 /* dVox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dVox.entitlements; sourceTree = "<group>"; };
 		8BB34015269747F700AEE389 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		8BB34016269747F700AEE389 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		8BB34017269747F700AEE389 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.ttf"; sourceTree = "<group>"; };
@@ -112,6 +113,7 @@
 		8B6C722B26951D4D004A34A3 /* dVox */ = {
 			isa = PBXGroup;
 			children = (
+				8B749F4C269E693F00380245 /* dVox.entitlements */,
 				8BBD443B269C955B002E1979 /* GoogleService-Info.plist */,
 				8BB34013269686FB00AEE389 /* Assets */,
 				8B6C722C26951D4D004A34A3 /* AppDelegate.swift */,
@@ -398,6 +400,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = dVox/dVox.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"dVox/Preview Content\"";
 				DEVELOPMENT_TEAM = K777AQV6FQ;
@@ -408,7 +411,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dpearth.dVox;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dpearth.dvox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -420,6 +423,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = dVox/dVox.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"dVox/Preview Content\"";
 				DEVELOPMENT_TEAM = K777AQV6FQ;
@@ -430,7 +434,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dpearth.dVox;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dpearth.dvox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

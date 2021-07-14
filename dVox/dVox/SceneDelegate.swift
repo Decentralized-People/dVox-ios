@@ -8,6 +8,8 @@
 import UIKit
 import SwiftUI
 
+import Firebase
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -57,7 +59,47 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
+    
+       
+    
+//    func handleDeepLink(_ link: String){
+//
+//        var email = UserDefaults.standard.string(forKey: "email");
+//
+//        print(UserDefaults.standard.string(forKey: "email"))
+//
+//        if Auth.auth().isSignIn(withEmailLink: link) {
+//            Auth.auth().signIn(withEmail: email ?? "", link: link ) { user, error in
+//                print(email);
+//                }
+//        }
+//    }
 
-
+    
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+            
+            guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+                let url = userActivity.webpageURL,
+                let host = url.host else {
+                    return
+            }
+            
+            DynamicLinks.dynamicLinks().handleUniversalLink(url) { dynamicLink, error in
+                guard error == nil,
+                    let dynamicLink = dynamicLink,
+                    let urlString = dynamicLink.url?.absoluteString else {
+                        return
+                }
+                print("Dynamic link host: \(host)")
+                print("Dyanmic link url: \(urlString)")
+                
+                // Handle deep links
+                self.handleDeepLink(urlString)
+                
+                print("Dynamic link match type: \(dynamicLink.matchType.rawValue)")
+            }
+        }
+    
 }
 
