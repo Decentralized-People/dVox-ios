@@ -10,7 +10,7 @@ import SwiftUI
 // Custom Toasts
 import AlertToast
 
-import Firebase
+import FirebaseAuth
 
 struct LoginView: View {
     init(){
@@ -95,10 +95,9 @@ struct LoginView: View {
                         //******************** NEXT BUTTON *********************//
                         
                         //!!! ALERT TOAST - SHOULD BE REDONE !!!//
-                        .toast(isPresenting: $authenticationSuccess, tapToDismiss: false) {
-                            // `.alert` is the default displayMode
-                            AlertToast(type: .complete(.green), title: "The field cannot be empty", subTitle: nil)
-                        }
+                       
+                        
+                    
                     }
                     .background(Color.white)
                     .cornerRadius(15)
@@ -167,16 +166,15 @@ struct LoginView: View {
     func googleLogin(email: String){
         // Prepare email
         let actionCodeSettings = ActionCodeSettings()
-        actionCodeSettings.url = URL(string: "https://projectdies-55a14.firebaseapp.com/__/auth/action?mode=action&oobCode=code")
+        actionCodeSettings.url = URL(string: "https://projectdies-55a14.firebaseapp.com")
         actionCodeSettings.handleCodeInApp = true
-        actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
-        actionCodeSettings.setAndroidPackageName("com.dpearth.dvox",
-                                                 installIfNotAvailable: true, minimumVersion: "12")
+        actionCodeSettings.setIOSBundleID("com.dpearth.dvox")
+        actionCodeSettings.setAndroidPackageName("com.dpearth.dvox", installIfNotAvailable: false, minimumVersion: "12")
         //Send email
         Auth.auth().sendSignInLink(toEmail: email,
                                    actionCodeSettings: actionCodeSettings) { error in
             if let error = error {
-                NSLog(error.localizedDescription);
+                print("THIS ERROR MAKES THE LINK INCORRECT: ", error);
                 
                 //!!! ADD ERROR TOAST HERE !!!//
                 

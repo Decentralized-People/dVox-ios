@@ -4,11 +4,16 @@
 //
 //  Created by Aleksandr Molchagin on 7/7/21.
 //
+//  Modified by Aleksandr Molchagin on 7/14/21:
+//      Add support for authentification dynamic links.
+//
 
 import UIKit
 import SwiftUI
 
-import Firebase
+import FirebaseAuth
+import FirebaseCore
+import FirebaseDynamicLinks
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -21,6 +26,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         // Create the SwiftUI view that provides the window contents.
+        
+        // ** NEED TO CHECK IF THE USER CREATED ACCOUNT: TRUE -> SWITCH TO MAINVIEW, FALSE -> KEEP LOGINVIEW ** //
+        
         let loginView = LoginView()
 
         // Use a UIHostingController as window root view controller.
@@ -61,45 +69,65 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
        
-    
-//    func handleDeepLink(_ link: String){
-//
-//        var email = UserDefaults.standard.string(forKey: "email");
-//
-//        print(UserDefaults.standard.string(forKey: "email"))
-//
-//        if Auth.auth().isSignIn(withEmailLink: link) {
-//            Auth.auth().signIn(withEmail: email ?? "", link: link ) { user, error in
-//                print(email);
-//                }
-//        }
-//    }
 
-    
-    
+    // Handling incoming universal links
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
             
+            // Checking the universal link
             guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
                 let url = userActivity.webpageURL,
                 let host = url.host else {
                     return
             }
             
-            DynamicLinks.dynamicLinks().handleUniversalLink(url) { dynamicLink, error in
+            // Getting the deep link from the universal link
+            DynamicLinks.dynamicLinks().dynamicLink(fromUniversalLink: url) { dynamicLink, error in
                 guard error == nil,
                     let dynamicLink = dynamicLink,
                     let urlString = dynamicLink.url?.absoluteString else {
                         return
                 }
-                print("Dynamic link host: \(host)")
-                print("Dyanmic link url: \(urlString)")
                 
+                //Debugging
+                print("Dynamic link host: ", host)
+                print("Dyanmic link url: ", urlString)
+                
+
                 // Handle deep links
                 self.handleDeepLink(urlString)
-                
-                print("Dynamic link match type: \(dynamicLink.matchType.rawValue)")
+            }
+    }
+    
+    //Handling deep links from universal links
+    func handleDeepLink(_ link: String){
+        
+        // Check if firebase is configured
+        if FirebaseApp.app() == nil {
+               FirebaseApp.configure()
+           }
+        // Get the saved email
+        let email = UserDefaults.standard.object(forKey: "Email")
+        
+        // Check the email and the deep link
+        if email != nil {
+            if Auth.auth().isSignIn(withEmailLink: link) {
+                Auth.auth().signIn(withEmail: email as! String, link: link, completion: { auth, error in
+                    
+                    // Debugging
+                    print("Auth: ", auth as Any);
+                    print("Error: ", error as Any);
+                    print ("Link: ", link)
+                    print("Email: ", email as Any)
+                    
+                    if error == nil {
+                        print("SUCCESS!")
+                        
+                        // ** SWITCH TO THE MAIN VIEW ** //
+                        
+                    }})
             }
         }
+    }
     
 }
 

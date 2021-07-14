@@ -20,9 +20,11 @@
 	<array>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string></string>
+			<string>com.dpearth.dvox</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>UniqueID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.dpearth.dvox</string>
