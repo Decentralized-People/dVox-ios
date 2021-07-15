@@ -12,6 +12,7 @@ import AlertToast
 
 import FirebaseAuth
 
+
 struct LoginView: View {
     init(){
         for family in UIFont.familyNames {
@@ -25,9 +26,15 @@ struct LoginView: View {
     
     @State var email_input = ""
     
+    @State var shake: Bool = false
+
+    @State var attempts: Int = 0
+
+    
     @State var authenticationSuccess: Bool = false
 
     var body: some View {
+        
         
         NavigationView {
     
@@ -67,12 +74,14 @@ struct LoginView: View {
                             .fixedSize(horizontal: false, vertical: true)
                         
                         
+                        
                         //********************* TEXT INPUT *********************//
                         TextField("name@college.edu", text: $email_input)
                             .font(.custom("Montserrat-Regular", size: 20))
                             .minimumScaleFactor(0.01)
                             .lineLimit(3)
                             .padding(.horizontal, 20)
+                            .modifier(Shake(animatableData: CGFloat(attempts)))
                         
                         Divider()
                             .padding(.horizontal, 20)
@@ -81,7 +90,11 @@ struct LoginView: View {
                         
 
                         //******************** NEXT BUTTON *********************//
-                        Button(action: {nextClick(input: email_input)}) {
+                        Button(action: {
+                            withAnimation(.default) {
+                                self.attempts += nextClick(input: email_input)};
+                        })
+                        {
                             //Switch to main activity
                             NavigationLink(destination: MainView(), isActive: $authenticationSuccess) { EmptyView() }
                             (Text("NEXT")
@@ -103,6 +116,7 @@ struct LoginView: View {
                     .cornerRadius(15)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 50)
+
                 }
                 //************************** WHITE CARD **************************//
             }
@@ -121,36 +135,26 @@ struct LoginView: View {
     // Next button click function
     //
     //  @param String - email input
-    func nextClick(input: String){
-        if input == ""{
-            
-            NSLog("The field cannot be empty");
-
-            
-            //!!! ADD TOAST HERE !!!//
-
-            //!!! ADD SHAKING ANIMATION !!!//
-            
-        }
-        let email = isValidCollegeEmail(testStr: email_input)
-        //Incorrect email input
-        if !email{
-            
-            NSLog("Please use a vaild (.edu) college email");
-
-            //!!! ADD TOAST HERE !!!//
-            
-            //!!! ADD SHAKING ANIMATION !!!//
-            
-            return
+    //  @return Int - 1: shake, 0: valid
+    func nextClick(input: String) -> Int{
         
+        //If input is empty
+        if input == ""{
+            print("The field cannot be empty");
+            //!!! ADD TOAST HERE !!!//
+            return 1
         }
-        //Vaild email input
-        if isValidCollegeEmail(testStr: self.email_input) {
-            googleLogin(email: email_input)
-        } else {
-            self.authenticationSuccess = false
+        
+        //If input is incorrect
+        if !isValidCollegeEmail(testStr: email_input){
+            print("Please use a vaild (.edu) college email");
+            //!!! ADD TOAST HERE !!!//
+            return 1
         }
+    
+        //If input is correct
+        googleLogin(email: email_input)
+        return 0
     }
     
     //Checking for valid University email
@@ -185,6 +189,19 @@ struct LoginView: View {
             //!!! ADD SUCCESS TOAST HERE !!!//
             
             UserDefaults.standard.set(email, forKey: "Email")
+        }
+    }
+    
+    //https://www.objc.io/blog/2019/10/01/swiftui-shake-animation/
+    struct Shake: GeometryEffect {
+        var amount: CGFloat = 10
+        var shakesPerUnit = 3
+        var animatableData: CGFloat
+
+        func effectValue(size: CGSize) -> ProjectionTransform {
+            ProjectionTransform(CGAffineTransform(translationX:
+                amount * sin(animatableData * .pi * CGFloat(shakesPerUnit)),
+                y: 0))
         }
     }
 }
