@@ -92,7 +92,9 @@ struct LoginView: View {
                         //******************** NEXT BUTTON *********************//
                         Button(action: {
                             withAnimation(.default) {
-                                self.attempts += nextClick(input: email_input)};
+                                    test()
+//                                self.attempts += nextClick(input: email_input)
+                                }
                         })
                         {
                             //Switch to main activity
@@ -130,6 +132,11 @@ struct LoginView: View {
             LoginView()
                 
         }
+    }
+    
+    func test(){
+        let sc = SmartContract();
+        sc.getSmth();
     }
     
     // Next button click function

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0CB921B061DC6F5F388AE999 /* Pods_dVox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4CD4796A0472B854D98463 /* Pods_dVox.framework */; };
 		0D44E9BB2696599500697753 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D44E9BA2696599500697753 /* MainView.swift */; };
+		8B3B2E1526A5E13D001224F6 /* PostContract.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B3B2E1426A5E13D001224F6 /* PostContract.json */; };
+		8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B65B70626A5D7B50040E559 /* SmartContract.swift */; };
 		8B6C722D26951D4D004A34A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C722C26951D4D004A34A3 /* AppDelegate.swift */; };
 		8B6C722F26951D4D004A34A3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C722E26951D4D004A34A3 /* SceneDelegate.swift */; };
 		8B6C723126951D4D004A34A3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C723026951D4D004A34A3 /* LoginView.swift */; };
@@ -31,6 +33,8 @@
 		0D44E9BA2696599500697753 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		12BD82E9961D79B68D53AA08 /* Pods-dVox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dVox.release.xcconfig"; path = "Target Support Files/Pods-dVox/Pods-dVox.release.xcconfig"; sourceTree = "<group>"; };
 		3E4CD4796A0472B854D98463 /* Pods_dVox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dVox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B3B2E1426A5E13D001224F6 /* PostContract.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PostContract.json; sourceTree = "<group>"; };
+		8B65B70626A5D7B50040E559 /* SmartContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartContract.swift; sourceTree = "<group>"; };
 		8B6C722926951D4D004A34A3 /* dVox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dVox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B6C722C26951D4D004A34A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B6C722E26951D4D004A34A3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +109,7 @@
 				8B6C723726951D4D004A34A3 /* LaunchScreen.storyboard */,
 				8B6C723A26951D4D004A34A3 /* Info.plist */,
 				8B6C723426951D4D004A34A3 /* Preview Content */,
+				8B65B70626A5D7B50040E559 /* SmartContract.swift */,
 			);
 			path = dVox;
 			sourceTree = "<group>";
@@ -120,6 +125,7 @@
 		8BB34013269686FB00AEE389 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				8B3B2E1426A5E13D001224F6 /* PostContract.json */,
 				8BB34014269747A600AEE389 /* Fonts */,
 			);
 			path = Assets;
@@ -221,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BB3401A269747F800AEE389 /* Montserrat-Light.ttf in Resources */,
+				8B3B2E1526A5E13D001224F6 /* PostContract.json in Resources */,
 				8BBD443C269C955B002E1979 /* GoogleService-Info.plist in Resources */,
 				8BB34019269747F700AEE389 /* Montserrat-Bold.ttf in Resources */,
 				8BB34018269747F700AEE389 /* Montserrat-Regular.ttf in Resources */,
@@ -281,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B6C722D26951D4D004A34A3 /* AppDelegate.swift in Sources */,
+				8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */,
 				0D44E9BB2696599500697753 /* MainView.swift in Sources */,
 				8B6C722F26951D4D004A34A3 /* SceneDelegate.swift in Sources */,
 				8B6C723126951D4D004A34A3 /* LoginView.swift in Sources */,
