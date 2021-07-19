@@ -45,7 +45,7 @@ class SmartContract{
         let ADDRESS = ""
         
         let abiVersion = 2
-        let contractAddress = EthereumAddress(ADDRESS)
+        let contractAddress = EthereumAddress(ADDRESS, ignoreChecksum: true)
         
         // Get ABI "wrapper"
         var contractABI = " "
@@ -60,8 +60,9 @@ class SmartContract{
 
 
         let contract = web3.contract(contractABI, at: contractAddress, abiVersion: abiVersion)!
+        print(contractABI)
         
-    
+        
     }
 
 }
