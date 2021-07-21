@@ -8,6 +8,7 @@
 import Foundation
 
 import web3swift
+import BigInt
 
 class SmartContract{
     
@@ -39,6 +40,17 @@ class SmartContract{
         let wallet = Wallet(address: address, data: keyData, name: name, isHD: false)
         
         
+        let data = wallet.data
+        let keystoreManager: KeystoreManager
+        if wallet.isHD {
+            let keystore = BIP32Keystore(data)!
+            keystoreManager = KeystoreManager([keystore])
+        } else {
+            let keystore = EthereumKeystoreV3(data)!
+            keystoreManager = KeystoreManager([keystore])
+        }
+
+        
         //CONTRACT
         let INFURA = ""
         let ADDRESS = ""
@@ -58,9 +70,11 @@ class SmartContract{
         
         let web3 = Web3.InfuraRinkebyWeb3(accessToken: INFURA)
 
+        web3.addKeystoreManager(keystoreManager)
 
         let contract = web3.contract(contractABI, at: contractAddress, abiVersion: abiVersion)!
         print(contractABI)
+        
         
         
         let value: String = "0.0" // Any amount of Ether you need to send
@@ -85,10 +99,34 @@ class SmartContract{
                 print(error.localizedDescription)
         }
         
+        
+        //ADD VOTE
+        contractMethod = "addVote";
+
+        let tx3 = contract.write(contractMethod, parameters: [BigUInt(1), BigInt(1)] as [AnyObject], transactionOptions: options);
+
+        do {
+            let result3 = try tx3?.send(password: "web3swift", transactionOptions: options)
+            print("Add vote!" , result3 ?? "Error")
+        } catch {
+                print(error.localizedDescription)
+        }
+        //CREATE POST
+        contractMethod = "createPost";
+
+        let tx4 = contract.write(contractMethod, parameters: ["Test iOS post", "Aleksandr", "This is the first post from iOS. I spent 7 hours today and many hours other days to finally post it." , "#omgimsoexcited" ] as [AnyObject], transactionOptions: options);
+
+        do {
+            let result4 = try tx4?.send(password: "web3swift", transactionOptions: options)
+            print("Add vote!" , result4 ?? "Error")
+        } catch {
+                print(error.localizedDescription)
+        }
+        
         //GET POST
         contractMethod = "posts";
 
-        let tx2 = contract.read(contractMethod, parameters: ["1"] as [AnyObject], transactionOptions: options);
+        let tx2 = contract.read(contractMethod, parameters: ["9"] as [AnyObject], transactionOptions: options);
 
         do {
             let result2 = try tx2?.call(transactionOptions: options)
@@ -96,18 +134,5 @@ class SmartContract{
         } catch {
                 print(error.localizedDescription)
         }
-        
-        //ADD VOTE (doesn't work)
-        contractMethod = "addVote";
-
-        let tx3 = contract.write(contractMethod, parameters: ["1", "1"] as [AnyObject], transactionOptions: options);
-
-        do {
-            let result3 = try tx3?.call(transactionOptions: options)
-            print("Add vote!" , result3 ?? "Error")
-        } catch {
-                print(error.localizedDescription)
-        }
-        
     }
 }
