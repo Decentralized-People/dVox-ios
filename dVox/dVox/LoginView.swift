@@ -135,8 +135,11 @@ struct LoginView: View {
     }
     
     func test(){
-        let sc = SmartContract();
-        sc.getSmth();
+        let contract = SmartContract();
+        contract.getPostCount()
+        contract.getPosts(id: 10)
+        //contract.addVote(id: 9, vote: 1)
+        //contract.createPost(title: "I am the title", author: "I am the author", message: "I am the message", hashtag: "#iamthehashtag")
     }
     
     // Next button click function

@@ -12,6 +12,9 @@ import BigInt
 
 class SmartContract{
     
+    var contract: web3.web3contract
+    var transactionOptions: TransactionOptions
+    
     struct Wallet {
         let address: String
         let data: Data
@@ -23,24 +26,25 @@ class SmartContract{
         let name: String?
         let address: String
     }
- 
-    func getSmth(){
-        
-        //WALLET
+    
+    init(){
+        //KEYS !!! REMOVE BEFORE COMMITING !!!
         let CREDENTIALS = ""
+        let INFURA = ""
+        let ADDRESS = ""
         
-        let password = "web3swift"
+        // Import Wallet
+        let name = "Wallet"
         let formattedKey = CREDENTIALS.trimmingCharacters(in: .whitespacesAndNewlines)
+        let password = "web3swift"
         let dataKey = Data.fromHex(formattedKey)!
         let keystore = try! EthereumKeystoreV3(privateKey: dataKey, password: password)!
-        let name = "New Wallet"
         let keyData = try! JSONEncoder().encode(keystore.keystoreParams)
         let address = keystore.addresses!.first!.address
-    
         let wallet = Wallet(address: address, data: keyData, name: name, isHD: false)
-        
-        
         let data = wallet.data
+        
+        //Create KeystoreManager
         let keystoreManager: KeystoreManager
         if wallet.isHD {
             let keystore = BIP32Keystore(data)!
@@ -49,88 +53,79 @@ class SmartContract{
             let keystore = EthereumKeystoreV3(data)!
             keystoreManager = KeystoreManager([keystore])
         }
+        
+        // Contect to Infura
+        let web3 = Web3.InfuraRinkebyWeb3(accessToken: INFURA)
+        web3.addKeystoreManager(keystoreManager)
 
-        
-        //CONTRACT
-        let INFURA = ""
-        let ADDRESS = ""
-
-        
-        let abiVersion = 2
-        let contractAddress = EthereumAddress(ADDRESS, ignoreChecksum: true)
-        
-        // Get ABI "wrapper"
-        var contractABI = " "
+        // Create Smart Contract
+        var contractABI = ""
         let path = Bundle.main.url(forResource: "PostContract", withExtension: "json")!
         do {
             contractABI = try String(contentsOf: path)
             } catch {
                 print(error.localizedDescription)
         }
-        
-        let web3 = Web3.InfuraRinkebyWeb3(accessToken: INFURA)
-
-        web3.addKeystoreManager(keystoreManager)
-
-        let contract = web3.contract(contractABI, at: contractAddress, abiVersion: abiVersion)!
+        let contractAddress = EthereumAddress(ADDRESS, ignoreChecksum: true)
+        let abiVersion = 2
+        contract = web3.contract(contractABI, at: contractAddress, abiVersion: abiVersion)!
         print(contractABI)
         
-        
-        
-        let value: String = "0.0" // Any amount of Ether you need to send
-        let walletAddress = EthereumAddress(wallet.address)! // Your wallet address
-        var contractMethod = "postCount" // Contract method you want to write
-        //let parameters: [AnyObject] = ["1"]() // Parameters for contract method
-        let extraData: Data = Data() // Extra data for contract method
-        
+        // Set transaction options
+        let value: String = "0.0"
+        let walletAddress = EthereumAddress(wallet.address)!
         let amount = Web3.Utils.parseToBigUInt(value, units: .eth)
-        var options = TransactionOptions.defaultOptions
-        options.value = amount
-        options.from = walletAddress
-        options.gasPrice = .automatic
-        options.gasLimit = .automatic
-        
-        //GET NUMBER OF POSTS
-        let tx = contract.read(contractMethod, parameters: [] as [AnyObject], transactionOptions: options);
+        transactionOptions = TransactionOptions.defaultOptions
+        transactionOptions.value = amount
+        transactionOptions.from = walletAddress
+        transactionOptions.gasPrice = .automatic
+        transactionOptions.gasLimit = .automatic
+    }
+    
+ 
+    func getPostCount() -> Int {
+        var postsNumber = BigUInt(0)
+        let transaction = contract.read("postCount", parameters: [] as [AnyObject], transactionOptions: transactionOptions);
         do {
-            let result = try tx?.call(transactionOptions: options)
-            print("Number of posts: " , result?["0"] ?? "Error")
+            let result = try transaction?.call(transactionOptions: transactionOptions)
+            postsNumber = result?["0"] as! BigUInt
+            print("Number of posts: " , Int(postsNumber) )
         } catch {
                 print(error.localizedDescription)
         }
-        
-        
-        //ADD VOTE
-        contractMethod = "addVote";
-
-        let tx3 = contract.write(contractMethod, parameters: [BigUInt(1), BigInt(1)] as [AnyObject], transactionOptions: options);
-
+        return Int(postsNumber)
+    }
+    
+    func getPosts(id: Int) -> String {
+        var post = "POSTISNOTRETURNEDYET"
+        let transaction = contract.read("posts", parameters: [BigUInt(id)] as [AnyObject], transactionOptions: transactionOptions);
         do {
-            let result3 = try tx3?.send(password: "web3swift", transactionOptions: options)
-            print("Add vote!" , result3 ?? "Error")
+            let result = try transaction?.call(transactionOptions: transactionOptions)
+            print("Number of posts: ", result ?? "Error")
         } catch {
                 print(error.localizedDescription)
         }
-        //CREATE POST
-        contractMethod = "createPost";
+        return post
+    }
+   
+    func addVote(id: Int, vote: Int){
+        if vote == -1 || vote == 1 {
+            let transaction = contract.write("addVote", parameters: [BigUInt(id), BigInt(vote)] as [AnyObject], transactionOptions: transactionOptions);
 
-        let tx4 = contract.write(contractMethod, parameters: ["Test iOS post", "Aleksandr", "This is the first post from iOS. I spent 7 hours today and many hours other days to finally post it." , "#omgimsoexcited" ] as [AnyObject], transactionOptions: options);
-
-        do {
-            let result4 = try tx4?.send(password: "web3swift", transactionOptions: options)
-            print("Add vote!" , result4 ?? "Error")
-        } catch {
-                print(error.localizedDescription)
+            do {
+                let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
+                print("Vote added!" , result ?? "Error")
+            } catch {
+                    print(error.localizedDescription)
+            }
         }
-        
-        //GET POST
-        contractMethod = "posts";
-
-        let tx2 = contract.read(contractMethod, parameters: ["9"] as [AnyObject], transactionOptions: options);
-
+    }
+    
+    func createPost(title: String, author: String, message: String, hashtag: String){
+        let transaction = contract.write("createPost", parameters: [title, author, message, hashtag] as [AnyObject], transactionOptions: transactionOptions);
         do {
-            let result2 = try tx2?.call(transactionOptions: options)
-            print("Number of posts: " , result2 ?? "Error")
+            let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
+            print("Post created!" , result ?? "Error")
         } catch {
                 print(error.localizedDescription)
         }
