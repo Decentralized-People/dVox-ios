@@ -17,10 +17,6 @@
 		8B6C723326951D4D004A34A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B6C723226951D4D004A34A3 /* Assets.xcassets */; };
 		8B6C723626951D4D004A34A3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B6C723526951D4D004A34A3 /* Preview Assets.xcassets */; };
 		8B6C723926951D4D004A34A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B6C723726951D4D004A34A3 /* LaunchScreen.storyboard */; };
-		8BAAF16E269FCE15006056C4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8BAAF16D269FCE15006056C4 /* FirebaseAuth */; };
-		8BAAF170269FCE15006056C4 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8BAAF16F269FCE15006056C4 /* FirebaseCrashlytics */; };
-		8BAAF172269FCE15006056C4 /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 8BAAF171269FCE15006056C4 /* FirebaseDynamicLinks */; };
-		8BAAF174269FCE15006056C4 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8BAAF173269FCE15006056C4 /* FirebaseFirestore */; };
 		8BB3401226967ECA00AEE389 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 8BB3401126967ECA00AEE389 /* AlertToast */; };
 		8BB34018269747F700AEE389 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34015269747F700AEE389 /* Montserrat-Regular.ttf */; };
 		8BB34019269747F700AEE389 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34016269747F700AEE389 /* Montserrat-Bold.ttf */; };
@@ -58,11 +54,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BB3401226967ECA00AEE389 /* AlertToast in Frameworks */,
-				8BAAF170269FCE15006056C4 /* FirebaseCrashlytics in Frameworks */,
-				8BAAF16E269FCE15006056C4 /* FirebaseAuth in Frameworks */,
 				0CB921B061DC6F5F388AE999 /* Pods_dVox.framework in Frameworks */,
-				8BAAF172269FCE15006056C4 /* FirebaseDynamicLinks in Frameworks */,
-				8BAAF174269FCE15006056C4 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,10 +168,6 @@
 			name = dVox;
 			packageProductDependencies = (
 				8BB3401126967ECA00AEE389 /* AlertToast */,
-				8BAAF16D269FCE15006056C4 /* FirebaseAuth */,
-				8BAAF16F269FCE15006056C4 /* FirebaseCrashlytics */,
-				8BAAF171269FCE15006056C4 /* FirebaseDynamicLinks */,
-				8BAAF173269FCE15006056C4 /* FirebaseFirestore */,
 			);
 			productName = dVox;
 			productReference = 8B6C722926951D4D004A34A3 /* dVox.app */;
@@ -210,7 +198,6 @@
 			mainGroup = 8B6C722026951D4D004A34A3;
 			packageReferences = (
 				8BB3401026967ECA00AEE389 /* XCRemoteSwiftPackageReference "AlertToast" */,
-				8BAAF16C269FCE15006056C4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 8B6C722A26951D4D004A34A3 /* Products */;
 			projectDirPath = "";
@@ -539,26 +526,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		8BAAF16D269FCE15006056C4 /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8BAAF16C269FCE15006056C4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		8BAAF16F269FCE15006056C4 /* FirebaseCrashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8BAAF16C269FCE15006056C4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCrashlytics;
-		};
-		8BAAF171269FCE15006056C4 /* FirebaseDynamicLinks */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8BAAF16C269FCE15006056C4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseDynamicLinks;
-		};
-		8BAAF173269FCE15006056C4 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8BAAF16C269FCE15006056C4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
 		8BB3401126967ECA00AEE389 /* AlertToast */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8BB3401026967ECA00AEE389 /* XCRemoteSwiftPackageReference "AlertToast" */;

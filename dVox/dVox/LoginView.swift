@@ -10,7 +10,7 @@ import SwiftUI
 // Custom Toasts
 import AlertToast
 
-import FirebaseAuth
+import Firebase
 
 
 struct LoginView: View {

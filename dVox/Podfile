@@ -1,4 +1,4 @@
-platform :ios, '9.0'
+platform :ios, '12.0'
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'dVox' do
@@ -6,5 +6,9 @@ target 'dVox' do
    use_frameworks!
    
    pod 'web3swift'
+   pod 'Firebase/Auth'
+   pod 'Firebase/Firestore'
+   pod 'Firebase/Crashlytics'
+   pod 'Firebase/DynamicLinks'
    
 end

@@ -11,9 +11,7 @@
 import UIKit
 import SwiftUI
 
-import FirebaseAuth
-import FirebaseCore
-import FirebaseDynamicLinks
+import Firebase
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
