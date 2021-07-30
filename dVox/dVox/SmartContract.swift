@@ -9,6 +9,7 @@ import Foundation
 
 import web3swift
 import BigInt
+import SwiftUI
 
 class SmartContract{
     
@@ -96,12 +97,28 @@ class SmartContract{
         return Int(postsNumber)
     }
     
-    func getPosts(id: Int) -> String {
-        var post = "POSTISNOTRETURNEDYET"
+    func getPost(id: Int) -> Post {
+        
+        var post = Post(id: id, title: "", author: "", message: "", hastag: "", votes: 0);
+        
         let transaction = contract.read("posts", parameters: [BigUInt(id)] as [AnyObject], transactionOptions: transactionOptions);
         do {
             let result = try transaction?.call(transactionOptions: transactionOptions)
-            print("Number of posts: ", result ?? "Error")
+            
+            post.title = result?["title"] as! String
+            post.author = result?["author"] as! String
+            post.message = result?["message"] as! String
+            post.hastag = result?["hashtag"] as! String
+            post.votes = Int(result?["votes"] as! BigInt)
+            
+            print("PRINTING POST!!!!")
+            print("id: ", post.id)
+            print("title: ", post.title)
+            print("author: ", post.author)
+            print("message: ", post.message)
+            print("hastag: ", post.hastag)
+            print("votes: ", post.votes)
+            
         } catch {
                 print(error.localizedDescription)
         }

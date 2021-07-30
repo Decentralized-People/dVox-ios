@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		0CB921B061DC6F5F388AE999 /* Pods_dVox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4CD4796A0472B854D98463 /* Pods_dVox.framework */; };
 		0D44E9BB2696599500697753 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D44E9BA2696599500697753 /* MainView.swift */; };
+		2806D72B26B194DF00FEC670 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2806D72A26B194DF00FEC670 /* GoogleService-Info.plist */; };
+		2806D72D26B1973700FEC670 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2806D72C26B1973700FEC670 /* Post.swift */; };
+		2885E5B026B1AEA900FE5C95 /* 168610-space-planet-Earth-748x468.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2885E5AF26B1AEA900FE5C95 /* 168610-space-planet-Earth-748x468.jpg */; };
 		8B3B2E1526A5E13D001224F6 /* PostContract.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B3B2E1426A5E13D001224F6 /* PostContract.json */; };
 		8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B65B70626A5D7B50040E559 /* SmartContract.swift */; };
 		8B6C722D26951D4D004A34A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C722C26951D4D004A34A3 /* AppDelegate.swift */; };
@@ -16,18 +19,21 @@
 		8B6C723126951D4D004A34A3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C723026951D4D004A34A3 /* LoginView.swift */; };
 		8B6C723326951D4D004A34A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B6C723226951D4D004A34A3 /* Assets.xcassets */; };
 		8B6C723626951D4D004A34A3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B6C723526951D4D004A34A3 /* Preview Assets.xcassets */; };
-		8B6C723926951D4D004A34A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B6C723726951D4D004A34A3 /* LaunchScreen.storyboard */; };
 		8BB3401226967ECA00AEE389 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 8BB3401126967ECA00AEE389 /* AlertToast */; };
 		8BB34018269747F700AEE389 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34015269747F700AEE389 /* Montserrat-Regular.ttf */; };
 		8BB34019269747F700AEE389 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34016269747F700AEE389 /* Montserrat-Bold.ttf */; };
 		8BB3401A269747F800AEE389 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34017269747F700AEE389 /* Montserrat-Light.ttf */; };
-		8BBD443C269C955B002E1979 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BBD443B269C955B002E1979 /* GoogleService-Info.plist */; };
 		8BF667992697613B009D92E3 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BF667982697613B009D92E3 /* Montserrat-Thin.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0D44E9BA2696599500697753 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		12BD82E9961D79B68D53AA08 /* Pods-dVox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dVox.release.xcconfig"; path = "Target Support Files/Pods-dVox/Pods-dVox.release.xcconfig"; sourceTree = "<group>"; };
+		2806D72A26B194DF00FEC670 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2806D72C26B1973700FEC670 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Post.swift; path = ../Post.swift; sourceTree = "<group>"; };
+		2885E5AF26B1AEA900FE5C95 /* 168610-space-planet-Earth-748x468.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "168610-space-planet-Earth-748x468.jpg"; path = "../../../../../../168610-space-planet-Earth-748x468.jpg"; sourceTree = "<group>"; };
+		2885E5B126B1AEB100FE5C95 /* 168610-space-planet-Earth-748x468.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "168610-space-planet-Earth-748x468.jpg"; sourceTree = "<group>"; };
+		2885E5B226B1AEB400FE5C95 /* 168610-space-planet-Earth-748x468.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "168610-space-planet-Earth-748x468.jpg"; path = "../../../../../168610-space-planet-Earth-748x468.jpg"; sourceTree = "<group>"; };
 		3E4CD4796A0472B854D98463 /* Pods_dVox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dVox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B3B2E1426A5E13D001224F6 /* PostContract.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PostContract.json; sourceTree = "<group>"; };
 		8B65B70626A5D7B50040E559 /* SmartContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartContract.swift; sourceTree = "<group>"; };
@@ -37,13 +43,11 @@
 		8B6C723026951D4D004A34A3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; tabWidth = 8; usesTabs = 0; };
 		8B6C723226951D4D004A34A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B6C723526951D4D004A34A3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		8B6C723826951D4D004A34A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B6C723A26951D4D004A34A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B749F4C269E693F00380245 /* dVox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dVox.entitlements; sourceTree = "<group>"; };
 		8BB34015269747F700AEE389 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		8BB34016269747F700AEE389 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		8BB34017269747F700AEE389 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.ttf"; sourceTree = "<group>"; };
-		8BBD443B269C955B002E1979 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8BF667982697613B009D92E3 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Thin.ttf"; sourceTree = "<group>"; };
 		F2CA79FB8FBD418F943211C6 /* Pods-dVox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dVox.debug.xcconfig"; path = "Target Support Files/Pods-dVox/Pods-dVox.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -61,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2885E5B326B1AF1D00FE5C95 /* Drawable */ = {
+			isa = PBXGroup;
+			children = (
+				2885E5B126B1AEB100FE5C95 /* 168610-space-planet-Earth-748x468.jpg */,
+			);
+			path = Drawable;
+			sourceTree = "<group>";
+		};
 		8B1D7B50269F48B7000C0CC1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -91,17 +103,17 @@
 			isa = PBXGroup;
 			children = (
 				8B749F4C269E693F00380245 /* dVox.entitlements */,
-				8BBD443B269C955B002E1979 /* GoogleService-Info.plist */,
+				2806D72A26B194DF00FEC670 /* GoogleService-Info.plist */,
 				8BB34013269686FB00AEE389 /* Assets */,
 				8B6C722C26951D4D004A34A3 /* AppDelegate.swift */,
 				8B6C722E26951D4D004A34A3 /* SceneDelegate.swift */,
 				8B6C723026951D4D004A34A3 /* LoginView.swift */,
 				0D44E9BA2696599500697753 /* MainView.swift */,
 				8B6C723226951D4D004A34A3 /* Assets.xcassets */,
-				8B6C723726951D4D004A34A3 /* LaunchScreen.storyboard */,
 				8B6C723A26951D4D004A34A3 /* Info.plist */,
 				8B6C723426951D4D004A34A3 /* Preview Content */,
 				8B65B70626A5D7B50040E559 /* SmartContract.swift */,
+				2806D72C26B1973700FEC670 /* Post.swift */,
 			);
 			path = dVox;
 			sourceTree = "<group>";
@@ -117,7 +129,9 @@
 		8BB34013269686FB00AEE389 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				2885E5B326B1AF1D00FE5C95 /* Drawable */,
 				8B3B2E1426A5E13D001224F6 /* PostContract.json */,
+				2885E5B226B1AEB400FE5C95 /* 168610-space-planet-Earth-748x468.jpg */,
 				8BB34014269747A600AEE389 /* Fonts */,
 			);
 			path = Assets;
@@ -126,6 +140,7 @@
 		8BB34014269747A600AEE389 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				2885E5AF26B1AEA900FE5C95 /* 168610-space-planet-Earth-748x468.jpg */,
 				8BB34017269747F700AEE389 /* Montserrat-Light.ttf */,
 				8BF667982697613B009D92E3 /* Montserrat-Thin.ttf */,
 				8BB34016269747F700AEE389 /* Montserrat-Bold.ttf */,
@@ -215,13 +230,13 @@
 			files = (
 				8BB3401A269747F800AEE389 /* Montserrat-Light.ttf in Resources */,
 				8B3B2E1526A5E13D001224F6 /* PostContract.json in Resources */,
-				8BBD443C269C955B002E1979 /* GoogleService-Info.plist in Resources */,
+				2806D72B26B194DF00FEC670 /* GoogleService-Info.plist in Resources */,
 				8BB34019269747F700AEE389 /* Montserrat-Bold.ttf in Resources */,
 				8BB34018269747F700AEE389 /* Montserrat-Regular.ttf in Resources */,
-				8B6C723926951D4D004A34A3 /* LaunchScreen.storyboard in Resources */,
 				8B6C723626951D4D004A34A3 /* Preview Assets.xcassets in Resources */,
 				8B6C723326951D4D004A34A3 /* Assets.xcassets in Resources */,
 				8BF667992697613B009D92E3 /* Montserrat-Thin.ttf in Resources */,
+				2885E5B026B1AEA900FE5C95 /* 168610-space-planet-Earth-748x468.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +292,7 @@
 				8B6C722D26951D4D004A34A3 /* AppDelegate.swift in Sources */,
 				8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */,
 				0D44E9BB2696599500697753 /* MainView.swift in Sources */,
+				2806D72D26B1973700FEC670 /* Post.swift in Sources */,
 				8B6C722F26951D4D004A34A3 /* SceneDelegate.swift in Sources */,
 				8B6C723126951D4D004A34A3 /* LoginView.swift in Sources */,
 			);
@@ -306,17 +322,6 @@
 			productRef = 8BF67419269FCEA000F2F561 /* FirebaseCrashlytics */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		8B6C723726951D4D004A34A3 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8B6C723826951D4D004A34A3 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8B6C723B26951D4D004A34A3 /* Debug */ = {
