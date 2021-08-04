@@ -123,6 +123,7 @@ var animals = [String](arrayLiteral: "Boar",
                    "Crocodile",
                    "Monkey")
 
+
 struct MainView_Previews: PreviewProvider {
             static var previews: some View {
                 MainView()
@@ -158,120 +159,12 @@ struct MainView: View {
     }
     
     
-    struct HomeView: View {
-        var body: some View {
-            NavigationView {
-                ZStack {
-                    Form {
-                        Button(action: {
-                            //Getting post by ID
-                            contract.getPost(id: contract.getPostCount())
-                            
-                            
-                        }, label: {
-                            Text("Get The Last Post")
-                                .frame(width: 250, height: 50, alignment: .center)
-                                .background(Color.black)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
-                        })
-                        
-                    Button(action: {
-                        //Getting post by ID
-                        contract.getPost(id: 11)
-                        
-                        
-                    }, label: {
-                        Text("Get Post")
-                            .frame(width: 250, height: 50, alignment: .center)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                    })
-                    
-                    Button(action: {
-                        //Up vote
-                            contract.addVote(id: 11, vote: 1)
-                        
-                    }, label: {
-                        Text("Upvote")
-                            .frame(width: 250, height: 50, alignment: .center)
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                    })
-                    
-                    Button(action: {
-                        //Down vote
-                            contract.addVote(id: 11, vote: -1)
-                        
-                    }, label: {
-                        Text("Downvote")
-                            .frame(width: 250, height: 50, alignment: .center)
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                    })
-                    }
-
-                }
-                .navigationTitle("Home")
-                
-//                Text("Welcome " + randomNameGenerator())  //Cannot use RNG here >:-(
-            }
-        }
-    }
-    
-    
-    
-    struct ComposeView: View {
-        
-        @State var title = ""
-        @State var hashtag = ""
-        @State var message = ""
-        
-        
-        var body: some View {
-            NavigationView {
-                VStack {
-                    Form{
-                        Section{
-                            TextField("Title", text: $title)
-                            TextField("Hashtag", text: $hashtag)
-                            TextField("Message", text: $message)
-                            
-                        }
-                    }
-                        
-                            Button(action: {
-                                //Create Post
-                                
-                                contract.createPost(title: title, author: "Revaz", message: message, hashtag: hashtag)
-                    
-                                
-                                
-                            }, label: {
-                                Text("Create Post")
-                                    .frame(width: 250, height: 50, alignment: .center)
-                                    .background(Color.blue)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(12)
-                            })
-                        
-                    
-                }
-                .navigationTitle("Compose")
-            }
-        }
-    }
-    
-    
     
     struct ProfileView: View {
         var body: some View {
             NavigationView {
-                ZStack {
-                    Color.blue
+                VStack {
+                    
                 }
                 .navigationTitle("Profile")
             }
@@ -288,6 +181,9 @@ struct MainView: View {
         
         return randomName
     }
+    
+    
+  
     
     
 }
