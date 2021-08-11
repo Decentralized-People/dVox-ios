@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-let numberOfPostss = contract.getPostCount()
+//let numberOfPostss = contract.getPostCount()
 
 
 struct HomeView: View {
@@ -20,7 +20,7 @@ struct HomeView: View {
                         
                 ScrumsView(postView: PostView.data)
 
-            .navigationTitle("Post Number:  \(numberOfPostss)")
+            .navigationTitle("Post Number:  (-1)")
             
 //                Text("Welcome " + randomNameGenerator())  //Cannot use RNG here >:-(
         }

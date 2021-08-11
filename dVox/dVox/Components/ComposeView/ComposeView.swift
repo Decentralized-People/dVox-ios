@@ -29,8 +29,9 @@ struct ComposeView: View {
                     
                         Button(action: {
                             //Create Post
-                            
-                            contract.createPost(title: title, author: "Revaz", message: message, hashtag: hashtag)
+                            test();
+
+                         //   contract.createPost(title: title, author: "Revaz", message: message, hashtag: hashtag)
                 
                             
                             
@@ -46,5 +47,12 @@ struct ComposeView: View {
             }
             .navigationTitle("Compose")
         }
+    }
+    
+    func test(){
+        var apis = APIs()
+        apis.saveKey("dsdsdsd", for: "Credentials")
+        let cred = apis.retriveKey(for: "Credentials")
+        print("Credentials: \(cred ?? "error")")
     }
 }

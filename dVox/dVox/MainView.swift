@@ -11,7 +11,7 @@ import UIKit
 import MessageUI
 
 
-var contract = SmartContract();
+//var contract = SmartContract();
 
 var adjectives = [String](arrayLiteral: "Sturdy",
                     "Loud",

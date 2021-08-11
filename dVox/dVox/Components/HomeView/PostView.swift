@@ -28,7 +28,7 @@ extension PostView {
             //                    Text("Row \(number)")
                 
             //Author needs to be changed!!!
-            PostView(id: idNumber, title: contract.getPost(id: idNumber).title, author: "Revaz", message: contract.getPost(id: idNumber).message, hastag: contract.getPost(id: idNumber).hastag, votes: contract.getPost(id: idNumber).votes)
+            //PostView(id: idNumber, title: contract.getPost(id: idNumber).title, author: "Revaz", message: contract.getPost(id: idNumber).message, hastag: contract.getPost(id: idNumber).hastag, votes: contract.getPost(id: idNumber).votes)
                 
             
           

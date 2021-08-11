@@ -24,7 +24,7 @@ struct ScrumsView: View {
                 //I think @State should be added to Votes
                 Button(action: {
                     //Up vote
-                        contract.addVote(id: idNumber, vote: 1)
+              //          contract.addVote(id: idNumber, vote: 1)
                     
                 }, label: {
                     Text("Upvote")
@@ -36,7 +36,7 @@ struct ScrumsView: View {
                 
                 Button(action: {
                     //Down vote
-                        contract.addVote(id: idNumber, vote: -1)
+                        //contract.addVote(id: idNumber, vote: -1)
                     
                 }, label: {
                     Text("Downvote")
@@ -49,5 +49,6 @@ struct ScrumsView: View {
                 }
             }
         }
+    
     }
 
