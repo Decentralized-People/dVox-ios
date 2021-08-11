@@ -13,7 +13,8 @@ struct ComposeView: View {
     @State var title = ""
     @State var hashtag = ""
     @State var message = ""
-    
+
+    let apis = APIs()
     
     var body: some View {
         NavigationView {
@@ -50,9 +51,13 @@ struct ComposeView: View {
     }
     
     func test(){
-        var apis = APIs()
-        apis.saveKey("dsdsdsd", for: "Credentials")
-        let cred = apis.retriveKey(for: "Credentials")
-        print("Credentials: \(cred ?? "error")")
+        
+        let ca = apis.retriveKey(for: "ContractAddress")
+        let url = apis.retriveKey(for: "InfuraURL")
+        let le = apis.retriveKey(for: "Credentials")
+        print("ContractAddress: \(ca ?? "error")")
+        print("InfuraURL: \(url ?? "error")")
+        print("Credentials: \(le ?? "error")")
+
     }
 }
