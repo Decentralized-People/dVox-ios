@@ -30,7 +30,7 @@ struct HomeView: View {
     
     init(_apis: APIs){
         apis = _apis
-        sot.getPosts(index: 0)
+        sot.getPosts(index: 0, apis: apis)
     }
     
     var body: some View {
@@ -49,7 +49,7 @@ struct HomeView: View {
                                 CardRow(eachPost: post)
                                     .onAppear{
                                         if index == sot.allPosts_.count - 2{
-                                            sot.getPosts(index: nextIndex)
+                                            sot.getPosts(index: nextIndex, apis: apis)
                                             nextIndex += 1
                                         }
                                     }
@@ -146,28 +146,5 @@ struct HomeView: View {
 
             return path
         }
-    }
-
-    
-    func que() {
-         Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { timer in
-            let add = apis.retriveKey(for: "ContractAddress") ?? "error"
-            let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
-            let cre = apis.retriveKey(for: "Credentials") ?? "error"
-             
-             if (add != "error" && inf != "error" && cre != "error") {
-                 let contract = SmartContract(credentials: cre, infura: inf, address: add)
-                 
-                 let postCount = contract.getPostCount()
-                 
-                 for i in stride(from: postCount, to: postCount - 5, by: -1) {
-                     let Post = contract.getPost(id: i)
-                     allPosts.append(Post)
-                     print("Post \(i)")
-                 }
-                
-                 timer.invalidate()
-             }
-         }
     }
 }

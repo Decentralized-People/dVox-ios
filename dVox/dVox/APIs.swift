@@ -20,6 +20,7 @@ class APIs{
     
     /// Gets all APIs from Firestore.
     func getAPIs(){
+        
         let group = DispatchGroup()
         
          group.enter()

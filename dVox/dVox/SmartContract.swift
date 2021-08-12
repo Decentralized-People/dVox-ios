@@ -137,7 +137,7 @@ class SmartContract{
             }
         }
     }
-    
+
     func createPost(title: String, author: String, message: String, hashtag: String){
         let transaction = contract.write("createPost", parameters: [title, author, message, hashtag] as [AnyObject], transactionOptions: transactionOptions);
         do {
