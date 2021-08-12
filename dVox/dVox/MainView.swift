@@ -138,6 +138,7 @@ struct MainView: View {
     init(){
         apis.resetAPIs()
         apis.getAPIs()
+        UITabBar.appearance().barTintColor = UIColor(Color("WhiteColor"))
     }
     
     var body: some View {
@@ -148,7 +149,7 @@ struct MainView: View {
             
             TabView {
                 
-                HomeView()
+                HomeView(_apis: apis)
                     .tabItem {
                         Image(systemName: "house")
                         Text("Home")
@@ -167,8 +168,13 @@ struct MainView: View {
                     }
                 
             }
-            .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("BlackColor")))        }
+            .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+
+            .foregroundColor(Color("BlackColor"))
+            .padding(.bottom, 5)
     
+        }
+        
     }
     
     
