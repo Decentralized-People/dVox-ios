@@ -133,6 +133,13 @@ struct MainView_Previews: PreviewProvider {
 
 struct MainView: View {
     
+    let apis = APIs()
+
+    init(){
+        apis.resetAPIs()
+        apis.getAPIs()
+    }
+    
     var body: some View {
         
         TabView {
@@ -143,7 +150,7 @@ struct MainView: View {
                     Text("Home")
                 }
             
-            ComposeView()
+            ComposeView(_apis: apis)
                 .tabItem {
                     Image(systemName: "plus.circle")
                     Text("Compose")
@@ -171,7 +178,6 @@ struct MainView: View {
         }
     }
     
-    
     func randomNameGenerator() -> String {
         
         let randomAdjective = Int.random(in: 0..<adjectives.count)
@@ -181,9 +187,5 @@ struct MainView: View {
         
         return randomName
     }
-    
-    
-  
-    
-    
+
 }

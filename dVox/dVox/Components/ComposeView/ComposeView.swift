@@ -14,6 +14,12 @@ struct ComposeView: View {
     @State var hashtag = ""
     @State var message = ""
     
+    var apis: APIs
+    
+    init(_apis: APIs){
+        apis = _apis
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -28,10 +34,7 @@ struct ComposeView: View {
                     
                         Button(action: {
                             //Create Post
-                            test();
-
-                         //   contract.createPost(title: title, author: "Revaz", message: message, hashtag: hashtag)
-                
+                            createPost();
                             
                             
                         }, label: {
@@ -48,30 +51,17 @@ struct ComposeView: View {
         }
     }
     
-    func test(){
-        let apis = APIs()
-
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            let add = apis.retriveKey(for: "ContractAddress")
-            let inf = apis.retriveKey(for: "InfuraURL")
-            let cred = apis.retriveKey(for: "Credentials")
-            
-            if (add != nil && inf != nil && cred != nil) {
-                if (add != "error" && inf != "error" && cred != "error") {
-                    let contract = SmartContract(credentials: cred!, infura: inf!, address: add!);
-                    print(contract.getPostCount())
-                    print("ContractAddress: \(add ?? "error")")
-                    print("InfuraURL: \(inf ?? "error")")
-                    print("Credentials: \(cred ?? "error")")
-                    timer.invalidate()
-                }
-            }
-        }
+    func createPost() {
+         Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { timer in
+            let add = apis.retriveKey(for: "ContractAddress") ?? "error"
+            let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
+            let cre = apis.retriveKey(for: "Credentials") ?? "error"
              
+             if (add != "error" && inf != "error" && cre != "error") {
+                 let contract = SmartContract(credentials: cre, infura: inf, address: add)
+                 contract.createPost(title: title, author: "Aleksandr", message: message, hashtag: hashtag)
+                 timer.invalidate()
+             }
+         }
     }
-        
-
-//        let contract = SmartContract(credentials: cred ?? "error", infura: inf ?? "error", address: add ?? "error")
-//        print(contract.getPostCount())
-
 }

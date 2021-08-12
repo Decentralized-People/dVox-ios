@@ -16,11 +16,6 @@ class APIs{
     /// accessible from any other class.
     ///
     init(){
-        //Reset APIs
-        resetAPIs()
-        //Get APIs
-        getAPIs()
-        
     }
     
     /// Gets all APIs from Firestore.
