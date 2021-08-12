@@ -13,17 +13,24 @@ import SwiftUI
 
 struct HomeView: View {
     
+    var allPosts = [
+        Post(id: 1, title: "Why why why", author: "Aleksandr", message: "Welcome to the app! I believe everyone should have an opportunity to share their own thoughts privately. This is why me and my friends developed this platform.", hastag: "#hashtag1", votes: 1),
+        
+        Post(id: 2, title: "Hello world", author: "Revaz", message: "Welcome to the app! I believe everyone should have an opportunity to share their own thoughts privately. This is why me and my friends developed this platform.", hastag: "#hashtag2", votes: 0),
+        
+        Post(id: 3, title: "Hello there", author: "David", message: "Welcome to the app! I believe everyone should have an opportunity to share their own thoughts privately. This is why me and my friends developed this platform.", hastag: "#hashtag3", votes: -10),
+        
+        Post(id: 4, title: "hello w o r l d", author: "Fatima", message: "Welcome to the app! I believe everyone should have an opportunity to share their own thoughts privately. This is why me and my friends developed this platform.", hastag: "#hashtag4", votes: 4)
+    ]
+    
     
     var body: some View {
         NavigationView {
             ZStack {
-                        
-                ScrumsView(postView: PostView.data)
-
-            .navigationTitle("Post Number:  (-1)")
-            
-//                Text("Welcome " + randomNameGenerator())  //Cannot use RNG here >:-(
-        }
+                Color("BlackColor")
+                    .ignoresSafeArea()
+                PostList(posts: allPosts)
+            }
     }
 }
 }

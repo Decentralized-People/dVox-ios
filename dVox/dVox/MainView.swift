@@ -142,27 +142,33 @@ struct MainView: View {
     
     var body: some View {
         
-        TabView {
+        ZStack{
+            Color("BlackColor")
+                .ignoresSafeArea()
             
-            HomeView()
-                .tabItem {
-                    Image(systemName: "house")
-                    Text("Home")
-                }
-            
-            ComposeView(_apis: apis)
-                .tabItem {
-                    Image(systemName: "plus.circle")
-                    Text("Compose")
-                }
-            
-            ProfileView()
-                .tabItem {
-                    Image(systemName: "person")
-                    Text("Profile")
-                }
-            
-        }
+            TabView {
+                
+                HomeView()
+                    .tabItem {
+                        Image(systemName: "house")
+                        Text("Home")
+                    }
+                
+                ComposeView(_apis: apis)
+                    .tabItem {
+                        Image(systemName: "plus.circle")
+                        Text("Compose")
+                    }
+                
+                ProfileView()
+                    .tabItem {
+                        Image(systemName: "person")
+                        Text("Profile")
+                    }
+                
+            }
+            .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("BlackColor")))        }
+    
     }
     
     
@@ -173,7 +179,6 @@ struct MainView: View {
                 VStack {
                     
                 }
-                .navigationTitle("Profile")
             }
         }
     }

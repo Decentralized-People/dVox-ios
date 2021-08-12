@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 
-class Post {
+class Post: Identifiable {
     var id: Int
     var title: String
     var author: String
