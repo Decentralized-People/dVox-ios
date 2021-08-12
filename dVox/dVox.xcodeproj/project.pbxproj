@@ -16,7 +16,7 @@
 		28E24F2826B9744D0092EA14 /* ScrumsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E24F2726B9744D0092EA14 /* ScrumsView.swift */; };
 		28E24F2A26B9B6F40092EA14 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E24F2926B9B6F40092EA14 /* HomeView.swift */; };
 		28E24F2C26B9B8330092EA14 /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E24F2B26B9B8330092EA14 /* ComposeView.swift */; };
-		8B1B9B9226C5AA4D00089C83 /* PostList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B9B9126C5AA4D00089C83 /* PostList.swift */; };
+		8B1B9B9426C5CBE400089C83 /* SourceOfTruth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B9B9326C5CBE400089C83 /* SourceOfTruth.swift */; };
 		8B3B2E1526A5E13D001224F6 /* PostContract.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B3B2E1426A5E13D001224F6 /* PostContract.json */; };
 		8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B65B70626A5D7B50040E559 /* SmartContract.swift */; };
 		8B6C722D26951D4D004A34A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C722C26951D4D004A34A3 /* AppDelegate.swift */; };
@@ -44,7 +44,7 @@
 		28E24F2B26B9B8330092EA14 /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
 		28E24F3026B9BF4C0092EA14 /* drawable */ = {isa = PBXFileReference; lastKnownFileType = folder; name = drawable; path = "../../../../../Drawable/projectDIES-android/app/src/main/res/drawable"; sourceTree = "<group>"; };
 		3E4CD4796A0472B854D98463 /* Pods_dVox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dVox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B1B9B9126C5AA4D00089C83 /* PostList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostList.swift; sourceTree = "<group>"; };
+		8B1B9B9326C5CBE400089C83 /* SourceOfTruth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceOfTruth.swift; sourceTree = "<group>"; };
 		8B3B2E1426A5E13D001224F6 /* PostContract.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PostContract.json; sourceTree = "<group>"; };
 		8B65B70626A5D7B50040E559 /* SmartContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartContract.swift; sourceTree = "<group>"; };
 		8B6C722926951D4D004A34A3 /* dVox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dVox.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,7 +93,7 @@
 				28E24F2526B972850092EA14 /* CardView.swift */,
 				28E24F2726B9744D0092EA14 /* ScrumsView.swift */,
 				28E24F2926B9B6F40092EA14 /* HomeView.swift */,
-				8B1B9B9126C5AA4D00089C83 /* PostList.swift */,
+				8B1B9B9326C5CBE400089C83 /* SourceOfTruth.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -325,13 +325,13 @@
 				8B6C722D26951D4D004A34A3 /* AppDelegate.swift in Sources */,
 				28E24F2C26B9B8330092EA14 /* ComposeView.swift in Sources */,
 				28E24F2A26B9B6F40092EA14 /* HomeView.swift in Sources */,
+				8B1B9B9426C5CBE400089C83 /* SourceOfTruth.swift in Sources */,
 				8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */,
 				0D44E9BB2696599500697753 /* MainView.swift in Sources */,
 				2806D72D26B1973700FEC670 /* Post.swift in Sources */,
 				8B6C722F26951D4D004A34A3 /* SceneDelegate.swift in Sources */,
 				28E24F2626B972850092EA14 /* CardView.swift in Sources */,
 				8BF617E126C4350200EB7BE9 /* APIs.swift in Sources */,
-				8B1B9B9226C5AA4D00089C83 /* PostList.swift in Sources */,
 				8B6C723126951D4D004A34A3 /* LoginView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
