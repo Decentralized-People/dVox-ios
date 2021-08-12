@@ -13,8 +13,6 @@ struct ComposeView: View {
     @State var title = ""
     @State var hashtag = ""
     @State var message = ""
-
-    let apis = APIs()
     
     var body: some View {
         NavigationView {
@@ -51,13 +49,29 @@ struct ComposeView: View {
     }
     
     func test(){
-        
-        let ca = apis.retriveKey(for: "ContractAddress")
-        let url = apis.retriveKey(for: "InfuraURL")
-        let le = apis.retriveKey(for: "Credentials")
-        print("ContractAddress: \(ca ?? "error")")
-        print("InfuraURL: \(url ?? "error")")
-        print("Credentials: \(le ?? "error")")
+        let apis = APIs()
 
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            let add = apis.retriveKey(for: "ContractAddress")
+            let inf = apis.retriveKey(for: "InfuraURL")
+            let cred = apis.retriveKey(for: "Credentials")
+            
+            if (add != nil && inf != nil && cred != nil) {
+                if (add != "error" && inf != "error" && cred != "error") {
+                    let contract = SmartContract(credentials: cred!, infura: inf!, address: add!);
+                    print(contract.getPostCount())
+                    print("ContractAddress: \(add ?? "error")")
+                    print("InfuraURL: \(inf ?? "error")")
+                    print("Credentials: \(cred ?? "error")")
+                    timer.invalidate()
+                }
+            }
+        }
+             
     }
+        
+
+//        let contract = SmartContract(credentials: cred ?? "error", infura: inf ?? "error", address: add ?? "error")
+//        print(contract.getPostCount())
+
 }

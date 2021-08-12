@@ -28,11 +28,11 @@ class SmartContract{
         let address: String
     }
     
-    init(){
+    init(credentials: String, infura: String, address: String){
         //KEYS !!! REMOVE BEFORE COMMITING !!!
-        let CREDENTIALS = ""
-        let INFURA = ""
-        let ADDRESS = ""
+        let CREDENTIALS = credentials
+        let INFURA = infura
+        let ADDRESS = address
         
         // Import Wallet
         let name = "Wallet"

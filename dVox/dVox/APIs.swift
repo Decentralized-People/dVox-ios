@@ -18,24 +18,52 @@ class APIs{
     init(){
         //Reset APIs
         resetAPIs()
-        //Get the reference to the Firestore API document
-        let Doc = Firestore.firestore().collection("APIs").document("7rMOmCufceCpoXgxLRKo")
+        //Get APIs
+        getAPIs()
         
-        /// Executes when the document is received
-        Doc.getDocument{ [self] (document, error) in
-            if let document = document, document.exists{
-                
-                // Retrieving specific APIs
-                let Credentials = document.get("credentials")
-                let ContractAddress = document.get("contractAddress")
-                let InfuraURL = document.get("infuraURL")
+    }
+    
+    /// Gets all APIs from Firestore.
+    func getAPIs(){
+        let group = DispatchGroup()
+        
+         group.enter()
+
+         DispatchQueue.main.async {
+             //Get the reference to the Firestore API document
+             let Doc = Firestore.firestore().collection("APIs").document("7rMOmCufceCpoXgxLRKo")
              
-                setOnSuccess(credentials: Credentials as! String, contractAddress: ContractAddress as! String, infuraURL: InfuraURL as! String)
+             /// Executes when the document is received
+             Doc.getDocument{ [self] (document, error) in
+                 if let document = document, document.exists{
+                     
+                     // Retrieving specific APIs
+                     let Credentials = document.get("credentials")
+                     let ContractAddress = document.get("contractAddress")
+                     let InfuraURL = document.get("infuraCODE")
+                  
+                     group.leave()
+                     
+                     setOnSuccess(credentials: Credentials as! String, contractAddress: ContractAddress as! String, infuraURL: InfuraURL as! String)
+                 } else {
+                     //On error
+                     setOnError()
+                     group.leave()
+                 }
+             }
+         }
+        group.notify(queue: .main) {
+            if (self.retriveKey(for: "Credentials") != "error" &&
+                self.retriveKey(for: "ContractAddress") != "error" &&
+                self.retriveKey(for: "InfuraURL") != "error" &&
+                self.retriveKey(for: "Credentials") != nil &&
+                self.retriveKey(for: "ContractAddress") != nil &&
+                self.retriveKey(for: "InfuraURL") != nil) {
                 
+                    print("All keys are recieved succesfully.")
             } else {
-                //On error
+                
                 print("Error while getting API keys.")
-                setOnError()
             }
         }
     }
