@@ -148,68 +148,74 @@ struct MainView: View {
             Color("BlackColor")
                 .ignoresSafeArea()
             
-            TabView(selection: $selection) {
+            VStack{
+                Color("BlackColor")
+                    .edgesIgnoringSafeArea(.vertical)
+                    .frame(height: 0)
+            
+
                 
-                HomeView(_apis: apis)
-                    .tag(0)
-                   
-                ComposeView(_apis: apis)
-                    .tag(1)
-                    
-                ProfileView()
-                    .tag(2)
+                TabView(selection: $selection) {
+                    HomeView(_apis: apis)
+                        .tag(0)
+                       
+                    ComposeView(_apis: apis)
+                        .tag(1)
+                        
+                    ProfileView()
+                        .tag(2)
+                }
+                .overlay( // Overlay the custom TabView component here
+                            Color("WhiteColor") // Base color for Tab Bar
+                                .edgesIgnoringSafeArea(.vertical)
+                                .frame(height: 50) // Match Height of native bar
+                                .overlay(EdgeBorder(width: 1  , edges: [.top]).foregroundColor(Color("BlackColor")))                         .overlay(HStack {
+                                    Spacer()
+                                    
+                                    // First Tab Button
+                                    Button(action: {
+                                        self.selection = 0
+                                    }, label: {
+                                        Image("fi-rr-home")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 25, height: 25, alignment: .center)
+                                            .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
+                                            .opacity(selection == 0 ? 1 : 0.4)
+                                    })
+                                    Spacer()
+                                    
+                                    // Second Tab Button
+                                    Button(action: {
+                                        self.selection = 1
+                                    }, label: {
+                                        Image("fi-rr-add")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 25, height: 25, alignment: .center)
+                                            .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
+                                            .opacity(selection == 1 ? 1 : 0.4)
+                                    })
+                                    
+                                    Spacer()
+                                    
+                                    // Third Tab Button
+                                    Button(action: {
+                                        self.selection = 2
+                                    }, label: {
+                                        Image("fi-rr-user")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 25, height: 25, alignment: .center)
+                                            .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
+                                            .opacity(selection == 2 ? 1 : 0.4)
+                                    })
+                                    Spacer()
+                                    
+                                })
+                        
+                        ,alignment: .bottom) // Align the overlay to bottom to
             }
-            .overlay( // Overlay the custom TabView component here
-                        Color.white // Base color for Tab Bar
-                            .edgesIgnoringSafeArea(.vertical)
-                            .frame(height: 50) // Match Height of native bar
-                            .overlay(EdgeBorder(width: 1  , edges: [.top]).foregroundColor(Color("BlackColor")))                         .overlay(HStack {
-                                Spacer()
-                                
-                                // First Tab Button
-                                Button(action: {
-                                    self.selection = 0
-                                }, label: {
-                                    Image("fi-rr-home")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 25, height: 25, alignment: .center)
-                                        .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
-                                        .opacity(selection == 0 ? 1 : 0.4)
-                                })
-                                Spacer()
-                                
-                                // Second Tab Button
-                                Button(action: {
-                                    self.selection = 1
-                                }, label: {
-                                    Image("fi-rr-add")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 25, height: 25, alignment: .center)
-                                        .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
-                                        .opacity(selection == 1 ? 1 : 0.4)
-                                })
-                                
-                                Spacer()
-                                
-                                // Third Tab Button
-                                Button(action: {
-                                    self.selection = 2
-                                }, label: {
-                                    Image("fi-rr-user")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 25, height: 25, alignment: .center)
-                                        .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
-                                        .opacity(selection == 2 ? 1 : 0.4)
-                                })
-                                Spacer()
-                                
-                            })
-                    
-                    ,alignment: .bottom) // Align the overlay to bottom to
-    
         }
     }
     
