@@ -107,7 +107,7 @@ class SmartContract{
             post.author = result?["author"] as! String
             post.message = result?["message"] as! String
             post.hastag = result?["hashtag"] as! String
-            post.votes = Int(result?["votes"] as! BigInt)
+            post.votes = Int(result?["upVotes"] as! BigInt)
             
         } catch {
                 print(error.localizedDescription)
