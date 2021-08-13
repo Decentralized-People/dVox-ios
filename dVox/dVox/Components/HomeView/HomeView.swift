@@ -16,7 +16,7 @@ struct HomeView: View {
     var apis: APIs
     
     var posts = [
-        Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "physicsatk", votes: -1),
+        Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", votes: -1),
         Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", votes: -1),
     ]
     
@@ -41,8 +41,8 @@ struct HomeView: View {
                     
                     ScrollView {
                         LazyVStack{
-                            ForEach(posts.indices, id: \.self) { index in
-                                let post = posts[index]
+                            ForEach(sot.allPosts_.indices, id: \.self) { index in
+                                let post = sot.allPosts_[index]
                                 CardRow(eachPost: post)
                                     .onAppear{
                                         if index == (numberOfPostsToLoad*nextIndex) - 2{
@@ -88,13 +88,68 @@ struct HomeView: View {
                         Text(eachPost.message)
                             .font(.custom("Montserrat", size: 15))
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, 5.0)
                     }
                     .padding(.horizontal, 20.0)
                     HStack{
+                        Button(action: {
+                            
+                        })
+                        {
+                            Image("fi-rr-thumbs-up")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20)
+                                .padding([.leading], 0)
+                        }
+                        .frame(alignment: .leading)
+                        .padding([.leading, .bottom], 20)
+                         
+                        Text(String(eachPost.votes))
+                            .font(.custom("Montserrat-Bold", size: 14))
+                            .frame( alignment: .leading)
+                            .padding([.bottom ], 20)
+                        
+                        
+                        Button(action: {
+                            
+                        })
+                        {
+                            Image("fi-rr-thumbs-down")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20)
+                                .padding([.leading], 5)
+                        }
+                        .frame(alignment: .leading)
+                        .padding([.bottom ], 20)
+
+                        
+                        Text(String(eachPost.votes))
+                            .font(.custom("Montserrat-Bold", size: 14))
+                            .frame( alignment: .leading)
+                            .padding([.bottom ], 20)
+                        
+                        Button(action: {
+                            
+                        })
+                        {
+                            Image("fi-rr-comment")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20)
+                                .padding([.leading], 5)
+                        }
+                        
+                        .frame(alignment: .leading)
+                        .padding([.bottom], 20)
+                        
+                        Text(String(eachPost.votes))
+                            .font(.custom("Montserrat-Bold", size: 14))
+                            .frame( alignment: .leading)
+                            .padding([.bottom ], 20)
                         
                         Text(eachPost.hastag)
-                            .font(.custom("Montserrat", size: 14))
+                            .font(.custom("Montserrat-Bold", size: 14))
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding([.leading, .bottom, .trailing], 20)
                     }
