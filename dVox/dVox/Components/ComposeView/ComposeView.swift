@@ -21,7 +21,7 @@ struct ComposeView: View {
     }
     
     var body: some View {
-        NavigationView {
+       
             VStack {
                 Form{
                     Section{
@@ -49,7 +49,7 @@ struct ComposeView: View {
             }
             .navigationTitle("Compose")
         }
-    }
+    
     
     func createPost() {
          Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { timer in

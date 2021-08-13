@@ -1,7 +1,7 @@
 //
 //  Chat.swift
 //  dVox
-//
+// https://trailingclosure.com/custom-tabbar/
 //  Created by Fatima Ortega on 7/7/21.
 //
 
@@ -140,36 +140,77 @@ struct MainView: View {
         apis.getAPIs()
     }
     
+    @State var selection: Int = 0
+    
     var body: some View {
         
         ZStack{
             Color("BlackColor")
                 .ignoresSafeArea()
             
-            TabView {
+            TabView(selection: $selection) {
                 
                 HomeView(_apis: apis)
-                    .tabItem {
-                        Image(systemName: "house")
-                        Text("Home")
-                    }
-                
+                    .tag(0)
+                   
                 ComposeView(_apis: apis)
-                    .tabItem {
-                        Image(systemName: "plus.circle")
-                        Text("Compose")
-                    }
-                
+                    .tag(1)
+                    
                 ProfileView()
-                    .tabItem {
-                        Image(systemName: "person")
-                        Text("Profile")
-                    }
-                
+                    .tag(2)
             }
+            .overlay( // Overlay the custom TabView component here
+                        Color.white // Base color for Tab Bar
+                            .edgesIgnoringSafeArea(.vertical)
+                            .frame(height: 50) // Match Height of native bar
+                            .overlay(EdgeBorder(width: 1  , edges: [.top]).foregroundColor(Color("BlackColor")))                         .overlay(HStack {
+                                Spacer()
+                                
+                                // First Tab Button
+                                Button(action: {
+                                    self.selection = 0
+                                }, label: {
+                                    Image("fi-rr-home")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 25, height: 25, alignment: .center)
+                                        .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
+                                        .opacity(selection == 0 ? 1 : 0.4)
+                                })
+                                Spacer()
+                                
+                                // Second Tab Button
+                                Button(action: {
+                                    self.selection = 1
+                                }, label: {
+                                    Image("fi-rr-add")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 25, height: 25, alignment: .center)
+                                        .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
+                                        .opacity(selection == 1 ? 1 : 0.4)
+                                })
+                                
+                                Spacer()
+                                
+                                // Third Tab Button
+                                Button(action: {
+                                    self.selection = 2
+                                }, label: {
+                                    Image("fi-rr-user")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 25, height: 25, alignment: .center)
+                                        .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
+                                        .opacity(selection == 2 ? 1 : 0.4)
+                                })
+                                Spacer()
+                                
+                            })
+                    
+                    ,alignment: .bottom) // Align the overlay to bottom to
     
         }
-        
     }
     
     
@@ -181,6 +222,46 @@ struct MainView: View {
                     
                 }
             }
+        }
+    }
+    struct EdgeBorder: Shape {
+
+        var width: CGFloat
+        var edges: [Edge]
+
+        func path(in rect: CGRect) -> Path {
+            var path = Path()
+            for edge in edges {
+                var x: CGFloat {
+                    switch edge {
+                    case .top, .bottom, .leading: return rect.minX
+                    case .trailing: return rect.maxX - width
+                    }
+                }
+
+                var y: CGFloat {
+                    switch edge {
+                    case .top, .leading, .trailing: return rect.minY
+                    case .bottom: return rect.maxY - width
+                    }
+                }
+
+                var w: CGFloat {
+                    switch edge {
+                    case .top, .bottom: return rect.width
+                    case .leading, .trailing: return self.width
+                    }
+                }
+
+                var h: CGFloat {
+                    switch edge {
+                    case .top, .bottom: return self.width
+                    case .leading, .trailing: return rect.height
+                    }
+                }
+                path.addPath(Path(CGRect(x: x, y: y, width: w, height: h)))
+            }
+            return path
         }
     }
     

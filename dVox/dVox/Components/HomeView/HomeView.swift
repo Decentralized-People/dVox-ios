@@ -21,11 +21,12 @@ struct HomeView: View {
     ]
     
     @ObservedObject var sot = SourceOfTruth()
-    @State var nextIndex = 1
+    @State var nextIndex: Int
     
     var numberOfPostsToLoad = 6
     
     init(_apis: APIs){
+        nextIndex = 1
         apis = _apis
         sot.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
     }
@@ -35,6 +36,7 @@ struct HomeView: View {
             ZStack {
                 Color("BlackColor")
                     .ignoresSafeArea()
+                
                 ZStack{
                     Color("BlackColor")
                         .ignoresSafeArea()
@@ -45,6 +47,7 @@ struct HomeView: View {
                                 let post = sot.allPosts_[index]
                                 CardRow(eachPost: post)
                                     .onAppear{
+                                        print("Index \(index), nTl \(numberOfPostsToLoad)")
                                         if index == (numberOfPostsToLoad*nextIndex) - 2{
 
                                             sot.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
