@@ -70,7 +70,6 @@ class SmartContract{
         let contractAddress = EthereumAddress(ADDRESS, ignoreChecksum: true)
         let abiVersion = 2
         contract = web3.contract(contractABI, at: contractAddress, abiVersion: abiVersion)!
-        print(contractABI)
         
         // Set transaction options
         let value: String = "0.0"
@@ -90,7 +89,6 @@ class SmartContract{
         do {
             let result = try transaction?.call(transactionOptions: transactionOptions)
             postsNumber = result?["0"] as! BigUInt
-            print("Number of posts: " , Int(postsNumber) )
         } catch {
                 print(error.localizedDescription)
         }
@@ -110,14 +108,6 @@ class SmartContract{
             post.message = result?["message"] as! String
             post.hastag = result?["hashtag"] as! String
             post.votes = Int(result?["votes"] as! BigInt)
-            
-            print("PRINTING POST!!!!")
-            print("id: ", post.id)
-            print("title: ", post.title)
-            print("author: ", post.author)
-            print("message: ", post.message)
-            print("hastag: ", post.hastag)
-            print("votes: ", post.votes)
             
         } catch {
                 print(error.localizedDescription)

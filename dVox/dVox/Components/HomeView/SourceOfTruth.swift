@@ -11,16 +11,20 @@ class SourceOfTruth: ObservableObject {
     
     @Published var allPosts_ = [Post]()
     
-    func getPosts(index: Int, apis: APIs){
-        print("getting... \(index)")
-        loadMore(apis: apis, postNumber: 6)
+    func getPosts(index: Int, apis: APIs, currentId: Int, getPosts: Int){
+        print("getting NEW POSTS \(index)")
+        loadMore(apis: apis, numberOfPosts: getPosts, currentId: currentId)
     }
     
-    func loadMore(apis: APIs, postNumber: Int) {
+    /// <#Description#>
+    /// - Parameters:
+    ///   - apis: <#apis description#>
+    ///   - postNumber: <#postNumber description#>
+    func loadMore(apis: APIs, numberOfPosts: Int, currentId: Int) {
   
-        print("This is run on a background queue")
+        print("Loading more posts...")
 
-        Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
     
             let add = apis.retriveKey(for: "ContractAddress") ?? "error"
             let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
@@ -30,17 +34,32 @@ class SourceOfTruth: ObservableObject {
                 
                  let contract = SmartContract(credentials: cre, infura: inf, address: add)
                 
+                 /// Get data at a background thread
                  DispatchQueue.global(qos: .userInitiated).async {
-                     let postCount = contract.getPostCount()
-                     for i in stride(from: postCount, to: postCount - postNumber, by: -1) {
-                         var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", votes: -999)
-                         Post = contract.getPost(id: i)
-                 DispatchQueue.main.async {
-                      self.allPosts_.append(Post)
-                    }
+                     var postCount = 0;
+                     if currentId == -1 {
+                         postCount = contract.getPostCount()
+                     } else {
+                         postCount = currentId - 2
+                     }
+                     if postCount > 0 {
+                         for i in stride(from: postCount, to: postCount - numberOfPosts, by: -1) {
+                             if i > 0 {
+                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", votes: -999)
+                                 Post = contract.getPost(id: i)
+                                
+                                 /// Update UI at the main thread
+                                 DispatchQueue.main.async {
+                                     
+                                     print(Post.id)
+                                     self.allPosts_.append(Post)
+                                     
+                                    }
+                             }
+                         }
+                     }
                  }
-                 timer.invalidate()
-                 }
+                timer.invalidate()
             }
         }
     }

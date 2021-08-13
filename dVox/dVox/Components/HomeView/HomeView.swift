@@ -17,20 +17,11 @@ struct HomeView: View {
     @ObservedObject var sot = SourceOfTruth()
     @State var nextIndex = 1
     
-    
-    @State var allPosts = [
-        Post(id: 1, title: "Why why why", author: "Aleksandr", message: "Welcome to the app! I believe everyone should have an opportunity to share their own thoughts privately. This is why me and my friends developed this platform.", hastag: "#hashtag1", votes: 1),
-        
-        Post(id: 2, title: "Hello world", author: "Revaz", message: "Welcome to the app! I believe everyone should have an opportunity to share their own thoughts privately. This is why me and my friends developed this platform.", hastag: "#hashtag2", votes: 0),
-        
-        Post(id: 3, title: "Hello there", author: "David", message: "Welcome to the app! I believe everyone should have an opportunity to share their own thoughts privately. This is why me and my friends developed this platform.", hastag: "#hashtag3", votes: -10),
-        
-        Post(id: 4, title: "hello w o r l d", author: "Fatima", message: "Welcome to the app! I believe everyone should have an opportunity to share their own thoughts privately. This is why me and my friends developed this platform.", hastag: "#hashtag4", votes: 4)
-    ]
+    var numberOfPostsToLoad = 6
     
     init(_apis: APIs){
         apis = _apis
-        sot.getPosts(index: 0, apis: apis)
+        sot.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
     }
     
     var body: some View {
@@ -48,8 +39,8 @@ struct HomeView: View {
                                 let post = sot.allPosts_[index]
                                 CardRow(eachPost: post)
                                     .onAppear{
-                                        if index == sot.allPosts_.count - 2{
-                                            sot.getPosts(index: nextIndex, apis: apis)
+                                        if index == (numberOfPostsToLoad*nextIndex) - 2{
+                                            sot.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
                                             nextIndex += 1
                                         }
                                     }
