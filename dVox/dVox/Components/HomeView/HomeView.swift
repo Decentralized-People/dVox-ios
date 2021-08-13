@@ -10,9 +10,15 @@ import SwiftUI
 
 //let numberOfPostss = contract.getPostCount()
       
+
 struct HomeView: View {
     
     var apis: APIs
+    
+    var posts = [
+        Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "physicsatk", votes: -1),
+        Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", votes: -1),
+    ]
     
     @ObservedObject var sot = SourceOfTruth()
     @State var nextIndex = 1
@@ -23,7 +29,7 @@ struct HomeView: View {
         apis = _apis
         sot.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
     }
-    
+
     var body: some View {
         
             ZStack {
@@ -35,17 +41,18 @@ struct HomeView: View {
                     
                     ScrollView {
                         LazyVStack{
-                            ForEach(sot.allPosts_.indices, id: \.self) { index in
-                                let post = sot.allPosts_[index]
+                            ForEach(posts.indices, id: \.self) { index in
+                                let post = posts[index]
                                 CardRow(eachPost: post)
                                     .onAppear{
                                         if index == (numberOfPostsToLoad*nextIndex) - 2{
+
                                             sot.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
                                             nextIndex += 1
                                         }
                                     }
                             }
-                            .padding(10)
+                            .padding([.leading, .bottom], 10)
                         }
                     }
                 }
@@ -62,43 +69,53 @@ struct HomeView: View {
                         Image("003-snake")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 60)
-                            .padding([.top, .leading, .trailing], 10)
+                            .frame(width: 45)
+                            .padding([.trailing], 5)
+                            
                         VStack{
                             Text(eachPost.title)
-                                .font(.custom("Montserrat", size: 16))
+                                .font(.custom("Montserrat-Bold", size: 20))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             
                             Text(eachPost.author)
                                 .font(.custom("Montserrat", size: 14))
-                                .padding(.top, 1)
+
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
-                    .padding(10)
+                    .padding([.top, .leading, .trailing], 20)
                     HStack{
                         Text(eachPost.message)
-                            .font(.custom("Montserrat", size: 16))
+                            .font(.custom("Montserrat", size: 15))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 5.0)
                     }
-                    .padding(10)
+                    .padding(.horizontal, 20.0)
                     HStack{
                         
                         Text(eachPost.hastag)
                             .font(.custom("Montserrat", size: 14))
                             .frame(maxWidth: .infinity, alignment: .trailing)
-                            .padding([.bottom, .trailing], 10)
+                            .padding([.leading, .bottom, .trailing], 20)
                     }
-                    .padding(10)
+    
                 }
                 
                     .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
 
                     .foregroundColor(Color("BlackColor"))
                     .padding(.horizontal, 10)
-                
+
             }
         }
+        
+    struct HomeView_Previews: PreviewProvider {
+            static var previews: some View {
+                var apis = APIs()
+                HomeView(_apis: apis)
+            }
     }
+            
     
     struct RoundedCorners: Shape {
         var tl: CGFloat = 0.0
@@ -136,6 +153,7 @@ struct HomeView: View {
                         startAngle: Angle(degrees: 180), endAngle: Angle(degrees: 270), clockwise: false)
 
             return path
+            }
         }
     }
 }
