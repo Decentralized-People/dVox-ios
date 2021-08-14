@@ -4,7 +4,6 @@
 //
 //  Created by Aleksandr Molchagin on 8/11/21.
 //
-
 import Foundation
 import Firebase
 
@@ -28,6 +27,7 @@ class APIs{
          DispatchQueue.main.async {
              //Get the reference to the Firestore API document
              let Doc = Firestore.firestore().collection("APIs").document("7rMOmCufceCpoXgxLRKo")
+             
              
              /// Executes when the document is received
              Doc.getDocument{ [self] (document, error) in
@@ -134,3 +134,137 @@ class APIs{
         }
     }
 }
+
+
+
+
+//let array: [String] =
+//["Boar",
+//"Koala",
+//"Snake",
+//"Frog",
+//"Parrot",
+//"Lion",
+//"Pig",
+//"Rhino",
+//"Sloth",
+//"Horse",
+//"Sheep",
+//"Chameleon",
+//"Giraffe",
+//"Yak",
+//"Cat",
+//"Dog",
+//"Penguin",
+//"Elephant",
+//"Fox",
+//"Otter",
+//"Gorilla",
+//"Rabbit",
+//"Raccoon",
+//"Wolf",
+//"Panda",
+//"Goat",
+//"Chicken",
+//"Duck",
+//"Cow",
+//"Ray",
+//"Catfish",
+//"Ladybug",
+//"Dragonfly",
+//"Owl",
+//"Beaver",
+//"Alpaca",
+//"Mouse",
+//"Walrus",
+//"Kangaroo",
+//"Butterfly",
+//"Jellyfish",
+//"Deer",
+//"Beetle",
+//"Tiger",
+//"Pigeon",
+//"Bearded_Dragon",
+//"Bat",
+//"Hippo",
+//"Crocodile",
+//"Monkey"]
+//
+//let array2: [String] = [
+//    "Sturdy",
+//        "Loud",
+//        "Delicious",
+//        "Decorous",
+//        "Pricey",
+//        "Knowing",
+//        "Scientific",
+//        "Lazy",
+//        "Fair",
+//        "Loutish",
+//        "Wonderful",
+//        "Strict",
+//        "Gaudy",
+//        "Innocent",
+//        "Horrible",
+//        "Puzzled",
+//        "Happy",
+//        "Grandiose",
+//        "Observant",
+//        "Pumped",
+//        "Pale",
+//        "Royal",
+//        "Flawless",
+//        "Actual",
+//        "Realistic",
+//        "Cynical",
+//        "Clean",
+//        "Strict",
+//        "Super",
+//        "Powerful",
+//        "Mixed",
+//        "Slim",
+//        "Ubiquitous",
+//        "Faithful",
+//        "Amusing",
+//        "Emotional",
+//        "Staking",
+//        "Former",
+//        "Scarce",
+//        "Tense",
+//        "Black-and-white",
+//        "Tangy",
+//        "Wrong",
+//        "Sloppy",
+//        "Regular",
+//        "Deafening",
+//        "Savory",
+//        "Classy",
+//        "First",
+//        "Second",
+//        "Third",
+//        "Valuable",
+//        "Outgoing",
+//        "Free",
+//        "Terrific",
+//        "Sleepy",
+//        "Adorable",
+//        "Cozy"]
+//
+//
+//let arrayBool = Array(repeating: false, count: 101)
+//
+//for i in stride(from: 0, to: array.count, by: 1) {
+//
+//    //Firestore.firestore().collection("Nicknames").document(array[i]).setData(["Cozy" : arrayBool])
+//
+//    print("PRINTING \(i): \(array[i])")
+//
+//    for j in stride(from: 0, to: array2.count, by: 1) {
+//
+//        Firestore.firestore().collection("Nicknames").document(array[i]).updateData([array2[j] : arrayBool])
+//
+//        print("PRINTING \(j): \(array2[j])")
+//
+//    }
+//
+//}

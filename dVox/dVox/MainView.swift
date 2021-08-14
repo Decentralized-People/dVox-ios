@@ -143,7 +143,6 @@ struct MainView: View {
     @State var selection: Int = 0
     
     var body: some View {
-        NavigationView {
             
             ZStack{
                        Color("BlackColor")
@@ -218,7 +217,6 @@ struct MainView: View {
                         ,alignment: .bottom) // Align the overlay to bottom to
                 }
             }
-        }
     }
     
     struct EdgeBorder: Shape {

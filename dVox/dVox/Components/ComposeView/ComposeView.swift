@@ -104,7 +104,7 @@ struct ComposeView: View {
                                 self.hashtag_attempts += hashtagShake();
                             }
                             print(hashtag_attempts)
-                            createPost();
+                           // createPost();
                         })
                         {
                             (Text("Create Post")
@@ -121,6 +121,7 @@ struct ComposeView: View {
                 .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
             }
         }
+        .navigationBarHidden(true)
     }
     
     struct ComposeView_Previews: PreviewProvider {
