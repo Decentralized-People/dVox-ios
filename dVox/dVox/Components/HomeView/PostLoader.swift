@@ -1,5 +1,5 @@
 //
-//  SourceOfTruth.swift
+//  PostLoader.swift
 //  dVox
 //
 //  Created by Aleksandr Molchagin on 8/13/21.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class SourceOfTruth: ObservableObject {
+class PostLoader: ObservableObject  {
     
     @Published var allPosts_ = [Post]()
     

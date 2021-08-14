@@ -20,7 +20,7 @@ struct HomeView: View {
         Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", votes: -1),
     ]
     
-    @ObservedObject var sot = SourceOfTruth()
+    @ObservedObject var pt = PostLoader()
     @State var nextIndex: Int
     
     var numberOfPostsToLoad = 6
@@ -28,7 +28,7 @@ struct HomeView: View {
     init(_apis: APIs){
         nextIndex = 1
         apis = _apis
-        sot.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
+        pt.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
     }
 
     var body: some View {
@@ -43,7 +43,7 @@ struct HomeView: View {
                     
                     ScrollView {
                         LazyVStack{
-                            ForEach(sot.allPosts_.indices, id: \.self) { index in
+                            ForEach(pt.allPosts_.indices, id: \.self) { index in
                                 let post = sot.allPosts_[index]
                                 CardRow(eachPost: post)
                                     .onAppear{
