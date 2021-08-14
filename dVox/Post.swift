@@ -16,7 +16,9 @@ class Post: Identifiable {
     var author: String
     var message: String
     var hastag: String
-    var votes: Int
+    var upVotes: Int
+    var downVotes: Int
+    var commentsNumber: Int
     var ban: Bool
     
     init(id: Int, title: String, author: String, message: String, hastag: String, votes: Int) {
@@ -25,7 +27,9 @@ class Post: Identifiable {
         self.author = author
         self.message = message
         self.hastag = hastag
-        self.votes = 0
+        self.upVotes = 0
+        self.downVotes = 0
+        self.commentsNumber = 0
         self.ban = false
     }
 }

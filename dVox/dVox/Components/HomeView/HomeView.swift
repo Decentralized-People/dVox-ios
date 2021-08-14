@@ -107,7 +107,7 @@ struct HomeView: View {
                         .frame(alignment: .leading)
                         .padding([.leading, .bottom], 20)
                          
-                        Text(String(eachPost.votes))
+                        Text(String(eachPost.upVotes))
                             .font(.custom("Montserrat-Bold", size: 14))
                             .frame( alignment: .leading)
                             .padding([.bottom ], 20)
@@ -127,7 +127,7 @@ struct HomeView: View {
                         .padding([.bottom ], 20)
 
                         
-                        Text(String(eachPost.votes))
+                        Text(String(eachPost.downVotes))
                             .font(.custom("Montserrat-Bold", size: 14))
                             .frame( alignment: .leading)
                             .padding([.bottom ], 20)
@@ -146,7 +146,7 @@ struct HomeView: View {
                         .frame(alignment: .leading)
                         .padding([.bottom], 20)
                         
-                        Text(String(eachPost.votes))
+                        Text(String(eachPost.commentsNumber))
                             .font(.custom("Montserrat-Bold", size: 14))
                             .frame( alignment: .leading)
                             .padding([.bottom ], 20)

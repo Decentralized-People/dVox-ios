@@ -97,7 +97,7 @@ class SmartContract{
     
     func getPost(id: Int) -> Post {
         
-        var post = Post(id: id, title: "", author: "", message: "", hastag: "", votes: 0);
+        let post = Post(id: id, title: "", author: "", message: "", hastag: "", votes: 0);
         
         let transaction = contract.read("posts", parameters: [BigUInt(id)] as [AnyObject], transactionOptions: transactionOptions);
         do {
@@ -107,27 +107,55 @@ class SmartContract{
             post.author = result?["author"] as! String
             post.message = result?["message"] as! String
             post.hastag = result?["hashtag"] as! String
-            post.votes = Int(result?["upVotes"] as! BigInt)
+            post.upVotes = Int(result?["upVotes"] as! BigInt)
+            post.downVotes = Int(result?["downVotes"] as! BigInt)
+            post.commentsNumber = Int(result?["commentCount"] as! BigUInt)
+            post.ban = result?["ban"] as! Bool
             
         } catch {
                 print(error.localizedDescription)
         }
         return post
     }
-   
-    func addVote(id: Int, vote: Int){
-        if vote == -1 || vote == 1 {
-            let transaction = contract.write("addVote", parameters: [BigUInt(id), BigInt(vote)] as [AnyObject], transactionOptions: transactionOptions);
-
-            do {
-                let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
-                print("Vote added!" , result ?? "Error")
-            } catch {
-                    print(error.localizedDescription)
-            }
+    
+    func upVote(id: Int){
+        let transaction = contract.write("upVote", parameters: [BigUInt(id), BigInt(1)] as [AnyObject], transactionOptions: transactionOptions);
+        do {
+            let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
+            print("Vote added!" , result ?? "Error")
+        } catch {
+                print(error.localizedDescription)
         }
     }
-
+    
+    func downVote(id: Int){
+        let transaction = contract.write("downVote", parameters: [BigUInt(id), BigInt(-1)] as [AnyObject], transactionOptions: transactionOptions);
+        do {
+            let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
+            print("Vote added!" , result ?? "Error")
+        } catch {
+                print(error.localizedDescription)
+        }
+    }
+    
+    func getComment(postId: Int, commentId: Int) -> Comment {
+        
+        let comment = Comment(id: -1, author: "", message: "")
+        
+        let transaction = contract.read("getComment", parameters: [BigUInt(postId), BigUInt(commentId)] as [AnyObject], transactionOptions: transactionOptions);
+        do {
+            let result = try transaction?.call(transactionOptions: transactionOptions)
+            
+            comment.id = Int(result?["commentID"] as! BigUInt)
+            comment.author = result?["commentAuthor"] as! String
+            comment.message = result?["commentMessage"] as! String
+            
+        } catch {
+                print(error.localizedDescription)
+        }
+        return comment
+    }
+    
     func createPost(title: String, author: String, message: String, hashtag: String){
         let transaction = contract.write("createPost", parameters: [title, author, message, hashtag] as [AnyObject], transactionOptions: transactionOptions);
         do {
