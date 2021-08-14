@@ -107,8 +107,8 @@ class SmartContract{
             post.author = result?["author"] as! String
             post.message = result?["message"] as! String
             post.hastag = result?["hashtag"] as! String
-            post.upVotes = Int(result?["upVotes"] as! BigInt)
-            post.downVotes = Int(result?["downVotes"] as! BigInt)
+            post.upVotes = Int(result?["upVotes"] as! BigUInt)
+            post.downVotes = Int(result?["downVotes"] as! BigUInt)
             post.commentsNumber = Int(result?["commentCount"] as! BigUInt)
             post.ban = result?["ban"] as! Bool
             
@@ -129,7 +129,7 @@ class SmartContract{
     }
     
     func downVote(id: Int){
-        let transaction = contract.write("downVote", parameters: [BigUInt(id), BigInt(-1)] as [AnyObject], transactionOptions: transactionOptions);
+        let transaction = contract.write("downVote", parameters: [BigUInt(id), BigInt(1)] as [AnyObject], transactionOptions: transactionOptions);
         do {
             let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
             print("Vote added!" , result ?? "Error")
