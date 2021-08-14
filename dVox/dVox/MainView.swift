@@ -10,118 +10,11 @@ import SwiftUI
 import UIKit
 import MessageUI
 
+import NavigationStack
 
 //var contract = SmartContract();
 
-var adjectives = [String](arrayLiteral: "Sturdy",
-                    "Loud",
-                    "Delicious",
-                    "Decorous",
-                    "Pricey",
-                    "Knowing",
-                    "Scientific",
-                    "Lazy",
-                    "Fair",
-                    "Loutish",
-                    "Wonderful",
-                    "Strict",
-                    "Gaudy",
-                    "Innocent",
-                    "Horrible",
-                    "Puzzled",
-                    "Homeless",
-                    "Happy",
-                    "Grandiose",
-                    "Observant",
-                    "Pumped",
-                    "Pale",
-                    "Royal",
-                    "Flawless",
-                    "Actual",
-                    "Realistic",
-                    "Cynical",
-                    "Clean",
-                    "Strict",
-                    "Super",
-                    "Powerful",
-                    "Mixed",
-                    "Slim",
-                    "Ubiquitous",
-                    "Faithful",
-                    "Amusing",
-                    "Emotional",
-                    "Staking",
-                    "Former",
-                    "Scarce",
-                    "Tense",
-                    "Black-and-white",
-                    "Tangy",
-                    "Wrong",
-                    "Sloppy",
-                    "Regular",
-                    "Deafening",
-                    "Savory",
-                    "Sturdy",
-                    "Classy",
-                    "Third",
-                    "Valuable",
-                    "Outgoing",
-                    "Free",
-                    "Terrific",
-                    "Sleepy",
-                    "Adorable",
-                    "Cozy")
-
-var animals = [String](arrayLiteral: "Boar",
-                   "Koala",
-                   "Snake",
-                   "Frog",
-                   "Parrot",
-                   "Lion",
-                   "Pig",
-                   "Rhino",
-                   "Sloth",
-                   "Horse",
-                   "Sheep",
-                   "Chameleon",
-                   "Giraffe",
-                   "Yak",
-                   "Cat",
-                   "Dog",
-                   "Penguin",
-                   "Elephant",
-                   "Fox",
-                   "Otter",
-                   "Gorilla",
-                   "Rabbit",
-                   "Raccoon",
-                   "Wolf",
-                   "Panda",
-                   "Goat",
-                   "Chicken",
-                   "Duck",
-                   "Cow",
-                   "Ray",
-                   "Catfish",
-                   "Ladybug",
-                   "Dragonfly",
-                   "Owl",
-                   "Beaver",
-                   "Alpaca",
-                   "Mouse",
-                   "Walrus",
-                   "Kangaroo",
-                   "Butterfly",
-                   "Jellyfish",
-                   "Deer",
-                   "Beetle",
-                   "Tiger",
-                   "Pigeon",
-                   "Bearded dragon",
-                   "Bat",
-                   "Hippo",
-                   "Crocodile",
-                   "Monkey")
+        
 
 
 struct MainView_Previews: PreviewProvider {
@@ -143,80 +36,81 @@ struct MainView: View {
     @State var selection: Int = 0
     
     var body: some View {
-            
+        NavigationStackView(transitionType: .custom(.move(edge: .trailing))){
             ZStack{
-                       Color("BlackColor")
-                           .ignoresSafeArea()
-                       
-                       VStack{
-                           Color("BlackColor")
-                               .edgesIgnoringSafeArea(.vertical)
-                               .frame(height: 0)
-                       
-                           TabView(selection: $selection) {
-                               HomeView(_apis: apis)
-                                   .tag(0)
-                                  
-                               ComposeView(_apis: apis)
-                                   .tag(1)
-                                   .padding(.horizontal, 10)
-                                   .padding(.bottom, 20)
-                                   .background(Color("BlackColor"))
-                                   
-                               ProfileView()
-                                   .tag(2)
-                           }}
-                           .overlay( // Overlay the custom TabView component here
-                                       Color("WhiteColor") // Base color for Tab Bar
-                                           .edgesIgnoringSafeArea(.vertical)
-                                           .frame(height: 50) // Match Height of native bar
-                                           .overlay(EdgeBorder(width: 1  , edges: [.top]).foregroundColor(Color("BlackColor")))                         .overlay(HStack {
-                                               Spacer()
-                                               
-                                               // First Tab Button
-                                               Button(action: {
-                                                   self.selection = 0
-                                               }, label: {
-                                                   Image("fi-rr-home")
-                                                       .resizable()
-                                                       .aspectRatio(contentMode: .fit)
-                                                       .frame(width: 25, height: 25, alignment: .center)
-                                                       .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
-                                                       .opacity(selection == 0 ? 1 : 0.4)
-                                               })
-                                               Spacer()
-                                               
-                                               // Second Tab Button
-                                               Button(action: {
-                                                   self.selection = 1
-                                               }, label: {
-                                                   Image("fi-rr-add")
-                                                       .resizable()
-                                                       .aspectRatio(contentMode: .fit)
-                                                       .frame(width: 25, height: 25, alignment: .center)
-                                                       .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
-                                                       .opacity(selection == 1 ? 1 : 0.4)
-                                               })
-                                               
-                                               Spacer()
-                                               
-                                               // Third Tab Button
-                                               Button(action: {
-                                                   self.selection = 2
-                                               }, label: {
-                                                   Image("fi-rr-user")
-                                                       .resizable()
-                                                       .aspectRatio(contentMode: .fit)
-                                                       .frame(width: 25, height: 25, alignment: .center)
-                                                       .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
-                                            .opacity(selection == 2 ? 1 : 0.4)
-                                    })
-                                    Spacer()
-                                    
-                                })
-                        ,alignment: .bottom) // Align the overlay to bottom to
+                
+               Color("BlackColor")
+                   .ignoresSafeArea()
+               
+               VStack{
+                   Color("BlackColor")
+                       .edgesIgnoringSafeArea(.vertical)
+                       .frame(height: 0)
+               
+                   TabView(selection: $selection) {
+                       HomeView(_apis: apis)
+                           .tag(0)
+                          
+                       ComposeView(_apis: apis)
+                           .tag(1)
+                           .padding(.horizontal, 10)
+                           .padding(.bottom, 20)
+                           .background(Color("BlackColor"))
+                           
+                       ProfileView()
+                           .tag(2)
+                   }}
+                   .overlay( // Overlay the custom TabView component here
+                               Color("WhiteColor") // Base color for Tab Bar
+                                   .edgesIgnoringSafeArea(.vertical)
+                                   .frame(height: 50) // Match Height of native bar
+                                   .overlay(EdgeBorder(width: 1  , edges: [.top]).foregroundColor(Color("BlackColor")))                         .overlay(HStack {
+                                       Spacer()
+                                       
+                                       // First Tab Button
+                                       Button(action: {
+                                           self.selection = 0
+                                       }, label: {
+                                           Image("fi-rr-home")
+                                               .resizable()
+                                               .aspectRatio(contentMode: .fit)
+                                               .frame(width: 25, height: 25, alignment: .center)
+                                               .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
+                                               .opacity(selection == 0 ? 1 : 0.4)
+                                       })
+                                       Spacer()
+                                       
+                                       // Second Tab Button
+                                       Button(action: {
+                                           self.selection = 1
+                                       }, label: {
+                                           Image("fi-rr-add")
+                                               .resizable()
+                                               .aspectRatio(contentMode: .fit)
+                                               .frame(width: 25, height: 25, alignment: .center)
+                                               .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
+                                               .opacity(selection == 1 ? 1 : 0.4)
+                                       })
+                                       
+                                       Spacer()
+                                       
+                                       // Third Tab Button
+                                       Button(action: {
+                                           self.selection = 2
+                                       }, label: {
+                                           Image("fi-rr-user")
+                                               .resizable()
+                                               .aspectRatio(contentMode: .fit)
+                                               .frame(width: 25, height: 25, alignment: .center)
+                                               .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
+                                    .opacity(selection == 2 ? 1 : 0.4)
+                            })
+                            Spacer()
+                        }) ,alignment: .bottom)
+                
                 }
             }
+        }
     }
     
     struct EdgeBorder: Shape {
@@ -260,14 +154,14 @@ struct MainView: View {
         }
     }
     
-    func randomNameGenerator() -> String {
-        
-        let randomAdjective = Int.random(in: 0..<adjectives.count)
-        let randomAnimal = Int.random(in: 0..<animals.count)
-        
-        let randomName = adjectives[randomAdjective] + " " + animals[randomAnimal]
-        
-        return randomName
-    }
+//    func randomNameGenerator() -> String {
+//
+//        let randomAdjective = Int.random(in: 0..<adjectives.count)
+//        let randomAnimal = Int.random(in: 0..<animals.count)
+//
+//        let randomName = adjectives[randomAdjective] + " " + animals[randomAnimal]
+//
+//        return randomName
+//    }
 
 

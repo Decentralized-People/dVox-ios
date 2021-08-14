@@ -1,4 +1,4 @@
-platform :ios, '12.0'
+platform :ios, '13.0'
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'dVox' do
@@ -10,5 +10,7 @@ target 'dVox' do
    pod 'Firebase/Firestore'
    pod 'Firebase/Crashlytics'
    pod 'Firebase/DynamicLinks'
+
+   pod 'NavigationStack'
    
 end

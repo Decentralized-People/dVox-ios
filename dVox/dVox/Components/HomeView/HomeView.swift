@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
       
+import NavigationStack
 
 struct HomeView: View {
     
@@ -20,7 +21,7 @@ struct HomeView: View {
     
     //@ObservedObject var loader = PostLoader()
     @State var nextIndex: Int
-    
+
     var numberOfPostsToLoad = 6
     
     init(_apis: APIs){
@@ -63,6 +64,8 @@ struct HomeView: View {
 
     struct CardRow: View {
         var eachPost: Post
+        @State private var isActive = false
+        
         var body: some View {
 
             ZStack{
@@ -94,8 +97,9 @@ struct HomeView: View {
                     }
                     .padding(.horizontal, 20.0)
                     HStack{
+                        
                         Button(action: {
-                            
+
                         })
                         {
                             Image("fi-rr-thumbs-up")
@@ -132,19 +136,21 @@ struct HomeView: View {
                             .frame( alignment: .leading)
                             .padding([.bottom ], 20)
                         
+                        PushView(destination: CommentView(), isActive: $isActive) {
+                            
+                            
                             Button(action: {
-                                
+                                self.isActive.toggle()
                             })
                             {
-                                NavigationLink(destination: CommentView(), label: {
-                                    Image("fi-rr-comment")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 20)
-                                        .padding([.leading], 5)
-                                })
-
+                                Image("fi-rr-comment")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20)
+                                    .padding([.leading], 5)
                             }
+                        }
+                            
                         
                         .frame(alignment: .leading)
                         .padding([.bottom], 20)
