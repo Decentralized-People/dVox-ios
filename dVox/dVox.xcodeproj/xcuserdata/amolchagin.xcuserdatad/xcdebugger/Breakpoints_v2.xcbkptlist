@@ -34,38 +34,6 @@
             endingLineNumber = "189"
             landmarkName = "googleLogin(email:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "5AB6FEB0-F0E0-4943-AC44-1B99EB424344 - 9c2925c749eb6baf"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in dVox.LoginView.googleLogin(email: Swift.String) -&gt; ()"
-                  moduleName = "dVox"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/amolchagin/Desktop/Projects/projectDIES-ios/dVox/dVox/LoginView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "177"
-                  endingLineNumber = "177"
-                  offsetFromSymbolStart = "28">
-               </Location>
-               <Location
-                  uuid = "5AB6FEB0-F0E0-4943-AC44-1B99EB424344 - b77cfae9375fd2c7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "function signature specialization &lt;Arg[1] = Dead&gt; of dVox.LoginView.googleLogin(email: Swift.String) -&gt; ()"
-                  moduleName = "dVox"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/amolchagin/Desktop/Projects/projectDIES-ios/dVox/dVox/LoginView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "176"
-                  endingLineNumber = "176"
-                  offsetFromSymbolStart = "484">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

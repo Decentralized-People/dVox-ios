@@ -14,6 +14,19 @@ struct ComposeView: View {
     @State var hashtag = ""
     @State var message = ""
     
+    
+    @State var title_shake: Bool = false
+    @State var hashtag_shake: Bool = false
+    @State var message_shake: Bool = false
+    
+    @State var title_attempts: Int = 0
+    @State var hashtag_attempts: Int = 0
+    @State var message_attempts: Int = 0
+    
+    @State var placeholderText = "Let's voice your thoughts?"
+    
+    @State private var wordCount: Int = 0
+    
     var apis: APIs
     
     init(_apis: APIs){
@@ -31,29 +44,90 @@ struct ComposeView: View {
                     Color("WhiteColor")
 
                     VStack{
-                    
-                        TextField("Title", text: $title)
-                        TextField("Hashtag", text: $hashtag)
-                        TextField("Message", text: $message)
+                        HStack{
+                            Image("003-snake")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 45)
+                                .padding([.trailing], 10)
+                                
+                            VStack{
+                                TextField("Enter your title", text: $title)
+                                    .font(.custom("Montserrat-Bold", size: 20))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .modifier(Shake(animatableData: CGFloat(title_attempts)))
+                                
+                                Text("@Anonymose_snake95")
+                                    .font(.custom("Montserrat", size: 14))
+
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
                         
-                        Spacer()
+                        ZStack {
+                            if self.message.isEmpty {
+                                TextEditor(text: $placeholderText)
+                                    .font(.custom("Montserrat", size: 18))
+                                    .foregroundColor(.gray)
+                                    .disabled(true)
+                            }
+                            TextEditor(text: $message)
+                                .font(.body)
+                                .opacity(self.message.isEmpty ? 0.25 : 1)
+                                .font(.custom("Montserrat", size: 15))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .onChange(of: message) { value in
+                                    let words = message.split { $0 == " " || $0.isNewline }
+                                    self.wordCount = words.count
+                                }
+                        }
+                        .padding(.vertical, 20)
+                        .modifier(Shake(animatableData: CGFloat(message_attempts)))
+
+                        HStack{
+                            
+                            Text("\(wordCount) words")
+                                .font(.custom("Montserrat-Bold", size: 15))
+                                .frame(alignment: .leading)
+                                .padding(.leading, 10)
+
+                            
+                            
+                        
+                            TextField("#hashtag?", text: $hashtag)
+                                .font(.custom("Montserrat-Bold", size: 15))
+                                .multilineTextAlignment(.trailing)
+                                .padding(.trailing, 10)
+                                .modifier(Shake(animatableData: CGFloat(hashtag_attempts)))
+                        
+                                
+                        }
                         
                         Button(action: {
-                            //Create Post
+                            withAnimation(.default) {
+                                self.title_attempts += titleShake()
+                                self.message_attempts += messageShake()
+                                self.hashtag_attempts += hashtagShake();
+                            }
+                            print(hashtag_attempts)
                             createPost();
-                            
+
                             
                         })
                         {
-                            Text("Create Post")
-                                .frame(width: 250, height: 50, alignment: .center)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
+                        
+                            (Text("Create Post")
+                                .padding([.leading, .bottom, .trailing], 20))
+                                .foregroundColor(Color("BlackColor"))
+                                .font(.custom("Montserrat-Bold", size: 20))
+                                .minimumScaleFactor(0.01)
+                                .lineLimit(3)
+                                .padding(.top, 20)
                         }
+                        
                     }
                 }
-                .padding([.top, .leading, .trailing], 20)
+                .padding(20)
                 .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
               
 
@@ -70,7 +144,30 @@ struct ComposeView: View {
          
     
     
+    func hashtagShake() -> Int{
+        if hashtag == ""{
+            return 1
+        }
+        return 0
+    }
+    
+    func titleShake() -> Int{
+        if title == ""{
+            return 1
+        }
+        return 0
+    }
+    
+    func messageShake() -> Int{
+        if message == "" {
+            return 1
+        }
+        return 0
+    }
+    
+    
     func createPost() {
+        if title != "" && message != "" && hashtag != "" {
          Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { timer in
             let add = apis.retriveKey(for: "ContractAddress") ?? "error"
             let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
@@ -81,7 +178,21 @@ struct ComposeView: View {
                  contract.createPost(title: title, author: "Aleksandr", message: message, hashtag: hashtag)
                  timer.invalidate()
              }
-         }
+            }
+        }
+    }
+    
+    //https://www.objc.io/blog/2019/10/01/swiftui-shake-animation/
+    struct Shake: GeometryEffect {
+        var amount: CGFloat = 10
+        var shakesPerUnit = 3
+        var animatableData: CGFloat
+
+        func effectValue(size: CGSize) -> ProjectionTransform {
+            ProjectionTransform(CGAffineTransform(translationX:
+                amount * sin(animatableData * .pi * CGFloat(shakesPerUnit)),
+                y: 0))
+        }
     }
     
     struct RoundedCorners: Shape {

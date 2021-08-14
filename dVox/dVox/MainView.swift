@@ -161,7 +161,8 @@ struct MainView: View {
                        
                     ComposeView(_apis: apis)
                         .tag(1)
-                        .padding(10)
+                        .padding(.horizontal, 10)
+                        .padding(.bottom, 20)
                         .background(Color("BlackColor"))
                         
                     ProfileView()
