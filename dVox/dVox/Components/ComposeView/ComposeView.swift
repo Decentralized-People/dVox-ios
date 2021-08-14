@@ -59,7 +59,6 @@ struct ComposeView: View {
                                 
                                 Text("@Anonymose_snake95")
                                     .font(.custom("Montserrat", size: 14))
-
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
                         }
@@ -90,17 +89,12 @@ struct ComposeView: View {
                                 .font(.custom("Montserrat-Bold", size: 15))
                                 .frame(alignment: .leading)
                                 .padding(.leading, 10)
-
-                            
-                            
                         
                             TextField("#hashtag?", text: $hashtag)
                                 .font(.custom("Montserrat-Bold", size: 15))
                                 .multilineTextAlignment(.trailing)
                                 .padding(.trailing, 10)
                                 .modifier(Shake(animatableData: CGFloat(hashtag_attempts)))
-                        
-                                
                         }
                         
                         Button(action: {
@@ -111,11 +105,8 @@ struct ComposeView: View {
                             }
                             print(hashtag_attempts)
                             createPost();
-
-                            
                         })
                         {
-                        
                             (Text("Create Post")
                                 .padding([.leading, .bottom, .trailing], 20))
                                 .foregroundColor(Color("BlackColor"))
@@ -124,13 +115,10 @@ struct ComposeView: View {
                                 .lineLimit(3)
                                 .padding(.top, 20)
                         }
-                        
                     }
                 }
                 .padding(20)
                 .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
-              
-
             }
         }
     }
@@ -176,6 +164,9 @@ struct ComposeView: View {
              if (add != "error" && inf != "error" && cre != "error") {
                  let contract = SmartContract(credentials: cre, infura: inf, address: add)
                  contract.createPost(title: title, author: "Aleksandr", message: message, hashtag: hashtag)
+                 title = ""
+                 message = ""
+                 hashtag = ""
                  timer.invalidate()
              }
             }

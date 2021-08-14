@@ -153,8 +153,6 @@ struct MainView: View {
                     .edgesIgnoringSafeArea(.vertical)
                     .frame(height: 0)
             
-
-                
                 TabView(selection: $selection) {
                     HomeView(_apis: apis)
                         .tag(0)
@@ -222,17 +220,6 @@ struct MainView: View {
         }
     }
     
-    
-    
-    struct ProfileView: View {
-        var body: some View {
-            NavigationView {
-                VStack {
-                    
-                }
-            }
-        }
-    }
     struct EdgeBorder: Shape {
 
         var width: CGFloat
