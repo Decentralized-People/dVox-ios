@@ -16,23 +16,23 @@ struct HomeView: View {
     var apis: APIs
     
     var posts = [
-        Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", votes: -1),
-        Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", votes: -1),
+        Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", upVotes: 10, downVotes: 4, commentsNumber: 7, ban: false),
+        Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false),
     ]
     
-    @ObservedObject var loader = PostLoader()
+    //@ObservedObject var loader = PostLoader()
     @State var nextIndex: Int
-    
+    g
     var numberOfPostsToLoad = 6
     
     init(_apis: APIs){
         nextIndex = 1
         apis = _apis
-        loader.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
+        //loader.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
     }
 
     var body: some View {
-        
+
             ZStack {
                 Color("BlackColor")
                     .ignoresSafeArea()
@@ -43,14 +43,14 @@ struct HomeView: View {
                     
                     ScrollView {
                         LazyVStack{
-                            ForEach(loader.allPosts_.indices, id: \.self) { index in
-                                let post = loader.allPosts_[index]
+                            ForEach(posts.indices, id: \.self) { index in
+                                let post = posts[index]
                                 CardRow(eachPost: post)
                                     .onAppear{
                                         print("Index \(index), nTl \(numberOfPostsToLoad)")
                                         if index == (numberOfPostsToLoad*nextIndex) - 2{
 
-                                            loader.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
+                                            //loader.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
                                             nextIndex += 1
                                         }
                                     }
@@ -59,12 +59,14 @@ struct HomeView: View {
                         }
                     }
                 }
-            }
+                .navigationBarHidden(true)
+        }
     }
 
     struct CardRow: View {
         var eachPost: Post
         var body: some View {
+
             ZStack{
                 
                 VStack{
@@ -132,16 +134,19 @@ struct HomeView: View {
                             .frame( alignment: .leading)
                             .padding([.bottom ], 20)
                         
-                        Button(action: {
-                            
-                        })
-                        {
-                            Image("fi-rr-comment")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 20)
-                                .padding([.leading], 5)
-                        }
+                            Button(action: {
+                                
+                            })
+                            {
+                                NavigationLink(destination: CommentView(), label: {
+                                    Image("fi-rr-comment")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 20)
+                                        .padding([.leading], 5)
+                                })
+
+                            }
                         
                         .frame(alignment: .leading)
                         .padding([.bottom], 20)
@@ -166,6 +171,7 @@ struct HomeView: View {
 
             }
         }
+
         
     struct HomeView_Previews: PreviewProvider {
             static var previews: some View {

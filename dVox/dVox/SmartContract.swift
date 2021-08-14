@@ -97,7 +97,7 @@ class SmartContract{
     
     func getPost(id: Int) -> Post {
         
-        let post = Post(id: id, title: "", author: "", message: "", hastag: "", votes: 0);
+        let post = Post(id: id, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false);
         
         let transaction = contract.read("posts", parameters: [BigUInt(id)] as [AnyObject], transactionOptions: transactionOptions);
         do {

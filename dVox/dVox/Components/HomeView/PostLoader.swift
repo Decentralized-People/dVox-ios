@@ -45,7 +45,7 @@ class PostLoader: ObservableObject  {
                      if postCount > 0 {
                          for i in stride(from: postCount, to: postCount - numberOfPosts, by: -1) {
                              if i > 0 {
-                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", votes: -999)
+                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false)
                                  Post = contract.getPost(id: i)
                                 
                                  /// Update UI at the main thread

@@ -21,15 +21,15 @@ class Post: Identifiable {
     var commentsNumber: Int
     var ban: Bool
     
-    init(id: Int, title: String, author: String, message: String, hastag: String, votes: Int) {
+    init(id: Int, title: String, author: String, message: String, hastag: String, upVotes: Int, downVotes: Int, commentsNumber: Int, ban: Bool) {
         self.id = id
         self.title = title
         self.author = author
         self.message = message
         self.hastag = hastag
-        self.upVotes = 0
-        self.downVotes = 0
-        self.commentsNumber = 0
-        self.ban = false
+        self.upVotes = upVotes
+        self.downVotes = downVotes
+        self.commentsNumber = commentsNumber
+        self.ban = ban
     }
 }

@@ -16,6 +16,7 @@
 		8B16CBEC26C73EAB0072DA3F /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B16CBEB26C73EAB0072DA3F /* Comment.swift */; };
 		8B1B9B9426C5CBE400089C83 /* PostLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B9B9326C5CBE400089C83 /* PostLoader.swift */; };
 		8B3B2E1526A5E13D001224F6 /* PostContract.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B3B2E1426A5E13D001224F6 /* PostContract.json */; };
+		8B5B590926C80F36008D4114 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5B590826C80F36008D4114 /* CommentView.swift */; };
 		8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B65B70626A5D7B50040E559 /* SmartContract.swift */; };
 		8B6C722D26951D4D004A34A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C722C26951D4D004A34A3 /* AppDelegate.swift */; };
 		8B6C722F26951D4D004A34A3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C722E26951D4D004A34A3 /* SceneDelegate.swift */; };
@@ -42,6 +43,7 @@
 		8B16CBEB26C73EAB0072DA3F /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		8B1B9B9326C5CBE400089C83 /* PostLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLoader.swift; sourceTree = "<group>"; };
 		8B3B2E1426A5E13D001224F6 /* PostContract.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PostContract.json; sourceTree = "<group>"; };
+		8B5B590826C80F36008D4114 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		8B65B70626A5D7B50040E559 /* SmartContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartContract.swift; sourceTree = "<group>"; };
 		8B6C722926951D4D004A34A3 /* dVox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dVox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B6C722C26951D4D004A34A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			children = (
 				28E24F2926B9B6F40092EA14 /* HomeView.swift */,
 				8B1B9B9326C5CBE400089C83 /* PostLoader.swift */,
+				8B5B590826C80F36008D4114 /* CommentView.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B6C722D26951D4D004A34A3 /* AppDelegate.swift in Sources */,
+				8B5B590926C80F36008D4114 /* CommentView.swift in Sources */,
 				8B16CBEC26C73EAB0072DA3F /* Comment.swift in Sources */,
 				28E24F2C26B9B8330092EA14 /* ComposeView.swift in Sources */,
 				28E24F2A26B9B6F40092EA14 /* HomeView.swift in Sources */,
