@@ -81,13 +81,16 @@ struct CommentView: View {
                         Divider()
                         
                         HStack{
+                            
                             VStack{
-                                
+                                                                
                                 TextField("Comment as @Lazy_snake_1", text: $comment)
+                                    .accentColor(Color("BlackColor"))
                                     .font(.custom("Montserrat", size: 15))
                                     .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.top, 15)
                                     .padding(.leading, 5)
-                                
+
                             }
                             
                             Button(action: {
@@ -96,14 +99,12 @@ struct CommentView: View {
                                 Text("Post")
                                     .foregroundColor(Color("BlackColor"))
                                     .padding(.trailing, 5)
-
+                                    .padding(.top, 15)
+                                    .frame(alignment: .trailing)
+                                    .font(.custom("Montserrat-Bold", size: 20))
                             }
-                            
                         }
-                        
-                      
                     }
-                    
                 }
                 .padding(.bottom, 30)
                 .padding(.top, 30)
@@ -333,7 +334,7 @@ struct CommentView: View {
     
     func addComment(postID: Int) {
         if comment != "" {
-            Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { timer in
+            Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { timer in
                 let add = apis.retriveKey(for: "ContractAddress") ?? "error"
                 let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
                 let cre = apis.retriveKey(for: "Credentials") ?? "error"

@@ -14,11 +14,11 @@ struct ProfileView: View {
     
     var body: some View {
         NavigationView {
-        VStack(spacing: 25){
+        VStack(spacing: 25){it
 TextShimmer(text: "Shimmer")
             
         }
-        .preferredColorScheme(.dark)
+        //.preferredColorScheme(.dark)
        
        }
     }

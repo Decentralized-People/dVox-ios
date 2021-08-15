@@ -24,7 +24,7 @@ class CommentLoader: ObservableObject  {
         
         print("Loading more posts...")
         
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { timer in
             
             let add = apis.retriveKey(for: "ContractAddress") ?? "error"
             let inf = apis.retriveKey(for: "InfuraURL") ?? "error"

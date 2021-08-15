@@ -91,6 +91,7 @@ struct ComposeView: View {
                                 .padding(.leading, 10)
                             
                             TextField("#hashtag?", text: $hashtag)
+                                .background(Color("WhiteColor"))
                                 .font(.custom("Montserrat-Bold", size: 15))
                                 .multilineTextAlignment(.trailing)
                                 .padding(.trailing, 10)
