@@ -21,7 +21,7 @@ public enum NavigationTransition {
     public static var defaultTransitions: (push: AnyTransition, pop: AnyTransition) {
         let pushTrans = AnyTransition.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
         let popTrans = AnyTransition.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
-        return (pushTrans, popTrans)
+        return (popTrans, pushTrans)
     }
 }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-      
+
 import NavigationStack
 
 struct HomeView: View {
@@ -21,7 +21,7 @@ struct HomeView: View {
     
     //@ObservedObject var loader = PostLoader()
     @State var nextIndex: Int
-
+    
     var numberOfPostsToLoad = 6
     
     init(_apis: APIs){
@@ -29,45 +29,45 @@ struct HomeView: View {
         apis = _apis
         //loader.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
     }
-
+    
     var body: some View {
-
-            ZStack {
+        
+        ZStack {
+            Color("BlackColor")
+                .ignoresSafeArea()
+            
+            ZStack{
                 Color("BlackColor")
                     .ignoresSafeArea()
                 
-                ZStack{
-                    Color("BlackColor")
-                        .ignoresSafeArea()
-                    
-                    ScrollView {
-                        LazyVStack{
-                            ForEach(posts.indices, id: \.self) { index in
-                                let post = posts[index]
-                                CardRow(eachPost: post)
-                                    .onAppear{
-                                        print("Index \(index), nTl \(numberOfPostsToLoad)")
-                                        if index == (numberOfPostsToLoad*nextIndex) - 2{
-
-                                            //loader.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
-                                            nextIndex += 1
-                                        }
+                ScrollView {
+                    LazyVStack{
+                        ForEach(posts.indices, id: \.self) { index in
+                            let post = posts[index]
+                            CardRow(eachPost: post)
+                                .onAppear{
+                                    print("Index \(index), nTl \(numberOfPostsToLoad)")
+                                    if index == (numberOfPostsToLoad*nextIndex) - 2{
+                                        
+                                        //loader.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
+                                        nextIndex += 1
                                     }
-                            }
-                            .padding([.bottom], 10)
+                                }
                         }
+                        .padding([.bottom], 10)
                     }
                 }
-                .navigationBarHidden(true)
+            }
+            .navigationBarHidden(true)
         }
     }
-
+    
     struct CardRow: View {
         var eachPost: Post
         @State private var isActive = false
         
         var body: some View {
-
+            
             ZStack{
                 
                 VStack{
@@ -77,7 +77,7 @@ struct HomeView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 45)
                             .padding([.trailing], 5)
-                            
+                        
                         VStack{
                             Text(eachPost.title)
                                 .font(.custom("Montserrat-Bold", size: 20))
@@ -85,7 +85,7 @@ struct HomeView: View {
                             
                             Text(eachPost.author)
                                 .font(.custom("Montserrat", size: 14))
-
+                            
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
@@ -99,7 +99,7 @@ struct HomeView: View {
                     HStack{
                         
                         Button(action: {
-
+                            
                         })
                         {
                             Image("fi-rr-thumbs-up")
@@ -110,7 +110,7 @@ struct HomeView: View {
                         }
                         .frame(alignment: .leading)
                         .padding([.leading, .bottom], 20)
-                         
+                        
                         Text(String(eachPost.upVotes))
                             .font(.custom("Montserrat-Bold", size: 14))
                             .frame( alignment: .leading)
@@ -129,7 +129,7 @@ struct HomeView: View {
                         }
                         .frame(alignment: .leading)
                         .padding([.bottom ], 20)
-
+                        
                         
                         Text(String(eachPost.downVotes))
                             .font(.custom("Montserrat-Bold", size: 14))
@@ -150,7 +150,7 @@ struct HomeView: View {
                                     .padding([.leading], 5)
                             }
                         }
-                            
+                        
                         
                         .frame(alignment: .leading)
                         .padding([.bottom], 20)
@@ -165,62 +165,62 @@ struct HomeView: View {
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding([.leading, .bottom, .trailing], 20)
                     }
-    
+                    
                 }
                 
-                    .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
-
-                    .foregroundColor(Color("BlackColor"))
-                    .padding(.horizontal, 10)
-
+                .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+                
+                .foregroundColor(Color("BlackColor"))
+                .padding(.horizontal, 10)
+                
             }
         }
-
         
-    struct HomeView_Previews: PreviewProvider {
+        
+        struct HomeView_Previews: PreviewProvider {
             static var previews: some View {
                 var apis = APIs()
                 HomeView(_apis: apis)
             }
-    }
+        }
+        
+        
+        struct RoundedCorners: Shape {
+            var tl: CGFloat = 0.0
+            var tr: CGFloat = 0.0
+            var bl: CGFloat = 0.0
+            var br: CGFloat = 0.0
             
-    
-    struct RoundedCorners: Shape {
-        var tl: CGFloat = 0.0
-        var tr: CGFloat = 0.0
-        var bl: CGFloat = 0.0
-        var br: CGFloat = 0.0
-
-        func path(in rect: CGRect) -> Path {
-            var path = Path()
-
-            let w = rect.size.width
-            let h = rect.size.height
-
-            // Make sure we do not exceed the size of the rectangle
-            let tr = min(min(self.tr, h/2), w/2)
-            let tl = min(min(self.tl, h/2), w/2)
-            let bl = min(min(self.bl, h/2), w/2)
-            let br = min(min(self.br, h/2), w/2)
-
-            path.move(to: CGPoint(x: w / 2.0, y: 0))
-            path.addLine(to: CGPoint(x: w - tr, y: 0))
-            path.addArc(center: CGPoint(x: w - tr, y: tr), radius: tr,
-                        startAngle: Angle(degrees: -90), endAngle: Angle(degrees: 0), clockwise: false)
-
-            path.addLine(to: CGPoint(x: w, y: h - br))
-            path.addArc(center: CGPoint(x: w - br, y: h - br), radius: br,
-                        startAngle: Angle(degrees: 0), endAngle: Angle(degrees: 90), clockwise: false)
-
-            path.addLine(to: CGPoint(x: bl, y: h))
-            path.addArc(center: CGPoint(x: bl, y: h - bl), radius: bl,
-                        startAngle: Angle(degrees: 90), endAngle: Angle(degrees: 180), clockwise: false)
-
-            path.addLine(to: CGPoint(x: 0, y: tl))
-            path.addArc(center: CGPoint(x: tl, y: tl), radius: tl,
-                        startAngle: Angle(degrees: 180), endAngle: Angle(degrees: 270), clockwise: false)
-
-            return path
+            func path(in rect: CGRect) -> Path {
+                var path = Path()
+                
+                let w = rect.size.width
+                let h = rect.size.height
+                
+                // Make sure we do not exceed the size of the rectangle
+                let tr = min(min(self.tr, h/2), w/2)
+                let tl = min(min(self.tl, h/2), w/2)
+                let bl = min(min(self.bl, h/2), w/2)
+                let br = min(min(self.br, h/2), w/2)
+                
+                path.move(to: CGPoint(x: w / 2.0, y: 0))
+                path.addLine(to: CGPoint(x: w - tr, y: 0))
+                path.addArc(center: CGPoint(x: w - tr, y: tr), radius: tr,
+                            startAngle: Angle(degrees: -90), endAngle: Angle(degrees: 0), clockwise: false)
+                
+                path.addLine(to: CGPoint(x: w, y: h - br))
+                path.addArc(center: CGPoint(x: w - br, y: h - br), radius: br,
+                            startAngle: Angle(degrees: 0), endAngle: Angle(degrees: 90), clockwise: false)
+                
+                path.addLine(to: CGPoint(x: bl, y: h))
+                path.addArc(center: CGPoint(x: bl, y: h - bl), radius: bl,
+                            startAngle: Angle(degrees: 90), endAngle: Angle(degrees: 180), clockwise: false)
+                
+                path.addLine(to: CGPoint(x: 0, y: tl))
+                path.addArc(center: CGPoint(x: tl, y: tl), radius: tl,
+                            startAngle: Angle(degrees: 180), endAngle: Angle(degrees: 270), clockwise: false)
+                
+                return path
             }
         }
     }
