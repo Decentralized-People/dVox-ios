@@ -136,7 +136,7 @@ struct HomeView: View {
                             .frame( alignment: .leading)
                             .padding([.bottom ], 20)
                         
-                        PushView(destination: CommentView(), isActive: $isActive) {
+                        PushView(destination: CommentView(_post: eachPost), isActive: $isActive) {
                             
                             
                             Button(action: {
@@ -176,14 +176,12 @@ struct HomeView: View {
             }
         }
         
-        
         struct HomeView_Previews: PreviewProvider {
             static var previews: some View {
                 var apis = APIs()
                 HomeView(_apis: apis)
             }
         }
-        
         
         struct RoundedCorners: Shape {
             var tl: CGFloat = 0.0

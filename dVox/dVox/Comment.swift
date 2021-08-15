@@ -17,6 +17,6 @@ class Comment: Identifiable {
     init(id: Int, author: String, message: String) {
         self.id = id
         self.author = author
-        self.message = messggage
+        self.message = message
     }
 }

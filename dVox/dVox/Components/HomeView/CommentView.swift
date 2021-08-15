@@ -9,9 +9,29 @@ import SwiftUI
 
 import NavigationStack
 
-
 struct CommentView: View {
     
+    var post: Post
+    
+    var numberOfPostsToLoad = 6
+    
+    @State var comment = ""
+    
+    var comments = [
+        Comment(id: 1, author: "@Lazy_snake_9", message: "Hello brother!"),
+        Comment(id: 1, author: "@Black_and_white_snake_23", message: "I totally agree, but why this or not this?"),
+        Comment(id: 1, author: "@Cozy_snake_85", message: "Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. "),
+        Comment(id: 1, author: "author", message: "message"),
+        Comment(id: 1, author: "author", message: "message"),
+    ]
+    
+    @State var nextIndex: Int
+    
+    init(_post: Post){
+        post = _post
+        nextIndex = 1
+        
+    }
     
     var body: some View {
         
@@ -25,18 +45,242 @@ struct CommentView: View {
                     Color("WhiteColor")
                     
                     VStack{
+                                
+                        CommentPost(_post: post)
+
+                        Divider()
                         
-                        PopView {
+                        ScrollView {
+                            LazyVStack{
+                                ForEach(comments.indices, id: \.self) { index in
+                                    let comment = comments[index]
+                                    //CardRow(eachComment: comment)
+                                    CommentItem(_comment: comment)
+                                        .onAppear{
+                                            print("Index \(index), nTl \(numberOfPostsToLoad)")
+                                            if index == (numberOfPostsToLoad*nextIndex) - 2{
+                                                
+                                                //loader.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
+                                                nextIndex += 1
+                                            }
+                                        }
+                                }
+                                .padding([.bottom], 10)
+                            }
+                        }
+                        
+                        Spacer()
+                        
+                        Divider()
+                        
+                        HStack{
+                            VStack{
+                                
+                                TextField("Comment as @Lazy_snake_1", text: $comment)
+                                    .font(.custom("Montserrat", size: 15))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.leading, 5)
+                                
+                            }
                             
-                            Text("Click me to go back")
+                            Button(action: {}) {
+                                Text("Post")
+                                    .foregroundColor(Color("BlackColor"))
+                                    .padding(.trailing, 5)
+
+                            }
+                            
+                        }
+                        
+                      
+                    }
+                    
+                }
+                .padding(.bottom, 30)
+                .padding(.top, 30)
+                .padding(.horizontal, 20)
+                .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+            }
+            .padding(.bottom, 40)
+            .padding(.top, 40)
+            .padding(.horizontal, 10)
+            
+        }
+    }
+    
+    struct CommentPost: View {
+        
+        var post: Post
+        
+        init(_post: Post){
+            post = _post
+        }
+        
+        var body: some View {
+            
+            VStack{
+                
+                ZStack{
+                    HStack{
+                        Image("003-snake")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 45)
+                            .padding([.trailing], 5)
+                        
+                        VStack{
+                            Text(post.title)
+                                .font(.custom("Montserrat-Bold", size: 20))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Text(post.author)
+                                .font(.custom("Montserrat", size: 14))
+                            
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        PopView {
+                            Image("fi-rr-cross-small")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20)
+                                .padding(.top, -30)
                         }
                         
                     }
+                    
                 }
-                .padding(20)
-                .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+                .padding([.top, .leading, .trailing], 0)
+                HStack{
+                    Text(post.message)
+                        .font(.custom("Montserrat", size: 15))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding(.horizontal, 0)
+                HStack{
+                    
+                    Button(action: {
+                        
+                    })
+                    {
+                        Image("fi-rr-thumbs-up")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20)
+                            .padding([.leading], 0)
+                    }
+                    .frame(alignment: .leading)
+                    .padding([.bottom], 20)
+                    
+                    Text(String(post.upVotes))
+                        .font(.custom("Montserrat-Bold", size: 14))
+                        .frame( alignment: .leading)
+                        .padding([.bottom ], 20)
+                    
+                    Button(action: {
+                        
+                    })
+                    {
+                        Image("fi-rr-thumbs-down")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20)
+                            .padding([.leading], 5)
+                    }
+                    .frame(alignment: .leading)
+                    .padding([.bottom ], 20)
+                    
+                    
+                    Text(String(post.downVotes))
+                        .font(.custom("Montserrat-Bold", size: 14))
+                        .frame( alignment: .leading)
+                        .padding([.bottom ], 20)
+                    
+                    Button(action: {
+                        
+                    })
+                    {
+                        Image("fi-rr-comment")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20)
+                            .padding([.leading], 5)
+                    }
+                    
+                    .frame(alignment: .leading)
+                    .padding([.bottom], 20)
+                    
+                    Text(String(post.commentsNumber))
+                        .font(.custom("Montserrat-Bold", size: 14))
+                        .frame( alignment: .leading)
+                        .padding([.bottom ], 20)
+                    
+                    Text(post.hastag)
+                        .font(.custom("Montserrat-Bold", size: 14))
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .padding([.leading, .bottom], 20)
+                }
+                
             }
-        }.padding(20)
+            .foregroundColor(Color("BlackColor"))
+            .frame(maxWidth: .infinity, alignment: .top)
+        }
+    }
+    
+    struct CommentItem: View {
+        
+        var comment: Comment
+        
+        init(_comment: Comment){
+            comment = _comment
+        }
+        
+        var body: some View {
+            
+            VStack{
+                
+                HStack{
+                    VStack{
+                        Image("003-snake")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30)
+                            .padding(.top, 5)
+                            .padding(.trailing, 5)
+                            
+                        Spacer()
+                    }
+                    
+                    VStack{
+                 
+                        HStack{
+                            
+                            Text(comment.author)
+                                .font(.custom("Montserrat-Bold", size: 14))
+                                .frame(alignment: .leading)
+                            Spacer()
+                        }
+                        
+                        HStack{
+                            
+                            Text(comment.message)
+                                .font(.custom("Montserrat", size: 14))
+                                .frame(alignment: .leading)
+                            Spacer()
+                        }
+                        
+                    }
+                    Spacer()
+                    
+                }
+                
+            }
+        }
+    }
+    struct CommentView_Preview: PreviewProvider {
+        
+        static var previews: some View {
+            CommentView(_post: Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", upVotes: 10, downVotes: 4, commentsNumber: 7, ban: false))
+        }
     }
     
     struct RoundedCorners: Shape {
