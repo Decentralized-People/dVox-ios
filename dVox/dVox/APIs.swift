@@ -19,7 +19,7 @@ class APIs{
     
     /// Gets all APIs from Firestore.
     func getAPIs(){
-        
+    
         let group = DispatchGroup()
         
          group.enter()
@@ -27,6 +27,7 @@ class APIs{
          DispatchQueue.main.async {
              //Get the reference to the Firestore API document
              let Doc = Firestore.firestore().collection("APIs").document("7rMOmCufceCpoXgxLRKo")
+             
              
              
              /// Executes when the document is received
@@ -103,7 +104,6 @@ class APIs{
             let status = SecItemAdd(query as CFDictionary, nil)
             guard status == errSecSuccess else { return print("save error: \(account)")
         }
-        
     }
     
     /// Retrives keys from the specific location.
@@ -266,5 +266,68 @@ class APIs{
 //        print("PRINTING \(j): \(array2[j])")
 //
 //    }
+//
+//}
+
+
+
+//let array: [String] =
+//["Boar",
+//"Koala",
+//"Snake",
+//"Frog",
+//"Parrot",
+//"Lion",
+//"Pig",
+//"Rhino",
+//"Sloth",
+//"Horse",
+//"Sheep",
+//"Chameleon",
+//"Giraffe",
+//"Yak",
+//"Cat",
+//"Dog",
+//"Penguin",
+//"Elephant",
+//"Fox",
+//"Otter",
+//"Gorilla",
+//"Rabbit",
+//"Raccoon",
+//"Wolf",
+//"Panda",
+//"Goat",
+//"Chicken",
+//"Duck",
+//"Cow",
+//"Ray",
+//"Catfish",
+//"Ladybug",
+//"Dragonfly",
+//"Owl",
+//"Beaver",
+//"Alpaca",
+//"Mouse",
+//"Walrus",
+//"Kangaroo",
+//"Butterfly",
+//"Jellyfish",
+//"Deer",
+//"Beetle",
+//"Tiger",
+//"Pigeon",
+//"Bearded_Dragon",
+//"Bat",
+//"Hippo",
+//"Crocodile",
+//"Monkey"]
+//
+//let arrayBool = Array(repeating: false, count: 101)
+//
+//for i in stride(from: 0, to: array.count, by: 1) {
+//
+//    Firestore.firestore().collection("Nicknames").document(array[i]).setData(["CreationField" : "created!"])
+//
 //
 //}

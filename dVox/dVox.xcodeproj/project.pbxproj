@@ -24,6 +24,7 @@
 		8B6C723326951D4D004A34A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B6C723226951D4D004A34A3 /* Assets.xcassets */; };
 		8B6C723626951D4D004A34A3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B6C723526951D4D004A34A3 /* Preview Assets.xcassets */; };
 		8B786BBB26C93B4B00A8164E /* CommentLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B786BBA26C93B4B00A8164E /* CommentLoader.swift */; };
+		8B801F2526C9D0D400F36D1F /* Username.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B801F2426C9D0D400F36D1F /* Username.swift */; };
 		8BB3401226967ECA00AEE389 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 8BB3401126967ECA00AEE389 /* AlertToast */; };
 		8BB34018269747F700AEE389 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34015269747F700AEE389 /* Montserrat-Regular.ttf */; };
 		8BB34019269747F700AEE389 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34016269747F700AEE389 /* Montserrat-Bold.ttf */; };
@@ -56,6 +57,7 @@
 		8B6C723A26951D4D004A34A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B749F4C269E693F00380245 /* dVox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dVox.entitlements; sourceTree = "<group>"; };
 		8B786BBA26C93B4B00A8164E /* CommentLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentLoader.swift; sourceTree = "<group>"; };
+		8B801F2426C9D0D400F36D1F /* Username.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Username.swift; sourceTree = "<group>"; };
 		8BB34015269747F700AEE389 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		8BB34016269747F700AEE389 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		8BB34017269747F700AEE389 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.ttf"; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				8B6C723426951D4D004A34A3 /* Preview Content */,
 				8B65B70626A5D7B50040E559 /* SmartContract.swift */,
 				2806D72C26B1973700FEC670 /* Post.swift */,
+				8B801F2426C9D0D400F36D1F /* Username.swift */,
 				8B16CBEB26C73EAB0072DA3F /* Comment.swift */,
 				8BF617E026C4350200EB7BE9 /* APIs.swift */,
 			);
@@ -341,6 +344,7 @@
 				8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */,
 				8BD9756026C972F9009D54C1 /* ProfileView.swift in Sources */,
 				8B786BBB26C93B4B00A8164E /* CommentLoader.swift in Sources */,
+				8B801F2526C9D0D400F36D1F /* Username.swift in Sources */,
 				0D44E9BB2696599500697753 /* MainView.swift in Sources */,
 				2806D72D26B1973700FEC670 /* Post.swift in Sources */,
 				8B6C722F26951D4D004A34A3 /* SceneDelegate.swift in Sources */,

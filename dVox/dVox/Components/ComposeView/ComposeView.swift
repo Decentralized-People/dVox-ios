@@ -45,7 +45,7 @@ struct ComposeView: View {
                     
                     VStack{
                         HStack{
-                            Image("003-snake")
+                            Image("@avatar_snake")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 45)
