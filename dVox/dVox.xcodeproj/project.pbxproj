@@ -28,7 +28,8 @@
 		8BB34018269747F700AEE389 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34015269747F700AEE389 /* Montserrat-Regular.ttf */; };
 		8BB34019269747F700AEE389 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34016269747F700AEE389 /* Montserrat-Bold.ttf */; };
 		8BB3401A269747F800AEE389 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BB34017269747F700AEE389 /* Montserrat-Light.ttf */; };
-		8BDA6AC126C80C490008B40D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA6AC026C80C490008B40D /* ProfileView.swift */; };
+		8BD9755E26C972D0009D54C1 /* Shimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD9755D26C972D0009D54C1 /* Shimmer.swift */; };
+		8BD9756026C972F9009D54C1 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD9755F26C972F9009D54C1 /* ProfileView.swift */; };
 		8BF617E126C4350200EB7BE9 /* APIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF617E026C4350200EB7BE9 /* APIs.swift */; };
 		8BF667992697613B009D92E3 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BF667982697613B009D92E3 /* Montserrat-Thin.ttf */; };
 /* End PBXBuildFile section */
@@ -58,7 +59,8 @@
 		8BB34015269747F700AEE389 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		8BB34016269747F700AEE389 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		8BB34017269747F700AEE389 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.ttf"; sourceTree = "<group>"; };
-		8BDA6AC026C80C490008B40D /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		8BD9755D26C972D0009D54C1 /* Shimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmer.swift; sourceTree = "<group>"; };
+		8BD9755F26C972F9009D54C1 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8BF617E026C4350200EB7BE9 /* APIs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIs.swift; sourceTree = "<group>"; };
 		8BF667982697613B009D92E3 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Thin.ttf"; sourceTree = "<group>"; };
 		F2CA79FB8FBD418F943211C6 /* Pods-dVox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dVox.debug.xcconfig"; path = "Target Support Files/Pods-dVox/Pods-dVox.debug.xcconfig"; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				8BDA6ABF26C80C340008B40D /* ProfileView */,
 				28E24F2F26B9BA190092EA14 /* ComposeView */,
 				28E24F2E26B9B8BE0092EA14 /* HomeView */,
+				8BD9755D26C972D0009D54C1 /* Shimmer.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -185,7 +188,7 @@
 		8BDA6ABF26C80C340008B40D /* ProfileView */ = {
 			isa = PBXGroup;
 			children = (
-				8BDA6AC026C80C490008B40D /* ProfileView.swift */,
+				8BD9755F26C972F9009D54C1 /* ProfileView.swift */,
 			);
 			path = ProfileView;
 			sourceTree = "<group>";
@@ -334,14 +337,15 @@
 				8B16CBEC26C73EAB0072DA3F /* Comment.swift in Sources */,
 				28E24F2C26B9B8330092EA14 /* ComposeView.swift in Sources */,
 				28E24F2A26B9B6F40092EA14 /* HomeView.swift in Sources */,
-				8BDA6AC126C80C490008B40D /* ProfileView.swift in Sources */,
 				8B1B9B9426C5CBE400089C83 /* PostLoader.swift in Sources */,
 				8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */,
+				8BD9756026C972F9009D54C1 /* ProfileView.swift in Sources */,
 				8B786BBB26C93B4B00A8164E /* CommentLoader.swift in Sources */,
 				0D44E9BB2696599500697753 /* MainView.swift in Sources */,
 				2806D72D26B1973700FEC670 /* Post.swift in Sources */,
 				8B6C722F26951D4D004A34A3 /* SceneDelegate.swift in Sources */,
 				8BF617E126C4350200EB7BE9 /* APIs.swift in Sources */,
+				8BD9755E26C972D0009D54C1 /* Shimmer.swift in Sources */,
 				8B6C723126951D4D004A34A3 /* LoginView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

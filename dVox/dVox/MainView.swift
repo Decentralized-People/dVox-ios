@@ -67,6 +67,9 @@ struct MainView: View {
                             
                             ProfileView()
                                 .tag(2)
+                                .padding(.horizontal, 10)
+                                .padding(.bottom, 20)
+                                .background(Color("BlackColor"))
                         }}
                     .overlay( // Overlay the custom TabView component here
                         Color("WhiteColor") // Base color for Tab Bar
