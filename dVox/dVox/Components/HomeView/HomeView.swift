@@ -19,7 +19,7 @@ struct HomeView: View {
         Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false),
     ]
     
-    //@ObservedObject var loader = PostLoader()
+    @ObservedObject var loader = PostLoader()
     @State var nextIndex: Int
     
     var numberOfPostsToLoad = 6
@@ -27,7 +27,7 @@ struct HomeView: View {
     init(_apis: APIs){
         nextIndex = 1
         apis = _apis
-        //loader.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
+        loader.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
     }
     
     var body: some View {
@@ -42,14 +42,14 @@ struct HomeView: View {
                 
                 ScrollView {
                     LazyVStack{
-                        ForEach(posts.indices, id: \.self) { index in
-                            let post = posts[index]
-                            CardRow(eachPost: post)
+                        ForEach(loader.allPosts_.indices, id: \.self) { index in
+                            let post = loader.allPosts_[index]
+                            CardRow(_apis: apis, _post: post)
                                 .onAppear{
                                     print("Index \(index), nTl \(numberOfPostsToLoad)")
                                     if index == (numberOfPostsToLoad*nextIndex) - 2{
                                         
-                                        //loader.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
+                                        loader.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
                                         nextIndex += 1
                                     }
                                 }
@@ -65,6 +65,13 @@ struct HomeView: View {
     struct CardRow: View {
         var eachPost: Post
         @State private var isActive = false
+        
+        var apis: APIs
+
+        init(_apis: APIs, _post: Post){
+            apis = _apis
+            eachPost = _post
+        }
         
         var body: some View {
             
@@ -136,7 +143,7 @@ struct HomeView: View {
                             .frame( alignment: .leading)
                             .padding([.bottom ], 20)
                         
-                        PushView(destination: CommentView(_post: eachPost), isActive: $isActive) {
+                        PushView(destination: CommentView(_apis: apis, _post: eachPost), isActive: $isActive) {
                             
                             
                             Button(action: {

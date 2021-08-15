@@ -140,15 +140,17 @@ class SmartContract{
     
     func getComment(postId: Int, commentId: Int) -> Comment {
         
-        let comment = Comment(id: -1, author: "", message: "")
+        let comment = Comment(id: -1, author: "", message: "", ban: false)
         
         let transaction = contract.read("getComment", parameters: [BigUInt(postId), BigUInt(commentId)] as [AnyObject], transactionOptions: transactionOptions);
         do {
             let result = try transaction?.call(transactionOptions: transactionOptions)
             
-            comment.id = Int(result?["commentID"] as! BigUInt)
-            comment.author = result?["commentAuthor"] as! String
-            comment.message = result?["commentMessage"] as! String
+            print(result)
+            comment.id = Int(result?["0"] as! BigUInt)
+            comment.author = result?["1"] as! String
+            comment.message = result?["2"] as! String
+            comment.ban = result?["3"] as! Bool
             
         } catch {
                 print(error.localizedDescription)

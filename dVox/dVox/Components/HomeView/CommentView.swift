@@ -13,24 +13,31 @@ struct CommentView: View {
     
     var post: Post
     
-    var numberOfPostsToLoad = 6
+    var numberOfCommentsToLoad = 6
     
     @State var comment = ""
     
+    var apis: APIs
+
+    
+    @ObservedObject var loader = CommentLoader()
+
+    
     var comments = [
-        Comment(id: 1, author: "@Lazy_snake_9", message: "Hello brother!"),
-        Comment(id: 1, author: "@Black_and_white_snake_23", message: "I totally agree, but why this or not this?"),
-        Comment(id: 1, author: "@Cozy_snake_85", message: "Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. "),
-        Comment(id: 1, author: "author", message: "message"),
-        Comment(id: 1, author: "author", message: "message"),
+        Comment(id: 1, author: "@Lazy_snake_9", message: "Hello brother!", ban: false),
+        Comment(id: 1, author: "@Black_and_white_snake_23", message: "I totally agree, but why this or not this?", ban: false),
+        Comment(id: 1, author: "@Cozy_snake_85", message: "Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco.", ban: false),
+        Comment(id: 1, author: "author", message: "message", ban: false),
+        Comment(id: 1, author: "author", message: "message", ban: false),
     ]
     
     @State var nextIndex: Int
     
-    init(_post: Post){
+    init(_apis: APIs, _post: Post){
+        apis = _apis
         post = _post
         nextIndex = 1
-        
+        loader.getComments(index: 0, apis: _apis, postId: _post.id, currentId: -1, getComments: numberOfCommentsToLoad)
     }
     
     var body: some View {
@@ -52,16 +59,16 @@ struct CommentView: View {
                         
                         ScrollView {
                             LazyVStack{
-                                ForEach(comments.indices, id: \.self) { index in
-                                    let comment = comments[index]
+                                ForEach(loader.allComments_.indices, id: \.self) { index in
+                                    let comment = loader.allComments_[index]
                                     //CardRow(eachComment: comment)
                                     CommentItem(_comment: comment)
                                         .onAppear{
-                                            print("Index \(index), nTl \(numberOfPostsToLoad)")
-                                            if index == (numberOfPostsToLoad*nextIndex) - 2{
+                                            print("Index \(index), nTl \(numberOfCommentsToLoad)")
+                                            if index == (numberOfCommentsToLoad*nextIndex) - 2{
                                                 
-                                                //loader.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
-                                                nextIndex += 1
+                                                loader.getComments(index: index, apis: apis, postId: post.id, currentId: comment.id, getComments: numberOfCommentsToLoad)
+                                             
                                             }
                                         }
                                 }
@@ -279,7 +286,7 @@ struct CommentView: View {
     struct CommentView_Preview: PreviewProvider {
         
         static var previews: some View {
-            CommentView(_post: Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", upVotes: 10, downVotes: 4, commentsNumber: 7, ban: false))
+            CommentView(_apis: APIs(), _post: Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", upVotes: 10, downVotes: 4, commentsNumber: 7, ban: false))
         }
     }
     

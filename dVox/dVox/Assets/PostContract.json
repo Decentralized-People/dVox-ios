@@ -15,7 +15,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -74,7 +75,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -169,29 +171,59 @@
     "name": "getComment",
     "outputs": [
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "commentID",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "commentAuthor",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "commentMessage",
-            "type": "string"
-          }
-        ],
-        "internalType": "struct PostContract.Comment",
-        "name": "comment",
-        "type": "tuple"
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "author",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "message",
+        "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "ban",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "postID",
+        "type": "uint256"
+      }
+    ],
+    "name": "banPost",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "postID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "commentID",
+        "type": "uint256"
+      }
+    ],
+    "name": "banComment",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]
