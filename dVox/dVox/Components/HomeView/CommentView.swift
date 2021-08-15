@@ -20,7 +20,7 @@ struct CommentView: View {
     var apis: APIs
 
     
-    @ObservedObject var loader = CommentLoader()
+    //@ObservedObject var loader = CommentLoader()
 
     
     var comments = [
@@ -37,7 +37,7 @@ struct CommentView: View {
         apis = _apis
         post = _post
         nextIndex = 1
-        loader.getComments(index: 0, apis: _apis, postId: _post.id, currentId: -1, getComments: numberOfCommentsToLoad)
+        //loader.getComments(index: 0, apis: _apis, postId: _post.id, currentId: -1, getComments: numberOfCommentsToLoad)
     }
     
     var body: some View {
@@ -59,15 +59,15 @@ struct CommentView: View {
                         
                         ScrollView {
                             LazyVStack{
-                                ForEach(loader.allComments_.indices, id: \.self) { index in
-                                    let comment = loader.allComments_[index]
+                                ForEach(comments.indices, id: \.self) { index in
+                                    let comment = comments[index]
                                     //CardRow(eachComment: comment)
                                     CommentItem(_comment: comment)
                                         .onAppear{
                                             print("Index \(index), nTl \(numberOfCommentsToLoad)")
                                             if index == (numberOfCommentsToLoad*nextIndex) - 2{
                                                 
-                                                loader.getComments(index: index, apis: apis, postId: post.id, currentId: comment.id, getComments: numberOfCommentsToLoad)
+                                               //loader.getComments(index: index, apis: apis, postId: post.id, currentId: comment.id, getComments: numberOfCommentsToLoad)
                                              
                                             }
                                         }
@@ -84,7 +84,7 @@ struct CommentView: View {
                             
                             VStack{
                                                                 
-                                TextField("Comment as @Lazy_snake_1", text: $comment)
+                                TextField("Comment as @Lazy_Snake_1", text: $comment)
                                     .accentColor(Color("BlackColor"))
                                     .font(.custom("Montserrat", size: 15))
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -132,7 +132,7 @@ struct CommentView: View {
                 
                 ZStack{
                     HStack{
-                        Image("003-snake")
+                        Image("@avatar_snake")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 45)
@@ -250,7 +250,7 @@ struct CommentView: View {
                 
                 HStack{
                     VStack{
-                        Image("003-snake")
+                        Image("@avatar_snake")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 30)
