@@ -158,6 +158,16 @@ class SmartContract{
         return comment
     }
     
+    func addComment(postID: Int, author: String, message: String){
+        let transaction = contract.write("addComment", parameters: [postID, author, message] as [AnyObject], transactionOptions: transactionOptions);
+        do {
+            let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
+            print("Post created!" , result ?? "Error")
+        } catch {
+                print(error.localizedDescription)
+        }
+    }
+    
     func createPost(title: String, author: String, message: String, hashtag: String){
         let transaction = contract.write("createPost", parameters: [title, author, message, hashtag] as [AnyObject], transactionOptions: transactionOptions);
         do {

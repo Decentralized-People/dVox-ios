@@ -90,7 +90,9 @@ struct CommentView: View {
                                 
                             }
                             
-                            Button(action: {}) {
+                            Button(action: {
+                                addComment(postID: post.id)
+                            }) {
                                 Text("Post")
                                     .foregroundColor(Color("BlackColor"))
                                     .padding(.trailing, 5)
@@ -328,5 +330,26 @@ struct CommentView: View {
             return path
         }
     }
+    
+    func addComment(postID: Int) {
+        if comment != "" {
+            Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { timer in
+                let add = apis.retriveKey(for: "ContractAddress") ?? "error"
+                let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
+                let cre = apis.retriveKey(for: "Credentials") ?? "error"
+                
+                if (add != "error" && inf != "error" && cre != "error") {
+                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
+                    
+                    contract.addComment(postID: postID, author: "@Lazy_snake_1", message: comment)
+    
+                    comment = ""
+                    
+                    timer.invalidate()
+                }
+            }
+        }
+    }
+    
 }
 
