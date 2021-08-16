@@ -19,36 +19,38 @@ class APIs{
     
     /// Gets all APIs from Firestore.
     func getAPIs(){
-    
+        
+                
         let group = DispatchGroup()
         
-         group.enter()
+        group.enter()
+        
+        DispatchQueue.main.async {
+            
+            self.retriveUsername()
 
-         DispatchQueue.main.async {
-             //Get the reference to the Firestore API document
-             let Doc = Firestore.firestore().collection("APIs").document("7rMOmCufceCpoXgxLRKo")
-             
-             
-             
-             /// Executes when the document is received
-             Doc.getDocument{ [self] (document, error) in
-                 if let document = document, document.exists{
-                     
-                     // Retrieving specific APIs
-                     let Credentials = document.get("credentials")
-                     let ContractAddress = document.get("contractAddress")
-                     let InfuraURL = document.get("infuraCODE")
-                  
-                     group.leave()
-                     
-                     setOnSuccess(credentials: Credentials as! String, contractAddress: ContractAddress as! String, infuraURL: InfuraURL as! String)
-                 } else {
-                     //On error
-                     setOnError()
-                     group.leave()
-                 }
-             }
-         }
+            //Get the reference to the Firestore API document
+            let ApiDoc = Firestore.firestore().collection("APIs").document("7rMOmCufceCpoXgxLRKo")
+            
+            /// Executes when the document is received
+            ApiDoc.getDocument{ [self] (document, error) in
+                if let document = document, document.exists{
+                    
+                    // Retrieving specific APIs
+                    let Credentials = document.get("credentials")
+                    let ContractAddress = document.get("contractAddress")
+                    let InfuraURL = document.get("infuraCODE")
+                    
+                    group.leave()
+                    
+                    setOnSuccess(credentials: Credentials as! String, contractAddress: ContractAddress as! String, infuraURL: InfuraURL as! String)
+                } else {
+                    //On error
+                    setOnError()
+                    group.leave()
+                }
+            }
+        }
         group.notify(queue: .main) {
             if (self.retriveKey(for: "Credentials") != "error" &&
                 self.retriveKey(for: "ContractAddress") != "error" &&
@@ -57,7 +59,9 @@ class APIs{
                 self.retriveKey(for: "ContractAddress") != nil &&
                 self.retriveKey(for: "InfuraURL") != nil) {
                 
-                    print("All keys are recieved succesfully.")
+                print("All keys are recieved succesfully.")
+                print("Username: \(String(describing: self.retriveKey(for: "dvoxUsername")))")
+
             } else {
                 
                 print("Error while getting API keys.")
@@ -74,8 +78,8 @@ class APIs{
         saveKey(credentials, for: "Credentials")
         saveKey(contractAddress, for: "ContractAddress")
         saveKey(infuraURL, for: "InfuraURL")
-
-
+        
+        
     }
     
     /// Function to execute if the data is retrieved with error (unsuccessfully).
@@ -97,12 +101,12 @@ class APIs{
     ///   - key: the key value
     ///   - account: destination (label)
     func saveKey(_ key: String, for account: String) {
-            let key = key.data(using: String.Encoding.utf8)!
-            let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
-                                        kSecAttrAccount as String: account,
-                                        kSecValueData as String: key]
-            let status = SecItemAdd(query as CFDictionary, nil)
-            guard status == errSecSuccess else { return print("save error: \(account)")
+        let key = key.data(using: String.Encoding.utf8)!
+        let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+                                    kSecAttrAccount as String: account,
+                                    kSecValueData as String: key]
+        let status = SecItemAdd(query as CFDictionary, nil)
+        guard status == errSecSuccess else { return print("save error: \(account)")
         }
     }
     
@@ -125,12 +129,55 @@ class APIs{
     /// Deletes key from  the specific account.
     /// - Parameter account: the account value to be deleted
     func deleteKey(for account: String){
-
+        
         let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
                                     kSecAttrAccount as String: account]
         
         let status = SecItemDelete(query as CFDictionary)
         guard status == errSecSuccess else { return print("delete error")
+        }
+    }
+    
+    func retriveUsername(){
+        
+        var username = Username(animal: "", adjective: "", number: 0)
+        
+        if (self.retriveKey(for: "dvoxUsername") == "error" || self.retriveKey(for: "dvoxUsername") == nil || self.retriveKey(for: "dvoxUsernameAvatar") == "error" || self.retriveKey(for: "dvoxUsernameAvatar") == nil) {
+            
+            let group = DispatchGroup()
+            
+            group.enter()
+            
+            DispatchQueue.main.async {
+                
+                username = username.regenerate()
+                
+                let usernameString = "@" + username.animal + "_" + username.adjective + "_" + String(username.number)
+                let avatarString = "@avatar_" + username.animal.lowercased()
+
+                self.deleteKey(for: "dvoxUsername")
+                self.saveKey(usernameString, for: "dvoxUsername")
+                
+                self.deleteKey(for: "dvoxUsernameAvatar")
+                self.saveKey(avatarString, for: "dvoxUsernameAvatar")
+                
+                print(usernameString)
+                
+                group.leave()
+                
+            }
+            
+            group.notify(queue: .main) {
+                if (self.retriveKey(for: "dvoxUsername") != "error" && self.retriveKey(for: "dvoxUsername") != nil) {
+                    print("The username is generated succesfully.")
+                } else {
+                    
+                    print("Error while getting a username.")
+                }
+            }
+            
+        } else {
+            print("The username is retrived succesfully. (no generation)")
         }
     }
 }

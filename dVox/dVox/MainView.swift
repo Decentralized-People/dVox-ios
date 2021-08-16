@@ -65,7 +65,7 @@ struct MainView: View {
                                 .padding(.bottom, 20)
                                 .background(Color("BlackColor"))
                             
-                            ProfileView()
+                            ProfileView(_apis: apis)
                                 .tag(2)
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)

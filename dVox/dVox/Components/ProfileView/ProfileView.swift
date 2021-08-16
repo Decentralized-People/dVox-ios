@@ -10,12 +10,21 @@ import Firebase
 
 struct ProfileView: View {
     
-    @State var user: String;
-    @State var avatar: String;
-
-    init(){
-        user = "@Lazy_Snake_1"
-        avatar = "@avatar_snake"
+    var apis: APIs
+    
+    @State var user: String
+    @State var avatar: String
+    @State var generating: Bool
+    @State var disabled: Bool
+    @State var username: Username
+    
+    init(_apis: APIs){
+        apis = _apis
+        user = apis.retriveKey(for: "dvoxUsername") ?? "Error. Please restart the app."
+        avatar = apis.retriveKey(for: "dvoxUsernameAvatar") ?? "Error. Please restart the app."
+        generating = false
+        disabled = true
+        username = Username(animal: "",adjective: "",number: 0)
     }
     
     var body: some View {
@@ -41,14 +50,14 @@ struct ProfileView: View {
                                 .frame(width: 55, alignment: .bottom)
                                 .padding([.trailing], 10)
                                 .padding(.vertical)
-                
+                            
                             
                             VStack{
-                      
+                                
                                 Text("\(user)") .font(.custom("Montserrat-Bold", size: 20))
                                     .frame(alignment: .bottom)
                                     .padding(.vertical)
-
+                                
                             }
                             
                             Spacer()
@@ -94,18 +103,57 @@ struct ProfileView: View {
                         }
                         
                         Spacer()
+                        if self.generating == false {
+                            Button(action: {
+                                self.generating.toggle()
+                                username = username.regenerate()
+                                user = "@" + username.animal + "_" + username.adjective + "_" + String(username.number)
+                                
+                                avatar = "@avatar_" + username.animal.lowercased()
+                            })
+                            {
+                                (Text("Regenerate Profile")
+                                    .padding([.leading, .bottom, .trailing], 20))
+                                    .foregroundColor(Color("BlackColor"))
+                                    .font(.custom("Montserrat-Bold", size: 20))
+                                    .minimumScaleFactor(0.01)
+                                    .lineLimit(3)
+                                    .padding(.top, 20)
+                            }
+                        } else {
+                            HStack{
+                                Button(action: {
                         
-                        Button(action: {
-                            regenerate()
-                        })
-                        {
-                            (Text("Regenerate Profile")
-                                .padding([.leading, .bottom, .trailing], 20))
-                                .foregroundColor(Color("BlackColor"))
-                                .font(.custom("Montserrat-Bold", size: 20))
-                                .minimumScaleFactor(0.01)
-                                .lineLimit(3)
-                                .padding(.top, 20)
+                                })
+                                {
+                                    (Text("Cancel")
+                                        .padding([.leading, .bottom, .trailing], 20))
+                                        .foregroundColor(buttonColor)
+                                        .font(.custom("Montserrat-Bold", size: 20))
+                                        .minimumScaleFactor(0.01)
+                                        .lineLimit(3)
+                                        .padding(.top, 20)
+                                        .padding(.trailing, 35)
+                                }.disabled(disabled)
+                                
+                                
+                                Button(action: {
+                                    self.generating.toggle()
+                                    //regenerate()
+                                })
+                                {
+                                    (Text("Save")
+                                        .padding([.leading, .bottom, .trailing], 20))
+                                        .foregroundColor(buttonColor)
+                                        .font(.custom("Montserrat-Bold", size: 20))
+                                        .minimumScaleFactor(0.01)
+                                        .lineLimit(3)
+                                        .padding(.top, 20)
+                                        .padding(.leading, 35)
+
+                                }.disabled(disabled)
+                                
+                            }
                         }
                     }
                     
@@ -115,6 +163,10 @@ struct ProfileView: View {
             .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
         }
     }
+    
+    var buttonColor: Color {
+          return disabled ? Color("GreyColor") : Color("BlackColor")
+      }
     
     struct RoundedCorners: Shape {
         var tl: CGFloat = 0.0
@@ -155,103 +207,19 @@ struct ProfileView: View {
         }
     }
     
-  
-    
-
-    
-    func regenerate() -> Username {
-        
-        var username: Username = Username(animal: "none", adjective: "none", number: 0)
-    
-        username = randomNameGenerator()
-
-        user = "@" + username.animal + "_" + username.adjective + "_" + String(username.number)
-        
-        avatar = "@avatar_" + username.animal.lowercased()
-                
-        let group = DispatchGroup()
-
-        group.enter()
-
-         DispatchQueue.main.async {
-
-             let Doc = Firestore.firestore().collection("Nicknames").document(username.animal)
-
-             Doc.getDocument{ [self] (document, error) in
-                 
-                 if let document = document, document.exists{
-
-                     let field = username.adjective + "_" + String(username.number)
-                     
-                     
-                     //randomNumber = Int.random(in: 1..<10)
-
-                     
-                     let animalExist = document.get(String(field))
-
-                     if animalExist == nil{
-                            print("we can create it!")
-                             Doc.updateData([
-                                field: true
-                             ])
-                     }
-                     else {
-                         print("name exists! trying again...")
-                         username = regenerate()
-                        
-                     }
-                     group.leave()
-                 } else {
-                     print("The document doesn't exist.")
-                     username = Username(animal: "Try", adjective: "Again", number: 404)
-                     group.leave()
-                 }
-             }
-         }
-        group.notify(queue: .main) {
-            user = "@" + username.animal + "_" + username.adjective + "_" + String(username.number)
-            
-            avatar = "@avatar_" + username.animal.lowercased()
-        }
-        
-        return username
-    }
-    
-    
-    
-    func randomNameGenerator() -> Username {
-        
-        let animals: [String] =
-        ["Boar", "Koala", "Snake", "Frog", "Parrot", "Lion", "Pig", "Rhino", "Sloth", "Horse", "Sheep", "Chameleon", "Giraffe", "Yak", "Cat", "Dog", "Penguin", "Elephant", "Fox", "Otter", "Gorilla", "Rabbit", "Raccoon", "Wolf", "Panda", "Goat", "Chicken", "Duck", "Cow", "Ray", "Catfish", "Ladybug", "Dragonfly", "Owl", "Beaver", "Alpaca", "Mouse", "Walrus", "Kangaroo", "Butterfly", "Jellyfish", "Deer", "Beetle", "Tiger", "Pigeon", "Bearded_Dragon", "Bat", "Hippo", "Crocodile", "Monkey"]
-        
-        let adjectives: [String] = [ "Sturdy", "Loud", "Delicious", "Decorous", "Pricey", "Knowing", "Scientific", "Lazy", "Fair", "Loutish", "Wonderful", "Strict", "Gaudy", "Innocent", "Horrible", "Puzzled", "Happy", "Grandiose", "Observant", "Pumped", "Pale", "Royal", "Flawless", "Actual", "Realistic", "Cynical", "Clean", "Strict", "Super", "Powerful", "Mixed", "Slim", "Ubiquitous", "Faithful", "Amusing", "Emotional", "Staking", "Former", "Scarce", "Tense", "Black-and-white", "Tangy", "Wrong", "Sloppy", "Regular", "Deafening", "Savory", "Classy", "First", "Second", "Third", "Valuable", "Outgoing", "Free", "Terrific", "Sleepy", "Adorable", "Cozy"]
-    
-    
-        let randomAdjective = Int.random(in: 0..<adjectives.count)
-        let randomAnimal = Int.random(in: 0..<animals.count)
-        let randomNumber = Int.random(in: 1..<100)
-
-        let randomName = "@" + adjectives[randomAdjective] + "_" + animals[randomAnimal] + "_" + String(randomNumber)
-
-        
-        return Username(animal: animals[randomAnimal], adjective: adjectives[randomAdjective], number: randomNumber)
-    }
-    
-    
-
     func saveKey(_ key: String, for account: String) {
-            let key = key.data(using: String.Encoding.utf8)!
-            let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
-                                        kSecAttrAccount as String: account,
-                                        kSecValueData as String: key]
-            let status = SecItemAdd(query as CFDictionary, nil)
-            guard status == errSecSuccess else { return print("save error: \(account)")
+        let key = key.data(using: String.Encoding.utf8)!
+        let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+                                    kSecAttrAccount as String: account,
+                                    kSecValueData as String: key]
+        let status = SecItemAdd(query as CFDictionary, nil)
+        guard status == errSecSuccess else { return print("save error: \(account)")
         }
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(_apis: APIs())
     }
 }

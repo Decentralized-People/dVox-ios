@@ -174,9 +174,7 @@ struct HomeView: View {
                     }
                     
                 }
-                
                 .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
-                
                 .foregroundColor(Color("BlackColor"))
                 .padding(.horizontal, 10)
                 
