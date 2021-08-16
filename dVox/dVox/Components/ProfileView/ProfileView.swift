@@ -112,7 +112,7 @@ struct ProfileView: View {
                                 
                                 username = username.regenerate(firstRun: false)
                                 
-                                usernameString = "@" + username.animal + "_" + username.adjective + "_" + String(username.number)
+                                usernameString = "@" + username.adjective + "_" + username.animal + "_" + String(username.number)
                                 avatarString = "@avatar_" + username.animal.lowercased()
                          
                             

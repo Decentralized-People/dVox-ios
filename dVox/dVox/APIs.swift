@@ -152,7 +152,7 @@ class APIs{
                 
                 username = username.regenerate(firstRun: firstRun)
                 
-                let usernameString = "@" + username.animal + "_" + username.adjective + "_" + String(username.number)
+                let usernameString = "@" + username.adjective + "_" + username.animal + "_" + String(username.number)
                 let avatarString = "@avatar_" + username.animal.lowercased()
 
                 self.deleteKey(for: "dvoxUsername")
