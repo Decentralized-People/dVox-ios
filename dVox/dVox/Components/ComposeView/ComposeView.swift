@@ -14,6 +14,9 @@ struct ComposeView: View {
     @State var hashtag = ""
     @State var message = ""
     
+    @State var usernameString: String
+    @State var avatarString: String
+    
     
     @State var title_shake: Bool = false
     @State var hashtag_shake: Bool = false
@@ -29,8 +32,11 @@ struct ComposeView: View {
     
     var apis: APIs
     
+    
     init(_apis: APIs){
         apis = _apis
+        usernameString = apis.retriveKey(for: "dvoxUsername") ?? "Error. Please restart the app."
+        avatarString = apis.retriveKey(for: "dvoxUsernameAvatar") ?? "Error. Please restart the app."
     }
     
     var body: some View {
@@ -45,7 +51,7 @@ struct ComposeView: View {
                     
                     VStack{
                         HStack{
-                            Image("@avatar_snake")
+                            Image(avatarString)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 45)
@@ -57,7 +63,7 @@ struct ComposeView: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .modifier(Shake(animatableData: CGFloat(title_attempts)))
                                 
-                                Text("@Anonymose_snake95")
+                                Text(usernameString)
                                     .font(.custom("Montserrat", size: 14))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }

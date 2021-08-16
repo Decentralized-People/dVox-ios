@@ -17,6 +17,8 @@ struct CommentView: View {
     
     @State var comment = ""
     
+    @State var usernameString: String
+    
     var apis: APIs
 
     
@@ -37,6 +39,7 @@ struct CommentView: View {
         apis = _apis
         post = _post
         nextIndex = 1
+        usernameString = apis.retriveKey(for: "dvoxUsername") ?? "Error. Please restart the app."
         //loader.getComments(index: 0, apis: _apis, postId: _post.id, currentId: -1, getComments: numberOfCommentsToLoad)
     }
     
@@ -66,9 +69,7 @@ struct CommentView: View {
                                         .onAppear{
                                             print("Index \(index), nTl \(numberOfCommentsToLoad)")
                                             if index == (numberOfCommentsToLoad*nextIndex) - 2{
-                                                
-                                               //loader.getComments(index: index, apis: apis, postId: post.id, currentId: comment.id, getComments: numberOfCommentsToLoad)
-                                             
+                                            //loader.getComments(index: index, apis: apis, postId: post.id, currentId: comment.id, getComments: numberOfCommentsToLoad)
                                             }
                                         }
                                 }
@@ -84,7 +85,7 @@ struct CommentView: View {
                             
                             VStack{
                                                                 
-                                TextField("Comment as @Lazy_Snake_1", text: $comment)
+                                TextField("Comment as \(usernameString)", text: $comment)
                                     .accentColor(Color("BlackColor"))
                                     .font(.custom("Montserrat", size: 15))
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -342,7 +343,7 @@ struct CommentView: View {
                 if (add != "error" && inf != "error" && cre != "error") {
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)
                     
-                    contract.addComment(postID: postID, author: "@Lazy_snake_1", message: comment)
+                    contract.addComment(postID: postID, author: usernameString, message: comment)
     
                     comment = ""
                     
