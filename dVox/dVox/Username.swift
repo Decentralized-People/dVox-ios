@@ -38,7 +38,7 @@ class Username {
         return Username(animal: animals[randomAnimal], adjective: adjectives[randomAdjective], number: randomNumber)
     }
     
-    func regenerate() -> Username {
+    func regenerate(firstRun: Bool) -> Username {
             
         var username: Username = Username(animal: "none", adjective: "none", number: 0)
         
@@ -66,13 +66,19 @@ class Username {
                     
                     if animalExist == nil{
                         print("we can create it!")
-                        Doc.updateData([
-                            field: true
-                        ])
+                        if (firstRun == true) {
+                            Doc.updateData([
+                                field: true
+                            ])
+                        } else {
+                            Doc.updateData([
+                                field: false
+                            ])
+                        }
                     }
                     else {
                         print("name exists! trying again...")
-                        username = regenerate()
+                        username = regenerate(firstRun: firstRun)
                         
                     }
                     group.leave()
@@ -90,4 +96,69 @@ class Username {
         return username
     }
     
+    func usernameAbort(username: Username){
+        let group = DispatchGroup()
+        
+        group.enter()
+        
+        DispatchQueue.main.async {
+            
+            let Doc = Firestore.firestore().collection("Nicknames").document(username.animal)
+            
+            Doc.getDocument{ [self] (document, error) in
+                
+                if let document = document, document.exists{
+                
+                
+                    let field = username.adjective + "_" + String(username.number)
+                                    
+                    Doc.updateData([
+                        field: FieldValue.delete()
+                    ])
+            
+                    group.leave()
+                    
+                } else {
+                    print("The document doesn't exist.")
+                    group.leave()
+                }
+            }
+        }
+        group.notify(queue: .main) {
+           print("Username creation is aborted!")
+        }
+    }
+    
+    func usernameConfirm(username: Username){
+        let group = DispatchGroup()
+        
+        group.enter()
+        
+        DispatchQueue.main.async {
+            
+            let Doc = Firestore.firestore().collection("Nicknames").document(username.animal)
+            
+            Doc.getDocument{ [self] (document, error) in
+                
+                if let document = document, document.exists{
+                
+                
+                    let field = username.adjective + "_" + String(username.number)
+                                    
+                    Doc.updateData([
+                        field: true
+                    ])
+            
+                    group.leave()
+                    
+                } else {
+                    print("The document doesn't exist.")
+                    group.leave()
+                }
+            }
+        }
+        group.notify(queue: .main) {
+           print("Username creation is confirmed!")
+        }
+    }
 }

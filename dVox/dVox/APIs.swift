@@ -27,7 +27,7 @@ class APIs{
         
         DispatchQueue.main.async {
             
-            self.retriveUsername()
+            self.retriveUsername(firstRun: true)
 
             //Get the reference to the Firestore API document
             let ApiDoc = Firestore.firestore().collection("APIs").document("7rMOmCufceCpoXgxLRKo")
@@ -138,7 +138,7 @@ class APIs{
         }
     }
     
-    func retriveUsername(){
+    func retriveUsername(firstRun: Bool){
         
         var username = Username(animal: "", adjective: "", number: 0)
         
@@ -150,7 +150,7 @@ class APIs{
             
             DispatchQueue.main.async {
                 
-                username = username.regenerate()
+                username = username.regenerate(firstRun: firstRun)
                 
                 let usernameString = "@" + username.animal + "_" + username.adjective + "_" + String(username.number)
                 let avatarString = "@avatar_" + username.animal.lowercased()

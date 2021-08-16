@@ -68,7 +68,6 @@ struct ProfileView: View {
                             
                         }
                         
-                        
                         Divider()
                         
                         HStack{
@@ -111,7 +110,7 @@ struct ProfileView: View {
                             Button(action: {
                                 self.generating.toggle()
                                 
-                                username = username.regenerate()
+                                username = username.regenerate(firstRun: false)
                                 
                                 usernameString = "@" + username.animal + "_" + username.adjective + "_" + String(username.number)
                                 avatarString = "@avatar_" + username.animal.lowercased()
@@ -137,6 +136,7 @@ struct ProfileView: View {
                                     usernameString = apis.retriveKey(for: "dvoxUsername") ?? "Error. Please restart the app."
                                     avatarString = apis.retriveKey(for: "dvoxUsernameAvatar") ?? "Error. Please restart the app."
                                     
+                                    username.usernameAbort(username: username)
                                 })
                                 {
                                     (Text("Cancel")
@@ -152,12 +152,14 @@ struct ProfileView: View {
                                 
                                 Button(action: {
                                     self.generating = false
-                                    
+                                                                    
                                     apis.deleteKey(for: "dvoxUsername")
                                     apis.saveKey(usernameString, for: "dvoxUsername")
                                     
                                     apis.deleteKey(for: "dvoxUsernameAvatar")
                                     apis.saveKey(avatarString, for: "dvoxUsernameAvatar")
+                                    
+                                    username.usernameConfirm(username: username)
                                 })
                                 {
                                     (Text("Save")
