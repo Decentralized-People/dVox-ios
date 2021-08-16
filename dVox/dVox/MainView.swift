@@ -28,13 +28,14 @@ struct MainView: View {
     
     let apis = APIs()
     
+    let username = Username()
+    
     init(){
         apis.resetAPIs()
         apis.getAPIs()
     }
     
     @State var selection: Int = 0
-    
     
     var body: some View {
         
@@ -56,16 +57,16 @@ struct MainView: View {
                             .frame(height: 0)
                         
                         TabView(selection: $selection) {
-                            HomeView(_apis: apis)
+                            HomeView(_apis: apis, _username: username)
                                 .tag(0)
                             
-                            ComposeView(_apis: apis)
+                            ComposeView(_apis: apis, _username: username)
                                 .tag(1)
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)
                                 .background(Color("BlackColor"))
                             
-                            ProfileView(_apis: apis)
+                            ProfileView(_apis: apis, _username: username)
                                 .tag(2)
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)

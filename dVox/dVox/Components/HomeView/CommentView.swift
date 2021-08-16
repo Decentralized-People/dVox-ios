@@ -17,7 +17,6 @@ struct CommentView: View {
     
     @State var comment = ""
     
-    @State var usernameString: String
     
     var apis: APIs
 
@@ -35,11 +34,13 @@ struct CommentView: View {
     
     @State var nextIndex: Int
     
-    init(_apis: APIs, _post: Post){
+    var username: Username
+    
+    init(_apis: APIs, _username: Username, _post: Post ){
         apis = _apis
+        username = _username
         post = _post
         nextIndex = 1
-        usernameString = apis.retriveKey(for: "dvoxUsername") ?? "Error. Please restart the app."
         //loader.getComments(index: 0, apis: _apis, postId: _post.id, currentId: -1, getComments: numberOfCommentsToLoad)
     }
     
@@ -84,8 +85,8 @@ struct CommentView: View {
                         HStack{
                             
                             VStack{
-                                                                
-                                TextField("Comment as \(usernameString)", text: $comment)
+                               
+                                TextField("Comment as \(username.getUsernameString())", text: $comment)
                                     .accentColor(Color("BlackColor"))
                                     .font(.custom("Montserrat", size: 15))
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -290,7 +291,7 @@ struct CommentView: View {
     struct CommentView_Preview: PreviewProvider {
         
         static var previews: some View {
-            CommentView(_apis: APIs(), _post: Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", upVotes: 10, downVotes: 4, commentsNumber: 7, ban: false))
+            CommentView(_apis: APIs(), _username: Username(), _post: Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", upVotes: 10, downVotes: 4, commentsNumber: 7, ban: false))
         }
     }
     
@@ -343,7 +344,7 @@ struct CommentView: View {
                 if (add != "error" && inf != "error" && cre != "error") {
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)
                     
-                    contract.addComment(postID: postID, author: usernameString, message: comment)
+                    contract.addComment(postID: postID, author: username.getUsernameString(), message: comment)
     
                     comment = ""
                     

@@ -12,23 +12,16 @@ struct ProfileView: View {
     
     var apis: APIs
     
-
-    
-    @State var usernameString: String
-    @State var avatarString: String
-    
     @State var generating: Bool
     @State var disabled: Bool
     
     @State var username: Username
     
-    init(_apis: APIs){
+    init(_apis: APIs, _username: Username){
         apis = _apis
-        usernameString = apis.retriveKey(for: "dvoxUsername") ?? "Error. Please restart the app."
-        avatarString = apis.retriveKey(for: "dvoxUsernameAvatar") ?? "Error. Please restart the app."
         generating = false
         disabled = true
-        username = Username(animal: "",adjective: "",number: 0)
+        username = _username
     }
     
     var body: some View {
@@ -48,7 +41,7 @@ struct ProfileView: View {
                             Spacer()
                         }
                         HStack{
-                            Image("\(avatarString)")
+                            Image(username.getAvatarString())
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 55, alignment: .bottom)
@@ -58,7 +51,8 @@ struct ProfileView: View {
                             
                             VStack{
                                 
-                                Text("\(usernameString)") .font(.custom("Montserrat-Bold", size: 20))
+                                Text(username.getUsernameString())
+                                    .font(.custom("Montserrat-Bold", size: 20))
                                     .frame(alignment: .bottom)
                                     .padding(.vertical)
                                 
@@ -108,15 +102,11 @@ struct ProfileView: View {
                         Spacer()
                         if self.generating == false {
                             Button(action: {
-                                self.generating.toggle()
-                                
-                                username = username.regenerate(firstRun: false)
-                                
-                                usernameString = "@" + username.adjective + "_" + username.animal + "_" + String(username.number)
-                                avatarString = "@avatar_" + username.animal.lowercased()
-                         
-                            
-                                disabled = false
+                                self.generating = true
+                                self.disabled = true
+                                username.saveOldUsername()
+                                username.generateUsername(firstRun: false)
+                                self.disabled = false
                             })
                             {
                                 (Text("Regenerate Profile")
@@ -133,10 +123,7 @@ struct ProfileView: View {
                                     
                                     self.generating = false
                                     
-                                    usernameString = apis.retriveKey(for: "dvoxUsername") ?? "Error. Please restart the app."
-                                    avatarString = apis.retriveKey(for: "dvoxUsernameAvatar") ?? "Error. Please restart the app."
-                                    
-                                    username.usernameAbort(username: username)
+                                    username.usernameAbort()
                                 })
                                 {
                                     (Text("Cancel")
@@ -152,14 +139,9 @@ struct ProfileView: View {
                                 
                                 Button(action: {
                                     self.generating = false
-                                                                    
-                                    apis.deleteKey(for: "dvoxUsername")
-                                    apis.saveKey(usernameString, for: "dvoxUsername")
-                                    
-                                    apis.deleteKey(for: "dvoxUsernameAvatar")
-                                    apis.saveKey(avatarString, for: "dvoxUsernameAvatar")
-                                    
-                                    username.usernameConfirm(username: username)
+                
+                        
+                                    username.usernameConfirm()
                                 })
                                 {
                                     (Text("Save")
@@ -240,6 +222,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(_apis: APIs())
+        ProfileView(_apis: APIs(), _username: Username())
     }
 }

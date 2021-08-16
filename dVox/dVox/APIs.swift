@@ -27,8 +27,6 @@ class APIs{
         
         DispatchQueue.main.async {
             
-            self.retriveUsername(firstRun: true)
-
             //Get the reference to the Firestore API document
             let ApiDoc = Firestore.firestore().collection("APIs").document("7rMOmCufceCpoXgxLRKo")
             
@@ -60,7 +58,6 @@ class APIs{
                 self.retriveKey(for: "InfuraURL") != nil) {
                 
                 print("All keys are recieved succesfully.")
-                print("Username: \(String(describing: self.retriveKey(for: "dvoxUsername")))")
 
             } else {
                 
@@ -135,49 +132,6 @@ class APIs{
         
         let status = SecItemDelete(query as CFDictionary)
         guard status == errSecSuccess else { return print("delete error")
-        }
-    }
-    
-    func retriveUsername(firstRun: Bool){
-        
-        var username = Username(animal: "", adjective: "", number: 0)
-        
-        if (self.retriveKey(for: "dvoxUsername") == "error" || self.retriveKey(for: "dvoxUsername") == nil || self.retriveKey(for: "dvoxUsernameAvatar") == "error" || self.retriveKey(for: "dvoxUsernameAvatar") == nil) {
-            
-            let group = DispatchGroup()
-            
-            group.enter()
-            
-            DispatchQueue.main.async {
-                
-                username = username.regenerate(firstRun: firstRun)
-                
-                let usernameString = "@" + username.adjective + "_" + username.animal + "_" + String(username.number)
-                let avatarString = "@avatar_" + username.animal.lowercased()
-
-                self.deleteKey(for: "dvoxUsername")
-                self.saveKey(usernameString, for: "dvoxUsername")
-                
-                self.deleteKey(for: "dvoxUsernameAvatar")
-                self.saveKey(avatarString, for: "dvoxUsernameAvatar")
-                
-                print(usernameString)
-                
-                group.leave()
-                
-            }
-            
-            group.notify(queue: .main) {
-                if (self.retriveKey(for: "dvoxUsername") != "error" && self.retriveKey(for: "dvoxUsername") != nil) {
-                    print("The username is generated succesfully.")
-                } else {
-                    
-                    print("Error while getting a username.")
-                }
-            }
-            
-        } else {
-            print("The username is retrived succesfully. (no generation)")
         }
     }
 }

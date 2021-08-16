@@ -14,8 +14,8 @@ struct ComposeView: View {
     @State var hashtag = ""
     @State var message = ""
     
-    @State var usernameString: String
-    @State var avatarString: String
+    @State var usernameString = UserDefaults.standard.string(forKey: "dvoxUsername")
+    @State var avatarString = UserDefaults.standard.string(forKey: "dvoxUsernameAvatar")
     
     
     @State var title_shake: Bool = false
@@ -32,11 +32,12 @@ struct ComposeView: View {
     
     var apis: APIs
     
+    var username: Username
     
-    init(_apis: APIs){
+    
+    init(_apis: APIs, _username: Username){
         apis = _apis
-        usernameString = apis.retriveKey(for: "dvoxUsername") ?? "Error. Please restart the app."
-        avatarString = apis.retriveKey(for: "dvoxUsernameAvatar") ?? "Error. Please restart the app."
+        username = _username
     }
     
     var body: some View {
@@ -51,7 +52,7 @@ struct ComposeView: View {
                     
                     VStack{
                         HStack{
-                            Image(avatarString)
+                            Image(username.getAvatarString())
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 45)
@@ -63,7 +64,7 @@ struct ComposeView: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .modifier(Shake(animatableData: CGFloat(title_attempts)))
                                 
-                                Text(usernameString)
+                                Text(username.getUsernameString())
                                     .font(.custom("Montserrat", size: 14))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
@@ -133,7 +134,7 @@ struct ComposeView: View {
     struct ComposeView_Previews: PreviewProvider {
         static var previews: some View {
             var apis = APIs()
-            ComposeView(_apis: apis)
+            ComposeView(_apis: apis, _username: Username())
         }
     }
     
@@ -170,7 +171,7 @@ struct ComposeView: View {
                 
                 if (add != "error" && inf != "error" && cre != "error") {
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)
-                    contract.createPost(title: title, author: "Aleksandr", message: message, hashtag: hashtag)
+                    contract.createPost(title: title, author: username.getUsernameString(), message: message, hashtag: hashtag)
                     title = ""
                     message = ""
                     hashtag = ""

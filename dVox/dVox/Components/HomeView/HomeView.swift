@@ -24,9 +24,12 @@ struct HomeView: View {
     
     var numberOfPostsToLoad = 6
     
-    init(_apis: APIs){
+    var username: Username
+    
+    init(_apis: APIs, _username: Username){
         nextIndex = 1
         apis = _apis
+        username = _username
         //loader.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
     }
     
@@ -44,7 +47,7 @@ struct HomeView: View {
                     LazyVStack{
                         ForEach(posts.indices, id: \.self) { index in
                             let post = posts[index]
-                            CardRow(_apis: apis, _post: post)
+                            CardRow(_apis: apis, _username: username, _post: post)
                                 .onAppear{
                                     print("Index \(index), nTl \(numberOfPostsToLoad)")
                                     if index == (numberOfPostsToLoad*nextIndex) - 2{
@@ -68,8 +71,11 @@ struct HomeView: View {
         
         var apis: APIs
 
-        init(_apis: APIs, _post: Post){
+        var username: Username
+        
+        init(_apis: APIs, _username: Username, _post: Post){
             apis = _apis
+            username = _username
             eachPost = _post
         }
         
@@ -143,7 +149,7 @@ struct HomeView: View {
                             .frame( alignment: .leading)
                             .padding([.bottom ], 20)
                         
-                        PushView(destination: CommentView(_apis: apis, _post: eachPost), isActive: $isActive) {
+                        PushView(destination: CommentView(_apis: apis, _username: username, _post: eachPost), isActive: $isActive) {
                             
                             
                             Button(action: {
@@ -184,7 +190,7 @@ struct HomeView: View {
         struct HomeView_Previews: PreviewProvider {
             static var previews: some View {
                 var apis = APIs()
-                HomeView(_apis: apis)
+                HomeView(_apis: apis, _username: Username())
             }
         }
         
