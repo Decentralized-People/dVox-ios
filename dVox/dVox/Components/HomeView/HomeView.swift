@@ -18,22 +18,23 @@ struct HomeView: View {
         Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", upVotes: 10, downVotes: 4, commentsNumber: 7, ban: false),
         Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false),
     ]
-    
-    @ObservedObject var loader = PostLoader()
+     
+    @ObservedObject var loader: PostLoader
     @State var nextIndex = 1
-    
-    @Environment(\.managedObjectContext) var managedObjectContext
-    
-    @FetchRequest( entity: Item.entity(),sortDescriptors: [NSSortDescriptor(keyPath: \Item.postId, ascending: true)])
-    var items: FetchedResults<Item>
-    
+   
     var numberOfPostsToLoad = 6
     
     var username: Username
     
-    init(_apis: APIs, _username: Username){
+    var codeDM: PersistenceController
+    
+    @State var items: [Item] = [Item]()
+    
+    init(_apis: APIs, _username: Username, _codeDM: PersistenceController, _postLoader: PostLoader){
         apis = _apis
         username = _username
+        codeDM = _codeDM
+        loader = _postLoader
         loader.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
     }
     
@@ -50,7 +51,8 @@ struct HomeView: View {
                 VStack{
                 
                     Button(action: {
-                        loader.savePost(post:  Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false))
+                       // loader.savePost(post:  Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false))
+                        codeDM.savePost(post: Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false))
                     }){
                         Text("addPost")
                     }
@@ -71,7 +73,9 @@ struct HomeView: View {
                         }
                         .padding([.bottom], 10)
                     }
-                }
+                }.onAppear(perform: {
+                    items = codeDM.getallItems()
+                })
                 }
             }
             .navigationBarHidden(true)
@@ -203,12 +207,12 @@ struct HomeView: View {
             }
         }
         
-        struct HomeView_Previews: PreviewProvider {
-            static var previews: some View {
-                var apis = APIs()
-                HomeView(_apis: apis, _username: Username())
-            }
-        }
+//        struct HomeView_Previews: PreviewProvider {
+//            static var previews: some View {
+//                var apis = APIs()
+//                HomeView(_apis: apis, _username: Username(), _codeDM: PersistenceController(), _postLoader: PostLoader(PersistenceController()))
+//            }
+//        }
         
         struct RoundedCorners: Shape {
             var tl: CGFloat = 0.0

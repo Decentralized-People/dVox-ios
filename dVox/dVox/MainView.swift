@@ -30,14 +30,18 @@ struct MainView: View {
     
     let username = Username()
     
+    let codeDM = PersistenceController()
+    
+    let postLoader: PostLoader
+    
     init(){
         apis.resetAPIs()
         apis.getAPIs()
+        postLoader = PostLoader(_codeDM: codeDM)
     }
     
     @State var selection: Int = 0
     
-    let persistanceController = PersistenceController.shared
     
     var body: some View {
         
@@ -59,7 +63,7 @@ struct MainView: View {
                             .frame(height: 0)
                         
                         TabView(selection: $selection) {
-                            HomeView(_apis: apis, _username: username)
+                            HomeView(_apis: apis, _username: username, _codeDM: codeDM, _postLoader: postLoader)
                                 .tag(0)
                             
                             ComposeView(_apis: apis, _username: username)
@@ -127,7 +131,6 @@ struct MainView: View {
                 
             }
         }
-        .environment(\.managedObjectContext, persistanceController.container.viewContext)
     }
         
 }

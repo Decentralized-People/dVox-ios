@@ -9,23 +9,21 @@ import SwiftUI
 
 class PostLoader: ObservableObject  {
         
-    @Environment(\.managedObjectContext) var managedObjectContext
-    
-    @FetchRequest( entity: Item.entity(),sortDescriptors: [NSSortDescriptor(keyPath: \Item.postId, ascending: true)])
-    var items: FetchedResults<Item>
-    
+
     
     @Published var savedPosts = [Post(id: 3, title: "eee", author: "text", message: "test", hastag: "ddddd", upVotes: 1, downVotes: 2, commentsNumber: 4, ban: false)]
 
     @Published var allPosts = [Post]()
     
-    init(){
-        savedPosts = getFromSavedPosts()
+    let codeDM: PersistenceController
+    
+    init(_codeDM: PersistenceController){
+        codeDM = _codeDM
     }
     
     func getPosts(index: Int, apis: APIs, currentId: Int, getPosts: Int){
         print("getting NEW POSTS \(index)")
-        savePost(post: Post(id: 3, title: "eee", author: "text", message: "test", hastag: "ddddd", upVotes: 1, downVotes: 2, commentsNumber: 4, ban: false))
+        codeDM.savePost(post: Post(id: 3, title: "eee", author: "text", message: "test", hastag: "ddddd", upVotes: 1, downVotes: 2, commentsNumber: 4, ban: false))
         loadMore(apis: apis, numberOfPosts: getPosts, currentId: currentId)
     }
     
@@ -51,7 +49,7 @@ class PostLoader: ObservableObject  {
                 let contract = SmartContract(credentials: cre, infura: inf, address: add)
                 
                 /// Get data at a background thread
-                DispatchQueue.global(qos: .userInitiated).async {
+                DispatchQueue.global(qos: .userInitiated).async { [self] in
                     var postCount = 0;
                     if currentId == -1 {
                         postCount = contract.getPostCount()
@@ -64,13 +62,15 @@ class PostLoader: ObservableObject  {
                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false)
                                 Post = contract.getPost(id: i)
                                 print("Post: \(Post.id): \(Post.title)")
+                                
+                                codeDM.savePost(post: Post)
 
                                 /// Update UI at the main thread
                                 DispatchQueue.main.async {
                                     
                                     print("Post: \(Post.id): \(Post.title)")
                                         
-                                    self.savePost(post: Post)
+                                    self.codeDM.savePost(post: Post)
                                                               
                                     self.allPosts.append(Post)
                                     
@@ -84,35 +84,35 @@ class PostLoader: ObservableObject  {
         }
     }
     
-    func savePost(post: Post){
-        
-        let item = Item(context: managedObjectContext)
-        
-        item.postId = Int64(post.id)
-        item.author = post.author
-        item.title = post.title
-        item.message = post.message
-        item.hashtag = post.hashtag
-        item.upVotes = Int64(post.upVotes)
-        item.downVotes = Int64(post.downVotes)
-        item.commentsNumber = Int64(post.commentsNumber)
-        item.ban = post.ban
-        
-        print("Saving..........")
-        PersistenceController.shared.save()
-        
-    }
-    
-    func getFromSavedPosts() -> [Post]{
-        var postArray = [Post]()
-        print("trying to get a post...")
-        Array(items).forEach { item in
-            let post = Post(id: Int(item.postId), title: item.title ?? "No title provided", author: item.author ?? "No author provided", message: item.message ?? "No message provided", hastag: item.hashtag ?? "No hashtag provided", upVotes: Int(item.upVotes), downVotes: Int(item.downVotes), commentsNumber: Int(item.commentsNumber), ban: item.ban)
-            postArray.append(post)
-            print("hm.. \(item.title)")
-
-        }
-        return postArray
-    }
+//    func savePost(post: Post){
+//
+//        let item = Item(context: managedObjectContext)
+//
+//        item.postId = Int64(post.id)
+//        item.author = post.author
+//        item.title = post.title
+//        item.message = post.message
+//        item.hashtag = post.hashtag
+//        item.upVotes = Int64(post.upVotes)
+//        item.downVotes = Int64(post.downVotes)
+//        item.commentsNumber = Int64(post.commentsNumber)
+//        item.ban = post.ban
+//
+//        print("Saving..........")
+//        PersistenceController.shared.save()
+//
+//    }
+//
+//    func getFromSavedPosts() -> [Post]{
+//        var postArray = [Post]()
+//        print("trying to get a post...")
+//        Array(items).forEach { item in
+//            let post = Post(id: Int(item.postId), title: item.title ?? "No title provided", author: item.author ?? "No author provided", message: item.message ?? "No message provided", hastag: item.hashtag ?? "No hashtag provided", upVotes: Int(item.upVotes), downVotes: Int(item.downVotes), commentsNumber: Int(item.commentsNumber), ban: item.ban)
+//            postArray.append(post)
+//            print("hm.. \(item.title)")
+//
+//        }
+//        return postArray
+//    }
 }
 
