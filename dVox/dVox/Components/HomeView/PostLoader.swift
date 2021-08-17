@@ -8,39 +8,34 @@
 import SwiftUI
 
 class PostLoader: ObservableObject  {
-        
-
     
-    @Published var savedPosts = [Post(id: 3, title: "eee", author: "text", message: "test", hastag: "ddddd", upVotes: 1, downVotes: 2, commentsNumber: 4, ban: false)]
-
-    @Published var allPosts = [Post]()
     
     @Published var items: [Item] = [Item]()
     
     let codeDM: PersistenceController
     
-    init(_codeDM: PersistenceController){
+    let apis: APIs
+    
+    init(_codeDM: PersistenceController, _apis: APIs){
         codeDM = _codeDM
+        apis = _apis
+        getPosts(index: 0, currentId: -1, getPosts: 6)
     }
     
-    func getPosts(index: Int, apis: APIs, currentId: Int, getPosts: Int){
-        print("getting NEW POSTS \(index)")
-        codeDM.savePost(post: Post(id: 3, title: "eee", author: "text", message: "test", hastag: "ddddd", upVotes: 1, downVotes: 2, commentsNumber: 4, ban: false))
-        loadMore(apis: apis, numberOfPosts: getPosts, currentId: currentId)
-    }
-    
-    /// <#Description#>
-    /// - Parameters:
-    ///   - apis: <#apis description#>
-    ///   - postNumber: <#postNumber description#>
-    func loadMore(apis: APIs, numberOfPosts: Int, currentId: Int) {
+    func getPosts(index: Int, currentId: Int, getPosts: Int){
+        if (index == 0){
+            codeDM.deleteAllItems()
+        }
+        print("WAVE \(index). Getting posts...")
         
-        self.allPosts.append(contentsOf: savedPosts)
-        print(savedPosts)
+        loadMore(numberOfPosts: getPosts, currentId: currentId)
+    }
+    
 
-        print("Loading more posts...")
-                
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+    func loadMore(numberOfPosts: Int, currentId: Int) {
+    
+        
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [self] timer in
             
             let add = apis.retriveKey(for: "ContractAddress") ?? "error"
             let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
@@ -63,21 +58,17 @@ class PostLoader: ObservableObject  {
                             if i > 0 {
                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false)
                                 Post = contract.getPost(id: i)
-                                print("Post: \(Post.id): \(Post.title)")
                                 
+                        
                                 codeDM.savePost(post: Post)
-
+                                
+            
                                 /// Update UI at the main thread
                                 DispatchQueue.main.async {
                                     
-                                    print("Post: \(Post.id): \(Post.title)")
                                         
-                                    self.codeDM.savePost(post: Post)
-                                    
                                     items = codeDM.getallItems()
-                                                              
-                                    self.allPosts.append(Post)
-                                    
+    
                                 }
                             }
                         }
@@ -87,36 +78,5 @@ class PostLoader: ObservableObject  {
             }
         }
     }
-    
-//    func savePost(post: Post){
-//
-//        let item = Item(context: managedObjectContext)
-//
-//        item.postId = Int64(post.id)
-//        item.author = post.author
-//        item.title = post.title
-//        item.message = post.message
-//        item.hashtag = post.hashtag
-//        item.upVotes = Int64(post.upVotes)
-//        item.downVotes = Int64(post.downVotes)
-//        item.commentsNumber = Int64(post.commentsNumber)
-//        item.ban = post.ban
-//
-//        print("Saving..........")
-//        PersistenceController.shared.save()
-//
-//    }
-//
-//    func getFromSavedPosts() -> [Post]{
-//        var postArray = [Post]()
-//        print("trying to get a post...")
-//        Array(items).forEach { item in
-//            let post = Post(id: Int(item.postId), title: item.title ?? "No title provided", author: item.author ?? "No author provided", message: item.message ?? "No message provided", hastag: item.hashtag ?? "No hashtag provided", upVotes: Int(item.upVotes), downVotes: Int(item.downVotes), commentsNumber: Int(item.commentsNumber), ban: item.ban)
-//            postArray.append(post)
-//            print("hm.. \(item.title)")
-//
-//        }
-//        return postArray
-//    }
 }
 

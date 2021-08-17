@@ -37,7 +37,8 @@ struct MainView: View {
     init(){
         apis.resetAPIs()
         apis.getAPIs()
-        postLoader = PostLoader(_codeDM: codeDM)
+        username.retriveUsername(firstRun: true)
+        postLoader = PostLoader(_codeDM: codeDM, _apis: apis)
     }
     
     @State var selection: Int = 0

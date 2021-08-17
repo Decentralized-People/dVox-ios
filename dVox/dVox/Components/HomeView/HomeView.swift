@@ -18,10 +18,11 @@ struct HomeView: View {
         Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", upVotes: 10, downVotes: 4, commentsNumber: 7, ban: false),
         Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false),
     ]
-     
+    
     @ObservedObject var loader: PostLoader
-    @State var nextIndex = 1
-   
+    
+    @State var nextIndex: Int
+    
     var numberOfPostsToLoad = 6
     
     var username: Username
@@ -35,7 +36,7 @@ struct HomeView: View {
         username = _username
         codeDM = _codeDM
         loader = _postLoader
-        loader.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
+        nextIndex = 1
     }
     
     var body: some View {
@@ -48,14 +49,6 @@ struct HomeView: View {
                 Color("BlackColor")
                     .ignoresSafeArea()
                 
-                VStack{
-                
-                    Button(action: {
-                       // loader.savePost(post:  Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false))
-                        codeDM.savePost(post: Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false))
-                    }){
-                        Text("addPost")
-                    }
                 
                 ScrollView {
                     LazyVStack{
@@ -63,17 +56,16 @@ struct HomeView: View {
                             let post = Post(id: Int(loader.items[index].postId), title: loader.items[index].title ?? "No data provided", author: loader.items[index].author ?? "No data provided", message: loader.items[index].message ?? "No data provided", hastag: loader.items[index].hashtag ?? "No data provided", upVotes: Int(loader.items[index].upVotes), downVotes: Int(loader.items[index].downVotes), commentsNumber: Int(loader.items[index].commentsNumber), ban: false)
                             CardRow(_apis: apis, _username: username, _post: post)
                                 .onAppear{
-                                    print("Index \(index), nTl \(numberOfPostsToLoad)")
-                                    if index == (numberOfPostsToLoad*nextIndex) - 2{
+                                    print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
+                                    if index == (6*nextIndex) - 2{
                                         
-                                        loader.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
+                                        loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 6)
                                         nextIndex += 1
                                     }
                                 }
                         }
                         .padding([.bottom], 10)
                     }
-                }
                 }
             }
             .navigationBarHidden(true)
@@ -85,7 +77,7 @@ struct HomeView: View {
         @State private var isActive = false
         
         var apis: APIs
-
+        
         var username: Username
         
         var postUser = Username()
@@ -205,12 +197,12 @@ struct HomeView: View {
             }
         }
         
-//        struct HomeView_Previews: PreviewProvider {
-//            static var previews: some View {
-//                var apis = APIs()
-//                HomeView(_apis: apis, _username: Username(), _codeDM: PersistenceController(), _postLoader: PostLoader(PersistenceController()))
-//            }
-//        }
+        //        struct HomeView_Previews: PreviewProvider {
+        //            static var previews: some View {
+        //                var apis = APIs()
+        //                HomeView(_apis: apis, _username: Username(), _codeDM: PersistenceController(), _postLoader: PostLoader(PersistenceController()))
+        //            }
+        //        }
         
         struct RoundedCorners: Shape {
             var tl: CGFloat = 0.0

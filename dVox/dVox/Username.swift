@@ -22,7 +22,6 @@ class Username: ObservableObject {
         animal = "Retrieving"
         adjective = "The username"
         number = 0
-        retriveUsername(firstRun: true)
     }
     
     func getAvatarString() -> String {
@@ -43,7 +42,6 @@ class Username: ObservableObject {
         let ch = Character("_")
         let array = usernameString.split(separator: ch)
         
-        print("ARRAY \(array.count)")
         if (array.count == 3) {
             
             self.adjective = String(array[0])

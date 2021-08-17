@@ -45,17 +45,30 @@ class PersistenceController {
         item.commentsNumber = Int64(post.commentsNumber)
         item.ban = post.ban
         
-        print("Saving..........")
         PersistenceController.shared.save()
         
     }
 
+    func deleteAllItems() {
+        let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context.fetch(fetchRequest)
+            for item in results {
+                context.delete(item)
+            }
+        } catch let error {
+            print("Error while deleting all saved posts: \(error) Check Persistence Controller.")
+        }
+    }
+    
     func getallItems() -> [Item] {
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
             
         do {
             return try context.fetch(fetchRequest)
         } catch {
+            print("Error while retrieving all saved posts: \(error) Check Persistence Controller.")
             return []
         }
     }
@@ -64,9 +77,9 @@ class PersistenceController {
     func save(completion: @escaping (Error?) -> () = {_ in}) {
             do {
                 try context.save()
-                print("Saved!")
                 completion(nil)
             } catch {
+                print("Error while saving posts: \(error) Check Persistence Controller.")
                 completion(error)
             }
         
