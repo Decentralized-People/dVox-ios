@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import SwiftUI
 
 struct PersistenceController {
     
@@ -27,9 +28,11 @@ struct PersistenceController {
         let context = container.viewContext
         if context.hasChanges {
             do {
+                print("SAVING")
                 try context.save()
                 completion(nil)
             } catch {
+                print("ERROR")
                 completion(error)
             }
         }

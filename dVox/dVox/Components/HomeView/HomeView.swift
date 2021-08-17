@@ -19,18 +19,22 @@ struct HomeView: View {
         Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false),
     ]
     
-    //@ObservedObject var loader = PostLoader()
-    @State var nextIndex: Int
+    @ObservedObject var loader = PostLoader()
+    @State var nextIndex = 1
+    
+    @Environment(\.managedObjectContext) var managedObjectContext
+    
+    @FetchRequest( entity: Item.entity(),sortDescriptors: [NSSortDescriptor(keyPath: \Item.postId, ascending: true)])
+    var items: FetchedResults<Item>
     
     var numberOfPostsToLoad = 6
     
     var username: Username
     
     init(_apis: APIs, _username: Username){
-        nextIndex = 1
         apis = _apis
         username = _username
-        //loader.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
+        loader.getPosts(index: 0, apis: apis, currentId: -1, getPosts: numberOfPostsToLoad)
     }
     
     var body: some View {
@@ -43,22 +47,31 @@ struct HomeView: View {
                 Color("BlackColor")
                     .ignoresSafeArea()
                 
+                VStack{
+                
+                    Button(action: {
+                        loader.savePost(post:  Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false))
+                    }){
+                        Text("addPost")
+                    }
+                
                 ScrollView {
                     LazyVStack{
-                        ForEach(posts.indices, id: \.self) { index in
-                            let post = posts[index]
+                        ForEach(items.indices, id: \.self) { index in
+                            let post = Post(id: Int(items[index].postId), title: items[index].title ?? "No data provided", author: items[index].author ?? "No data provided", message: items[index].message ?? "No data provided", hastag: items[index].hashtag ?? "No data provided", upVotes: Int(items[index].upVotes), downVotes: Int(items[index].downVotes), commentsNumber: Int(items[index].commentsNumber), ban: false)
                             CardRow(_apis: apis, _username: username, _post: post)
                                 .onAppear{
                                     print("Index \(index), nTl \(numberOfPostsToLoad)")
                                     if index == (numberOfPostsToLoad*nextIndex) - 2{
                                         
-                                        //loader.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
+                                        loader.getPosts(index: nextIndex, apis: apis, currentId: post.id, getPosts: numberOfPostsToLoad)
                                         nextIndex += 1
                                     }
                                 }
                         }
                         .padding([.bottom], 10)
                     }
+                }
                 }
             }
             .navigationBarHidden(true)
@@ -73,10 +86,13 @@ struct HomeView: View {
 
         var username: Username
         
+        var postUser = Username()
+        
         init(_apis: APIs, _username: Username, _post: Post){
             apis = _apis
             username = _username
             eachPost = _post
+            postUser.stringToUsername(usernameString: eachPost.author)
         }
         
         var body: some View {
@@ -85,7 +101,7 @@ struct HomeView: View {
                 
                 VStack{
                     HStack{
-                        Image("@avatar_snake")
+                        Image(postUser.getAvatarString())
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 45)
@@ -96,7 +112,7 @@ struct HomeView: View {
                                 .font(.custom("Montserrat-Bold", size: 20))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Text(eachPost.author)
+                            Text(postUser.getUsernameString())
                                 .font(.custom("Montserrat", size: 14))
                             
                                 .frame(maxWidth: .infinity, alignment: .leading)

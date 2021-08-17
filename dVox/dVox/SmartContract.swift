@@ -177,4 +177,13 @@ class SmartContract{
                 print(error.localizedDescription)
         }
     }
+    func banPost(postId: Int){
+        let transaction = contract.write("banPost", parameters: [BigUInt(postId)] as [AnyObject], transactionOptions: transactionOptions);
+        do {
+            let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
+            print("Post created!" , result ?? "Error")
+        } catch {
+                print(error.localizedDescription)
+        }
+    }
 }

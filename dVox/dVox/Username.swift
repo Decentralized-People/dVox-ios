@@ -30,7 +30,12 @@ class Username: ObservableObject {
     }
     
     func getUsernameString() -> String {
+        if (animal == "Hacker") { 
+            return animal
+        }
+        else {
         return self.adjective + "_" + self.animal + "_" + String(self.number)
+        }
     }
     
     func stringToUsername(usernameString: String){
@@ -38,6 +43,7 @@ class Username: ObservableObject {
         let ch = Character("_")
         let array = usernameString.split(separator: ch)
         
+        print("ARRAY \(array.count)")
         if (array.count == 3) {
             
             self.adjective = String(array[0])
@@ -50,13 +56,17 @@ class Username: ObservableObject {
             self.animal = String(array[1]) + "_" + String(array[2])
             self.number = Int(array[3]) ?? 0
             
+        } else {
+            self.animal = "Hacker"
+            self.adjective = ""
+            self.number = 0
         }
     }
     
     func retriveUsername(firstRun: Bool){
                 
         if (UserDefaults.standard.string(forKey: "dvoxUsername") == nil ||
-            UserDefaults.standard.string(forKey: "dvoxUsername") == nil) {
+            UserDefaults.standard.string(forKey: "dvoxUsernameAvatar") == nil) {
             
             let group = DispatchGroup()
             

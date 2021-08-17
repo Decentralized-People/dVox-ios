@@ -11,7 +11,7 @@ class PostLoader: ObservableObject  {
         
     @Environment(\.managedObjectContext) var managedObjectContext
     
-    @FetchRequest( entity: Item.entity(),sortDescriptors: [NSSortDescriptor(keyPath: \Item.id, ascending: true)])
+    @FetchRequest( entity: Item.entity(),sortDescriptors: [NSSortDescriptor(keyPath: \Item.postId, ascending: true)])
     var items: FetchedResults<Item>
     
     
@@ -20,10 +20,12 @@ class PostLoader: ObservableObject  {
     @Published var allPosts = [Post]()
     
     init(){
+        savedPosts = getFromSavedPosts()
     }
     
     func getPosts(index: Int, apis: APIs, currentId: Int, getPosts: Int){
         print("getting NEW POSTS \(index)")
+        savePost(post: Post(id: 3, title: "eee", author: "text", message: "test", hastag: "ddddd", upVotes: 1, downVotes: 2, commentsNumber: 4, ban: false))
         loadMore(apis: apis, numberOfPosts: getPosts, currentId: currentId)
     }
     
@@ -34,6 +36,7 @@ class PostLoader: ObservableObject  {
     func loadMore(apis: APIs, numberOfPosts: Int, currentId: Int) {
         
         self.allPosts.append(contentsOf: savedPosts)
+        print(savedPosts)
 
         print("Loading more posts...")
                 
@@ -60,12 +63,15 @@ class PostLoader: ObservableObject  {
                             if i > 0 {
                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false)
                                 Post = contract.getPost(id: i)
-                                
+                                print("Post: \(Post.id): \(Post.title)")
+
                                 /// Update UI at the main thread
                                 DispatchQueue.main.async {
                                     
-                                    print(Post.id)
-                                    
+                                    print("Post: \(Post.id): \(Post.title)")
+                                        
+                                    self.savePost(post: Post)
+                                                              
                                     self.allPosts.append(Post)
                                     
                                 }
@@ -78,25 +84,35 @@ class PostLoader: ObservableObject  {
         }
     }
     
-    func savePost(){
+    func savePost(post: Post){
+        
         let item = Item(context: managedObjectContext)
-            item.id = 1
-            item.author = ""
-            item.hashtag = ""
-            item.commentsNumber = 1
-            item.ban = false
-            item.downVotes = 2
-            item.upVotes = 4
-            item.title = "I am the first data title!"
+        
+        item.postId = Int64(post.id)
+        item.author = post.author
+        item.title = post.title
+        item.message = post.message
+        item.hashtag = post.hashtag
+        item.upVotes = Int64(post.upVotes)
+        item.downVotes = Int64(post.downVotes)
+        item.commentsNumber = Int64(post.commentsNumber)
+        item.ban = post.ban
+        
+        print("Saving..........")
         PersistenceController.shared.save()
+        
     }
     
-    func getFromSavedPosts(){
-        items.forEach { item in
-            print("trying to print smth... PLEASE WORK")
-            print(item.title)
-            
+    func getFromSavedPosts() -> [Post]{
+        var postArray = [Post]()
+        print("trying to get a post...")
+        Array(items).forEach { item in
+            let post = Post(id: Int(item.postId), title: item.title ?? "No title provided", author: item.author ?? "No author provided", message: item.message ?? "No message provided", hastag: item.hashtag ?? "No hashtag provided", upVotes: Int(item.upVotes), downVotes: Int(item.downVotes), commentsNumber: Int(item.commentsNumber), ban: item.ban)
+            postArray.append(post)
+            print("hm.. \(item.title)")
+
         }
+        return postArray
     }
 }
 

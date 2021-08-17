@@ -112,7 +112,7 @@ struct ComposeView: View {
                                 self.hashtag_attempts += hashtagShake();
                             }
                             print(hashtag_attempts)
-                            // createPost();
+                            createPost();
                         })
                         {
                             (Text("Create Post")
@@ -160,7 +160,6 @@ struct ComposeView: View {
         }
         return 0
     }
-    
     
     func createPost() {
         if title != "" && message != "" && hashtag != "" {
