@@ -173,7 +173,7 @@ struct HomeView: View {
                             .frame( alignment: .leading)
                             .padding([.bottom ], 20)
                         
-                        Text(eachPost.hastag)
+                        Text(eachPost.hashtag)
                             .font(.custom("Montserrat-Bold", size: 14))
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding([.leading, .bottom, .trailing], 20)

@@ -106,7 +106,7 @@ class SmartContract{
             post.title = result?["title"] as! String
             post.author = result?["author"] as! String
             post.message = result?["message"] as! String
-            post.hastag = result?["hashtag"] as! String
+            post.hashtag = result?["hashtag"] as! String
             post.upVotes = Int(result?["upVotes"] as! BigUInt)
             post.downVotes = Int(result?["downVotes"] as! BigUInt)
             post.commentsNumber = Int(result?["commentCount"] as! BigUInt)

@@ -226,7 +226,7 @@ struct CommentView: View {
                         .frame( alignment: .leading)
                         .padding([.bottom ], 20)
                     
-                    Text(post.hastag)
+                    Text(post.hashtag)
                         .font(.custom("Montserrat-Bold", size: 14))
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding([.leading, .bottom], 20)

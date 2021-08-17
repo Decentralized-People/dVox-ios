@@ -15,7 +15,7 @@ class Post: Identifiable {
     var title: String
     var author: String
     var message: String
-    var hastag: String
+    var hashtag: String
     var upVotes: Int
     var downVotes: Int
     var commentsNumber: Int
@@ -26,7 +26,7 @@ class Post: Identifiable {
         self.title = title
         self.author = author
         self.message = message
-        self.hastag = hastag
+        self.hashtag = hastag
         self.upVotes = upVotes
         self.downVotes = downVotes
         self.commentsNumber = commentsNumber

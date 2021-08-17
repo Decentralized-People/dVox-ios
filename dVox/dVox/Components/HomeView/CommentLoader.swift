@@ -7,9 +7,7 @@ import SwiftUI
 
 class CommentLoader: ObservableObject  {
     
-    
-    
-    @Published var allComments_ = [Comment]()
+    @Published var allComments = [Comment]()
     
     func getComments(index: Int, apis: APIs, postId: Int, currentId: Int, getComments: Int){
         print("Getting new comments, cycle \(index)")
@@ -55,7 +53,7 @@ class CommentLoader: ObservableObject  {
                                     DispatchQueue.main.async {
                                         
                                         print(Comment.id)
-                                        self.allComments_.append(Comment)
+                                        self.allComments.append(Comment)
                                         
                                     }
                                 }

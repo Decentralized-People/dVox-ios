@@ -8,8 +8,19 @@
 import SwiftUI
 
 class PostLoader: ObservableObject  {
+        
+    @Environment(\.managedObjectContext) var managedObjectContext
     
-    @Published var allPosts_ = [Post]()
+    @FetchRequest( entity: Item.entity(),sortDescriptors: [NSSortDescriptor(keyPath: \Item.id, ascending: true)])
+    var items: FetchedResults<Item>
+    
+    
+    @Published var savedPosts = [Post(id: 3, title: "eee", author: "text", message: "test", hastag: "ddddd", upVotes: 1, downVotes: 2, commentsNumber: 4, ban: false)]
+
+    @Published var allPosts = [Post]()
+    
+    init(){
+    }
     
     func getPosts(index: Int, apis: APIs, currentId: Int, getPosts: Int){
         print("getting NEW POSTS \(index)")
@@ -22,8 +33,10 @@ class PostLoader: ObservableObject  {
     ///   - postNumber: <#postNumber description#>
     func loadMore(apis: APIs, numberOfPosts: Int, currentId: Int) {
         
+        self.allPosts.append(contentsOf: savedPosts)
+
         print("Loading more posts...")
-        
+                
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
             
             let add = apis.retriveKey(for: "ContractAddress") ?? "error"
@@ -52,7 +65,8 @@ class PostLoader: ObservableObject  {
                                 DispatchQueue.main.async {
                                     
                                     print(Post.id)
-                                    self.allPosts_.append(Post)
+                                    
+                                    self.allPosts.append(Post)
                                     
                                 }
                             }
@@ -61,6 +75,27 @@ class PostLoader: ObservableObject  {
                 }
                 timer.invalidate()
             }
+        }
+    }
+    
+    func savePost(){
+        let item = Item(context: managedObjectContext)
+            item.id = 1
+            item.author = ""
+            item.hashtag = ""
+            item.commentsNumber = 1
+            item.ban = false
+            item.downVotes = 2
+            item.upVotes = 4
+            item.title = "I am the first data title!"
+        PersistenceController.shared.save()
+    }
+    
+    func getFromSavedPosts(){
+        items.forEach { item in
+            print("trying to print smth... PLEASE WORK")
+            print(item.title)
+            
         }
     }
 }

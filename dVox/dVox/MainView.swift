@@ -37,6 +37,8 @@ struct MainView: View {
     
     @State var selection: Int = 0
     
+    let persistanceController = PersistenceController.shared
+    
     var body: some View {
         
         ZStack{
@@ -121,9 +123,13 @@ struct MainView: View {
                     }) ,alignment: .bottom)
                     
                     
-                }}
+                }
+                
+            }
         }
+        .environment(\.managedObjectContext, persistanceController.container.viewContext)
     }
+        
 }
 
 struct EdgeBorder: Shape {
