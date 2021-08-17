@@ -12,16 +12,13 @@ import NavigationStack
 struct CommentView: View {
     
     var post: Post
-    
-    var numberOfCommentsToLoad = 6
-    
+        
     @State var comment = ""
-    
     
     var apis: APIs
 
     
-    //@ObservedObject var loader = CommentLoader()
+    @ObservedObject var loader = CommentLoader()
 
     
     var comments = [
@@ -36,12 +33,14 @@ struct CommentView: View {
     
     var username: Username
     
+    var postUser = Username()
+    
     init(_apis: APIs, _username: Username, _post: Post ){
         apis = _apis
         username = _username
         post = _post
         nextIndex = 1
-        //loader.getComments(index: 0, apis: _apis, postId: _post.id, currentId: -1, getComments: numberOfCommentsToLoad)
+        loader.getComments(index: 0, apis: _apis, post: _post, currentId: -1, getComments: 6)
     }
     
     var body: some View {
@@ -57,20 +56,19 @@ struct CommentView: View {
                     
                     VStack{
                                 
-                        CommentPost(_post: post)
+                        CommentPost(_post: post, _avatar: username.getAvatarString())
 
                         Divider()
                         
                         ScrollView {
                             LazyVStack{
-                                ForEach(comments.indices, id: \.self) { index in
-                                    let comment = comments[index]
-                                    //CardRow(eachComment: comment)
+                                ForEach(loader.allComments.indices, id: \.self) { index in
+                                    let comment = loader.allComments[index]
                                     CommentItem(_comment: comment)
                                         .onAppear{
-                                            print("Index \(index), nTl \(numberOfCommentsToLoad)")
-                                            if index == (numberOfCommentsToLoad*nextIndex) - 2{
-                                            //loader.getComments(index: index, apis: apis, postId: post.id, currentId: comment.id, getComments: numberOfCommentsToLoad)
+                                            print("Index \(index), nTl \(6)")
+                                            if index == (6*nextIndex) - 2{
+                                                loader.getComments(index: index, apis: apis, post: post, currentId: comment.id, getComments: 6)
                                             }
                                         }
                                 }
@@ -123,9 +121,12 @@ struct CommentView: View {
     struct CommentPost: View {
         
         var post: Post
+    
+        var avatar: String
         
-        init(_post: Post){
+        init(_post: Post, _avatar: String){
             post = _post
+            avatar = _avatar
         }
         
         var body: some View {
@@ -134,7 +135,7 @@ struct CommentView: View {
                 
                 ZStack{
                     HStack{
-                        Image("@avatar_snake")
+                        Image(avatar)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 45)
@@ -242,8 +243,11 @@ struct CommentView: View {
         
         var comment: Comment
         
+        var commentUser = Username()
+        
         init(_comment: Comment){
             comment = _comment
+            commentUser.stringToUsername(usernameString: comment.author)
         }
         
         var body: some View {
@@ -252,7 +256,7 @@ struct CommentView: View {
                 
                 HStack{
                     VStack{
-                        Image("@avatar_snake")
+                        Image(commentUser.getAvatarString())
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 30)
@@ -266,7 +270,7 @@ struct CommentView: View {
                  
                         HStack{
                             
-                            Text(comment.author)
+                            Text(commentUser.getUsernameString())
                                 .font(.custom("Montserrat-Bold", size: 14))
                                 .frame(alignment: .leading)
                             Spacer()

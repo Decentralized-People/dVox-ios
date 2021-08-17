@@ -9,16 +9,12 @@ class CommentLoader: ObservableObject  {
     
     @Published var allComments = [Comment]()
     
-    func getComments(index: Int, apis: APIs, postId: Int, currentId: Int, getComments: Int){
+    func getComments(index: Int, apis: APIs, post: Post, currentId: Int, getComments: Int){
         print("Getting new comments, cycle \(index)")
-        loadMore(apis: apis, postId: postId, numberOfComments: getComments, currentId: currentId)
+        loadMore(apis: apis, post: post, numberOfComments: getComments, currentId: currentId)
     }
-    
-    /// <#Description#>
-    /// - Parameters:
-    ///   - apis: <#apis description#>
-    ///   - postNumber: <#postNumber description#>
-    func loadMore(apis: APIs, postId: Int, numberOfComments: Int, currentId: Int) {
+
+    func loadMore(apis: APIs, post: Post, numberOfComments: Int, currentId: Int) {
         
         print("Loading more posts...")
         
@@ -35,11 +31,11 @@ class CommentLoader: ObservableObject  {
                 /// Get data at a background thread
                 DispatchQueue.global(qos: .userInitiated).async {
                     
-                    if (postId >= 1){
+                    if (post.id >= 1){
                     
                         var commentCount = 0;
                         if currentId == -1 {
-                            commentCount =  contract.getPost(id: contract.getPostCount()).commentsNumber
+                            commentCount =  post.commentsNumber
                         } else {
                             commentCount = currentId - 2
                         }
@@ -47,7 +43,7 @@ class CommentLoader: ObservableObject  {
                             for i in stride(from: commentCount, to: commentCount - numberOfComments, by: -1) {
                                 if i > 0 {
                                    
-                                    let Comment = contract.getComment(postId: postId, commentId: i)
+                                    let Comment = contract.getComment(postId: post.id, commentId: i)
                                     
                                     /// Update UI at the main thread
                                     DispatchQueue.main.async {

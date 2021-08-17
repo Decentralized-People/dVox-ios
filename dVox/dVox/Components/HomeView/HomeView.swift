@@ -58,7 +58,6 @@ struct HomeView: View {
                                 .onAppear{
                                     print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
                                     if index == (6*nextIndex) - 2{
-                                        
                                         loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 6)
                                         nextIndex += 1
                                     }
@@ -159,7 +158,7 @@ struct HomeView: View {
                             .frame( alignment: .leading)
                             .padding([.bottom ], 20)
                         
-                        PushView(destination: CommentView(_apis: apis, _username: username, _post: eachPost), isActive: $isActive) {
+                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost), isActive: $isActive) {
                             
                             
                             Button(action: {
