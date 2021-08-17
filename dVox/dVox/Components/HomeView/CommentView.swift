@@ -11,6 +11,9 @@ import NavigationStack
 
 struct CommentView: View {
     
+    @State var usernameString = UserDefaults.standard.string(forKey: "dvoxUsername")
+    @State var avatarString = UserDefaults.standard.string(forKey: "dvoxUsernameAvatar")
+    
     var post: Post
         
     @State var comment = ""
@@ -84,7 +87,7 @@ struct CommentView: View {
                             
                             VStack{
                                
-                                TextField("Comment as \(username.getUsernameString())", text: $comment)
+                                TextField("Comment as \(usernameString ?? "No data provided")", text: $comment)
                                     .accentColor(Color("BlackColor"))
                                     .font(.custom("Montserrat", size: 15))
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -348,7 +351,7 @@ struct CommentView: View {
                 if (add != "error" && inf != "error" && cre != "error") {
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)
                     
-                    contract.addComment(postID: postID, author: username.getUsernameString(), message: comment)
+                    contract.addComment(postID: postID, author: usernameString ?? "No data provided", message: comment)
     
                     comment = ""
                     
