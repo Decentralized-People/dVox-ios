@@ -59,8 +59,8 @@ struct HomeView: View {
                 
                 ScrollView {
                     LazyVStack{
-                        ForEach(items.indices, id: \.self) { index in
-                            let post = Post(id: Int(items[index].postId), title: items[index].title ?? "No data provided", author: items[index].author ?? "No data provided", message: items[index].message ?? "No data provided", hastag: items[index].hashtag ?? "No data provided", upVotes: Int(items[index].upVotes), downVotes: Int(items[index].downVotes), commentsNumber: Int(items[index].commentsNumber), ban: false)
+                        ForEach(loader.items.indices, id: \.self) { index in
+                            let post = Post(id: Int(loader.items[index].postId), title: loader.items[index].title ?? "No data provided", author: loader.items[index].author ?? "No data provided", message: loader.items[index].message ?? "No data provided", hastag: loader.items[index].hashtag ?? "No data provided", upVotes: Int(loader.items[index].upVotes), downVotes: Int(loader.items[index].downVotes), commentsNumber: Int(loader.items[index].commentsNumber), ban: false)
                             CardRow(_apis: apis, _username: username, _post: post)
                                 .onAppear{
                                     print("Index \(index), nTl \(numberOfPostsToLoad)")
@@ -73,9 +73,7 @@ struct HomeView: View {
                         }
                         .padding([.bottom], 10)
                     }
-                }.onAppear(perform: {
-                    items = codeDM.getallItems()
-                })
+                }
                 }
             }
             .navigationBarHidden(true)

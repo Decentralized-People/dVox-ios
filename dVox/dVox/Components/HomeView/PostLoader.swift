@@ -15,6 +15,8 @@ class PostLoader: ObservableObject  {
 
     @Published var allPosts = [Post]()
     
+    @Published var items: [Item] = [Item]()
+    
     let codeDM: PersistenceController
     
     init(_codeDM: PersistenceController){
@@ -71,6 +73,8 @@ class PostLoader: ObservableObject  {
                                     print("Post: \(Post.id): \(Post.title)")
                                         
                                     self.codeDM.savePost(post: Post)
+                                    
+                                    items = codeDM.getallItems()
                                                               
                                     self.allPosts.append(Post)
                                     
