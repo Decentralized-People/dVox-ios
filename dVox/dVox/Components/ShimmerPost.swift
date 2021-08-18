@@ -9,39 +9,36 @@ import UIKit
 
 
 
-struct Shimmer: View {
+struct ShimmerPost: View {
     
     @State var animation = false
 
-    
     var body: some View {
         
         VStack{
-            VStack(){
-                ZStack{
-                    ShimmerPost()
-                        .opacity(0.9)
-    
-                    ShimmerPost()
-                        .opacity(1)
-                 
-                    .mask(
-                        Rectangle()
-                            .fill(LinearGradient(gradient: .init(colors: [Color.white.opacity(0.5),Color.black,Color.black.opacity(0.75)]), startPoint: .top, endPoint: .bottom))
-                            .rotationEffect(.init(degrees: 130))
-                            .padding(20)
-                        //Moves the view to create shimmer effect
-                            .offset(x: -250)
-                            .offset(x: animation ? 500 : 0)
-                    )
-                    .onAppear(perform: {
-                        
-                        withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)){
-                            animation.toggle()
-                        }
-                    })
-                 
-                }
+            ZStack{
+                ShimmerPostItem()
+                    .opacity(0.9)
+
+                ShimmerPostItem()
+                    .opacity(1)
+             
+                .mask(
+                    Rectangle()
+                        .fill(LinearGradient(gradient: .init(colors: [Color.white.opacity(0.5),Color.black,Color.black.opacity(0.75)]), startPoint: .top, endPoint: .bottom))
+                        .rotationEffect(.init(degrees: 130))
+                        .padding(20)
+                    //Moves the view to create shimmer effect
+                        .offset(x: -250)
+                        .offset(x: animation ? 500 : 0)
+                )
+                .onAppear(perform: {
+                    
+                    withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)){
+                        animation.toggle()
+                    }
+                })
+             
             }
         }
         .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
@@ -53,7 +50,7 @@ struct Shimmer: View {
     struct Shimmer_Previews: PreviewProvider {
             
         static var previews: some View {
-            Shimmer()
+            ShimmerPost()
         }
     }
     
@@ -98,7 +95,7 @@ struct Shimmer: View {
         }
     }
     
-    struct ShimmerPost: View{
+    struct ShimmerPostItem: View{
         
         var body: some View {
             ZStack{

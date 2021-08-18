@@ -9,6 +9,8 @@ class CommentLoader: ObservableObject  {
     
     @Published var allComments = [Comment]()
     
+    @Published var tempComments = [Comment]()
+        
     func getComments(index: Int, apis: APIs, post: Post, currentId: Int, getComments: Int){
         print("Getting new comments, cycle \(index)")
         loadMore(apis: apis, post: post, numberOfComments: getComments, currentId: currentId)
@@ -45,14 +47,21 @@ class CommentLoader: ObservableObject  {
                                    
                                     let Comment = contract.getComment(postId: post.id, commentId: i)
                                     
-                                    /// Update UI at the main thread
-                                    DispatchQueue.main.async {
+                                    DispatchQueue.main.async { [self] in
                                         
                                         print(Comment.id)
-                                        self.allComments.append(Comment)
+                                        
+                                        self.tempComments.append(Comment)
                                         
                                     }
                                 }
+                            }
+                            /// Update UI at the main thread
+                            DispatchQueue.main.async {
+                                                            
+                                self.allComments.append(contentsOf: self.tempComments)
+                
+                                self.tempComments = []
                             }
                         }
                     }

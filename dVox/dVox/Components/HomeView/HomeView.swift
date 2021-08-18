@@ -52,7 +52,7 @@ struct HomeView: View {
                     ScrollView{
                         LazyVStack{
                         ForEach(0 ..< 1) { number in
-                            Shimmer()
+                            ShimmerPost()
                                 .padding([.bottom], 10)
                         }
                         Spacer()
@@ -76,9 +76,10 @@ struct HomeView: View {
                         
                         if loader.countOfPosts != loader.items.count{
                             ForEach(0 ..< 1) { number in
-                                Shimmer()
+                                ShimmerPost()
                                     .padding([.bottom], 10)
                             }
+
                         }
                 
                     }

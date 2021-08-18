@@ -77,7 +77,7 @@ class PostLoader: ObservableObject  {
                         /// Update UI at the main thread
                         DispatchQueue.main.async {
                                                         
-                            codeDM.savePosts(posts: posts.reversed())
+                            codeDM.savePosts(posts: posts)
                             
                             items = codeDM.getallItems()
                             

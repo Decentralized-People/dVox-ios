@@ -59,7 +59,19 @@ struct CommentView: View {
                         CommentPost(_post: post, _avatar: username.getAvatarString())
 
                         Divider()
-                        
+                        if (loader.allComments.count == 0){
+                            ScrollView{
+                                LazyVStack{
+                                    ForEach(0 ..< post.commentsNumber) { number in
+                                    ShimmerComment()
+                                        .padding(-20)
+                                        .padding(.horizontal, -10)
+                                        .padding([.bottom], 10)
+                                }
+                                Spacer()
+                                }
+                            }
+                        } else {
                         ScrollView {
                             LazyVStack{
                                 ForEach(loader.allComments.indices, id: \.self) { index in
@@ -73,7 +85,13 @@ struct CommentView: View {
                                         }
                                 }
                                 .padding([.bottom], 10)
+                                
                             }
+                            
+                        }
+                        
+                          
+                            
                         }
                         
                         Spacer()
