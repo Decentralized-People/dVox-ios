@@ -41,7 +41,6 @@ struct CommentView: View {
         username = _username
         post = _post
         nextIndex = 1
-        loader.getComments(index: 0, apis: _apis, post: _post, currentId: -1, getComments: 6)
     }
     
     var body: some View {
@@ -115,6 +114,9 @@ struct CommentView: View {
             .padding(.bottom, 10)
             .padding(.top, 10)
             .padding(.horizontal, 10)
+            .onAppear {
+                loader.getComments(index: 0, apis: apis, post: post, currentId: -1, getComments: 6)
+            }
             
         }
     }
