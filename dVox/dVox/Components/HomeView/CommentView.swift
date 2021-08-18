@@ -89,9 +89,7 @@ struct CommentView: View {
                             }
                             
                         }
-                        
-                          
-                            
+
                         }
                         
                         Spacer()

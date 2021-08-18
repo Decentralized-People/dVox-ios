@@ -59,7 +59,7 @@ class CommentLoader: ObservableObject  {
                             /// Update UI at the main thread
                             DispatchQueue.main.async {
                                                             
-                                self.allComments.append(contentsOf: self.tempComments)
+                                self.allComments.append(contentsOf: self.tempComments.reversed())
                 
                                 self.tempComments = []
                             }
