@@ -48,6 +48,27 @@ class PersistenceController {
         PersistenceController.shared.save()
         
     }
+    func savePosts(posts: [Post]){
+        
+        for post in posts{
+            
+            let item = Item(context: context)
+            
+            item.postId = Int64(post.id)
+            item.author = post.author
+            item.title = post.title
+            item.message = post.message
+            item.hashtag = post.hashtag
+            item.upVotes = Int64(post.upVotes)
+            item.downVotes = Int64(post.downVotes)
+            item.commentsNumber = Int64(post.commentsNumber)
+            item.ban = post.ban
+            
+        }
+        
+        PersistenceController.shared.save()
+        
+    }
 
     func deleteAllItems() {
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()

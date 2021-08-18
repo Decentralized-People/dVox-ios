@@ -20,9 +20,7 @@ struct CommentView: View {
     
     var apis: APIs
 
-    
     @ObservedObject var loader = CommentLoader()
-
     
     var comments = [
         Comment(id: 1, author: "@Lazy_snake_9", message: "Hello brother!", ban: false),
@@ -114,8 +112,8 @@ struct CommentView: View {
                 .padding(.horizontal, 20)
                 .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
             }
-            .padding(.bottom, 40)
-            .padding(.top, 40)
+            .padding(.bottom, 10)
+            .padding(.top, 10)
             .padding(.horizontal, 10)
             
         }

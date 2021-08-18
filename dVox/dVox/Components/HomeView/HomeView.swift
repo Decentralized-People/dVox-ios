@@ -49,9 +49,14 @@ struct HomeView: View {
                 Color("BlackColor")
                     .ignoresSafeArea()
                 if (loader.items.count == 0){
-                    VStack{
-                        Shimmer()
+                    ScrollView{
+                        LazyVStack{
+                        ForEach(0 ..< 1) { number in
+                            Shimmer()
+                                .padding([.bottom], 10)
+                        }
                         Spacer()
+                        }
                     }
                 } else {
                 ScrollView{
@@ -68,6 +73,13 @@ struct HomeView: View {
                                 }
                         }
                         .padding([.bottom], 10)
+                        
+                        if loader.countOfPosts != loader.items.count{
+                            ForEach(0 ..< 1) { number in
+                                Shimmer()
+                                    .padding([.bottom], 10)
+                            }
+                        }
                 
                     }
                 }

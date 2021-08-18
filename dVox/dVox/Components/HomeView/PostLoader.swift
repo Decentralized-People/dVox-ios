@@ -12,9 +12,14 @@ class PostLoader: ObservableObject  {
     
     @Published var items: [Item] = [Item]()
     
+    @Published var posts = [Post]()
+    
+    @Published var countOfPosts = 1
+    
     let codeDM: PersistenceController
     
     let apis: APIs
+    
     
     init(_codeDM: PersistenceController, _apis: APIs){
         codeDM = _codeDM
@@ -34,8 +39,8 @@ class PostLoader: ObservableObject  {
 
     func loadMore(numberOfPosts: Int, currentId: Int) {
     
-        
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [self] timer in
+    
+        Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
             
             let add = apis.retriveKey(for: "ContractAddress") ?? "error"
             let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
@@ -45,11 +50,14 @@ class PostLoader: ObservableObject  {
                 
                 let contract = SmartContract(credentials: cre, infura: inf, address: add)
                 
+                countOfPosts = contract.getPostCount()
+
+                
                 /// Get data at a background thread
                 DispatchQueue.global(qos: .userInitiated).async { [self] in
                     var postCount = 0;
                     if currentId == -1 {
-                        postCount = contract.getPostCount()
+                        postCount = countOfPosts
                     } else {
                         postCount = currentId - 2
                     }
@@ -59,24 +67,28 @@ class PostLoader: ObservableObject  {
                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false)
                                 Post = contract.getPost(id: i)
                                 
-                        
-                                codeDM.savePost(post: Post)
-                                
-            
-                                /// Update UI at the main thread
                                 DispatchQueue.main.async {
                                     
-                                        
-                                    items = codeDM.getallItems()
-    
+                                    posts.append(Post)
+
                                 }
                             }
+                        }
+                        /// Update UI at the main thread
+                        DispatchQueue.main.async {
+                                                        
+                            codeDM.savePosts(posts: posts.reversed())
+                            
+                            items = codeDM.getallItems()
+                            
+                            posts = []
                         }
                     }
                 }
                 timer.invalidate()
             }
         }
+        
     }
 }
 

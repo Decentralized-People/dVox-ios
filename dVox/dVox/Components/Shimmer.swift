@@ -43,8 +43,6 @@ struct Shimmer: View {
                  
                 }
             }
-            .preferredColorScheme(.dark)
-        
         }
         .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
         .foregroundColor(Color("BlackColor"))
@@ -195,7 +193,7 @@ struct Shimmer: View {
                             .padding([.bottom ], 20)
                         
                         Text("██████")
-                            .font(.custom("Montserrat-Bold", size: 14))
+                            .font(.custom("Montserrat-Bold", size: 12))
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding([.leading, .bottom], 20)
                             .padding(.trailing, 28)
