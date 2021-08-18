@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0CB921B061DC6F5F388AE999 /* Pods_dVox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4CD4796A0472B854D98463 /* Pods_dVox.framework */; };
+		0D3D339226CD507E002C28F6 /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3D339126CD507E002C28F6 /* LikeButton.swift */; };
 		0D44E9BB2696599500697753 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D44E9BA2696599500697753 /* MainView.swift */; };
 		2806D72B26B194DF00FEC670 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2806D72A26B194DF00FEC670 /* GoogleService-Info.plist */; };
 		2806D72D26B1973700FEC670 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2806D72C26B1973700FEC670 /* Post.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D3D339126CD507E002C28F6 /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
 		0D44E9BA2696599500697753 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		12BD82E9961D79B68D53AA08 /* Pods-dVox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dVox.release.xcconfig"; path = "Target Support Files/Pods-dVox/Pods-dVox.release.xcconfig"; sourceTree = "<group>"; };
 		2806D72A26B194DF00FEC670 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				28E24F2F26B9BA190092EA14 /* ComposeView */,
 				28E24F2E26B9B8BE0092EA14 /* HomeView */,
 				8BD9755D26C972D0009D54C1 /* ShimmerPost.swift */,
+				0D3D339126CD507E002C28F6 /* LikeButton.swift */,
 				8BF4424E26CC9A0B0071D8DD /* ShimmerComment.swift */,
 			);
 			path = Components;
@@ -352,6 +355,7 @@
 				28E24F2A26B9B6F40092EA14 /* HomeView.swift in Sources */,
 				8B1B9B9426C5CBE400089C83 /* PostLoader.swift in Sources */,
 				8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */,
+				0D3D339226CD507E002C28F6 /* LikeButton.swift in Sources */,
 				8BD9756026C972F9009D54C1 /* ProfileView.swift in Sources */,
 				8B0A5CFB26CB1EFF00D76809 /* SavedPosts.xcdatamodeld in Sources */,
 				8B0A5CFD26CB20A500D76809 /* PersistenceController.swift in Sources */,
