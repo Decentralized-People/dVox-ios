@@ -48,9 +48,13 @@ struct HomeView: View {
             ZStack{
                 Color("BlackColor")
                     .ignoresSafeArea()
-                
-                
-                ScrollView {
+                if (loader.items.count == 0){
+                    VStack{
+                        Shimmer()
+                        Spacer()
+                    }
+                } else {
+                ScrollView{
                     LazyVStack{
                         ForEach(loader.items.indices, id: \.self) { index in
                             let post = Post(id: Int(loader.items[index].postId), title: loader.items[index].title ?? "No data provided", author: loader.items[index].author ?? "No data provided", message: loader.items[index].message ?? "No data provided", hastag: loader.items[index].hashtag ?? "No data provided", upVotes: Int(loader.items[index].upVotes), downVotes: Int(loader.items[index].downVotes), commentsNumber: Int(loader.items[index].commentsNumber), ban: false)
@@ -64,9 +68,11 @@ struct HomeView: View {
                                 }
                         }
                         .padding([.bottom], 10)
+                
                     }
                 }
-            }
+
+                }}
             .navigationBarHidden(true)
         }
     }
