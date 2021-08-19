@@ -56,12 +56,12 @@ struct CommentView: View {
                     
                     VStack{
                                 
-                        CommentPost(_post: post, _avatar: username.getAvatarString())
-
-                        Divider()
                         if (loader.allComments.count == 0){
                             ScrollView{
                                 LazyVStack{
+                                    CommentPost(_post: post, _avatar: username.getAvatarString())
+                                        .padding(.top,5)
+                                    Divider()
                                     ForEach(0 ..< post.commentsNumber) { number in
                                     ShimmerComment()
                                         .padding(-20)
@@ -74,6 +74,9 @@ struct CommentView: View {
                         } else {
                         ScrollView {
                             LazyVStack{
+                                CommentPost(_post: post, _avatar: username.getAvatarString())
+                                    .padding(.top,5)
+                                Divider()
                                 ForEach(loader.allComments.indices, id: \.self) { index in
                                     let comment = loader.allComments[index]
                                     CommentItem(_comment: comment)
@@ -117,7 +120,7 @@ struct CommentView: View {
                                     .padding(.trailing, 5)
                                     .padding(.top, 15)
                                     .frame(alignment: .trailing)
-                                    .font(.custom("Montserrat-Bold", size: 20))
+                                    .font(.custom("Montserrat-Bold  ", size: 20))
                             }
                         }
                     }

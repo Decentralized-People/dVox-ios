@@ -11,7 +11,7 @@ import SwiftUI
 struct Preview : View {
     
     var body : some View {
-        HeartButton(filled: "filled", unfilled: "unfilled")
+        HeartButton(filled: "fi-rr-thumbs-up.filled", unfilled: "fi-rr-thumbs-up")
     }
 }
 
@@ -24,24 +24,25 @@ struct HeartButton : View {
     
     
     var body: some View {
-        VStack {
             ZStack {
                 Image(filled)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 20)
-                    .opacity(isLiked ? 1 : 0)
+                    .padding([.leading], 0)
+                    .opacity(isLiked ? 0.75 : 0)
                     .animation(.linear)
                     
                 Image(unfilled)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 20)
+                    .padding([.leading], 0)
                 
-                CirclesView(isLiked: isLiked, radius: 10, speed: 0.1, scale: 0.7)
+                CirclesView(isLiked: isLiked, radius: 15, speed: 0.1, scale: 0.3)
                             .opacity(self.opacity)
                   
-                CirclesView(isLiked: isLiked, radius: 20, speed: 0.2, scale: 0.5)
+                CirclesView(isLiked: isLiked, radius: 20, speed: 0.3, scale: 0.3)
                             .opacity(self.opacity)
                             .rotationEffect(Angle(degrees: 20))
             }.onTapGesture {
@@ -57,7 +58,7 @@ struct HeartButton : View {
         
         }
        
-   }
+   
 }
     
 struct CirclesView : View {
@@ -74,7 +75,7 @@ struct CirclesView : View {
              ForEach (0..<9) { num in
                  Circle()
                      .fill(Color.red)
-                     .frame(width: 10)
+                    .frame(width: 10, height: 10)
                      .scaleEffect(self.isLiked ? 0.1 : self.scale)
                      .animation(.linear(duration: self.speed))
                      .offset(x:  self.radius * cos(CGFloat(num) * self.angle * .pi / 180),

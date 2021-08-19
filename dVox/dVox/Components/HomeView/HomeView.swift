@@ -135,6 +135,7 @@ struct HomeView: View {
                         Text(eachPost.message)
                             .font(.custom("Montserrat", size: 15))
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .lineLimit(6)
                     }
                     .padding(.horizontal, 20.0)
                     HStack{
@@ -143,11 +144,7 @@ struct HomeView: View {
                             
                         })
                         {
-                            Image("fi-rr-thumbs-up")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 20)
-                                .padding([.leading], 0)
+                            HeartButton(filled: "fi-rr-thumbs-up.filled", unfilled: "fi-rr-thumbs-up")
                         }
                         .frame(alignment: .leading)
                         .padding([.leading, .bottom], 20)
@@ -162,11 +159,8 @@ struct HomeView: View {
                             
                         })
                         {
-                            Image("fi-rr-thumbs-down")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 20)
-                                .padding([.leading], 5)
+                            HeartButton(filled: "fi-rr-thumbs-down.filled", unfilled: "fi-rr-thumbs-down")
+
                         }
                         .frame(alignment: .leading)
                         .padding([.bottom ], 20)
