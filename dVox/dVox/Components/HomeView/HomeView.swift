@@ -91,9 +91,14 @@ struct HomeView: View {
     }
     
     struct CardRow: View {
-        var eachPost: Post
+        @State var eachPost: Post
+        
         @State private var isActive = false
         
+        @State var upVote = 0
+        
+        @State var downVote = 0
+
         var apis: APIs
         
         var username: Username
@@ -140,37 +145,8 @@ struct HomeView: View {
                     .padding(.horizontal, 20.0)
                     HStack{
                         
-                        Button(action: {
-                            
-                        })
-                        {
-                            HeartButton(filled: "fi-rr-thumbs-up.filled", unfilled: "fi-rr-thumbs-up")
-                        }
-                        .frame(alignment: .leading)
-                        .padding([.leading, .bottom], 20)
-                        
-                        Text(String(eachPost.upVotes))
-                            .font(.custom("Montserrat-Bold", size: 14))
-                            .frame( alignment: .leading)
-                            .padding([.bottom ], 20)
-                        
-                        
-                        Button(action: {
-                            
-                        })
-                        {
-                            HeartButton(filled: "fi-rr-thumbs-down.filled", unfilled: "fi-rr-thumbs-down")
-
-                        }
-                        .frame(alignment: .leading)
-                        .padding([.bottom ], 20)
-                        
-                        
-                        Text(String(eachPost.downVotes))
-                            .font(.custom("Montserrat-Bold", size: 14))
-                            .frame( alignment: .leading)
-                            .padding([.bottom ], 20)
-                        
+                       VotesBlock()
+                       
                         PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost), isActive: $isActive) {
                             
                             
@@ -182,7 +158,6 @@ struct HomeView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 20)
-                                    .padding([.leading], 5)
                             }
                         }
                         
