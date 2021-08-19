@@ -5,11 +5,12 @@ target 'dVox' do
   
    use_frameworks!
    
-   pod 'web3swift'
+   pod 'web3swift', :git => 'https://github.com/lvyikai/web3swift.git', :branch => 'develop'
    pod 'Firebase/Auth'
    pod 'Firebase/Firestore'
    pod 'Firebase/Crashlytics'
    pod 'Firebase/DynamicLinks'
+
 
    pod 'NavigationStack'
    

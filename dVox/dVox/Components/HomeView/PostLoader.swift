@@ -48,16 +48,18 @@ class PostLoader: ObservableObject  {
             
             if (add != "error" && inf != "error" && cre != "error") {
                 
-                let contract = SmartContract(credentials: cre, infura: inf, address: add)
-                
-                countOfPosts = contract.getPostCount()
-
-                
+                var localCountOfPosts = 0;
+                                
                 /// Get data at a background thread
                 DispatchQueue.global(qos: .userInitiated).async { [self] in
+                    
+                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
+
+                    localCountOfPosts = contract.getPostCount()
+                    
                     var postCount = 0;
                     if currentId == -1 {
-                        postCount = countOfPosts
+                        postCount = localCountOfPosts
                     } else {
                         postCount = currentId - 2
                     }
@@ -66,10 +68,14 @@ class PostLoader: ObservableObject  {
                             if i > 0 {
                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false)
                                 Post = contract.getPost(id: i)
-            
-                                posts.append(Post)
-
                                 
+                                DispatchQueue.main.async {
+                                    
+                                    countOfPosts = localCountOfPosts
+                                    
+                                    posts.append(Post)
+
+                                }
                             }
                         }
                         /// Update UI at the main thread

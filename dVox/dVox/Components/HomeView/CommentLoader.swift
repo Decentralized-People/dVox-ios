@@ -27,11 +27,11 @@ class CommentLoader: ObservableObject  {
             let cre = apis.retriveKey(for: "Credentials") ?? "error"
             
             if (add != "error" && inf != "error" && cre != "error") {
-                
-                let contract = SmartContract(credentials: cre, infura: inf, address: add)
-                
+                                
                 /// Get data at a background thread
                 DispatchQueue.global(qos: .userInitiated).async {
+                    
+                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
                     
                     if (post.id >= 1){
                     
