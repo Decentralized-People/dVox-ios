@@ -66,12 +66,10 @@ class PostLoader: ObservableObject  {
                             if i > 0 {
                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false)
                                 Post = contract.getPost(id: i)
-                                
-                                DispatchQueue.main.async {
-                                    
-                                    posts.append(Post)
+            
+                                posts.append(Post)
 
-                                }
+                                
                             }
                         }
                         /// Update UI at the main thread
