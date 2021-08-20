@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0CB921B061DC6F5F388AE999 /* Pods_dVox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4CD4796A0472B854D98463 /* Pods_dVox.framework */; };
+		0D19E49026CF2FE600912F71 /* TextLimiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D19E48F26CF2FE600912F71 /* TextLimiter.swift */; };
 		0D3D339226CD507E002C28F6 /* VotesBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3D339126CD507E002C28F6 /* VotesBlock.swift */; };
 		0D44E9BB2696599500697753 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D44E9BA2696599500697753 /* MainView.swift */; };
 		2806D72B26B194DF00FEC670 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2806D72A26B194DF00FEC670 /* GoogleService-Info.plist */; };
@@ -40,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D19E48F26CF2FE600912F71 /* TextLimiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLimiter.swift; sourceTree = "<group>"; };
 		0D3D339126CD507E002C28F6 /* VotesBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotesBlock.swift; sourceTree = "<group>"; };
 		0D44E9BA2696599500697753 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		12BD82E9961D79B68D53AA08 /* Pods-dVox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dVox.release.xcconfig"; path = "Target Support Files/Pods-dVox/Pods-dVox.release.xcconfig"; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				28E24F2B26B9B8330092EA14 /* ComposeView.swift */,
+				0D19E48F26CF2FE600912F71 /* TextLimiter.swift */,
 			);
 			path = ComposeView;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				8B6C722F26951D4D004A34A3 /* SceneDelegate.swift in Sources */,
 				8BF617E126C4350200EB7BE9 /* APIs.swift in Sources */,
 				8BD9755E26C972D0009D54C1 /* ShimmerPost.swift in Sources */,
+				0D19E49026CF2FE600912F71 /* TextLimiter.swift in Sources */,
 				8B6C723126951D4D004A34A3 /* LoginView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
