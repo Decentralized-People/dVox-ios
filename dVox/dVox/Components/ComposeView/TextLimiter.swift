@@ -21,6 +21,8 @@ class TextLimiter: ObservableObject {
     
     @Published var value = "" {
         didSet {
+            if value.prefix(1) != "#" {
+                                value = "#" + value
             if value.count >= 1 {
                 if charArray.contains(value.last ?? Character("")){
                     value = String(value.prefix(value.count - 1))
@@ -42,11 +44,11 @@ class TextLimiter: ObservableObject {
         }
     }
 
-    func validString(str: String) -> Bool {
-        let regEx = "[A-Z0-9a-z]{}"
-        let Test = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z]{}")
-        return Test.evaluate(with: str)
-    }
+//    func validString(str: String) -> Bool {
+//        let regEx = "[A-Z0-9a-z]{}"
+//        let Test = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z]{}")
+//        return Test.evaluate(with: str)
+//    }
     
    
 }
@@ -69,4 +71,5 @@ struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     ContentView()
   }
+}
 }
