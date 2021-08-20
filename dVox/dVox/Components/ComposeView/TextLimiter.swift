@@ -9,22 +9,28 @@ import SwiftUI
 
 class TextLimiter: ObservableObject {
     @Published var hasReachedLimit = false
-    private let charArray = [" ", "!", "@", "#", "$", "%"]
+    private let charArray: Array<Character> = [" ", "!", "@", "$", "%"]
     private let limit: Int
     
     init(limit: Int) {
         self.limit = limit
     }
     
+    @Published var finalValue = ""
+    
     
     @Published var value = "" {
         didSet {
-            if charArray.contains(value.last){
-                value = String(value.dropLast())
+            if value.count >= 1 {
+                if charArray.contains(value.last ?? Character("")){
+                    value = String(value.prefix(value.count - 1))
+                }
             }
             if self.hasReachedLimit == true {
-                value =
-                String(value.prefix(5))
+                if (value.count > 5) {
+                    value = String(value.prefix(5))
+                    self.hasReachedLimit = false
+                }
             }
             if value.count > self.limit {
                 value = String(value.prefix(self.limit))
@@ -32,12 +38,13 @@ class TextLimiter: ObservableObject {
             } else {
                 self.hasReachedLimit = false
             }
+         
         }
     }
 
     func validString(str: String) -> Bool {
         let regEx = "[A-Z0-9a-z]{}"
-        let Test = NSPredicate(format: "SELF MATCHES %@", regEx)
+        let Test = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z]{}")
         return Test.evaluate(with: str)
     }
     

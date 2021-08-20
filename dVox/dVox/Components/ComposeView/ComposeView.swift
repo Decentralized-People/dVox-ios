@@ -11,7 +11,7 @@ import SwiftUI
 struct ComposeView: View {
     
     @State var title = ""
-    @State var hashtag = ""
+    //@State var hashtag = ""
     @State var message = ""
     
     @State var usernameString = UserDefaults.standard.string(forKey: "dvoxUsername")
@@ -29,6 +29,8 @@ struct ComposeView: View {
     @State var placeholderText = "Let's voice your thoughts?"
     
     @State private var wordCount: Int = 0
+    
+    @ObservedObject var hashtag = TextLimiter(limit: 5)
     
     var apis: APIs
     
@@ -97,7 +99,7 @@ struct ComposeView: View {
                                 .frame(alignment: .leading)
                                 .padding(.leading, 10)
                             
-                            TextField("#hashtag?", text: $hashtag)
+                            TextField("#hashtag?", text: $hashtag.value)
                                 .background(Color("WhiteColor"))
                                 .font(.custom("Montserrat-Bold", size: 15))
                                 .multilineTextAlignment(.trailing)
@@ -141,7 +143,7 @@ struct ComposeView: View {
     
     
     func hashtagShake() -> Int{
-        if hashtag == ""{
+        if hashtag.value == ""{
             return 1
         }
         return 0
@@ -162,7 +164,7 @@ struct ComposeView: View {
     }
     
     func createPost() {
-        if title != "" && message != "" && hashtag != "" {
+        if title != "" && message != "" && hashtag.value != "" {
             Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { timer in
                 let add = apis.retriveKey(for: "ContractAddress") ?? "error"
                 let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
@@ -170,10 +172,10 @@ struct ComposeView: View {
                 
                 if (add != "error" && inf != "error" && cre != "error") {
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)
-                    contract.createPost(title: title, author: username.getUsernameString(), message: message, hashtag: hashtag)
+                    contract.createPost(title: title, author: username.getUsernameString(), message: message, hashtag: hashtag.value)
                     title = ""
                     message = ""
-                    hashtag = ""
+                    hashtag.value = ""
                     timer.invalidate()
                 }
             }
