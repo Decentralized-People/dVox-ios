@@ -16,9 +16,6 @@ class TextLimiter: ObservableObject {
         self.limit = limit
     }
     
-    @Published var finalValue = ""
-    
-    
     @Published var value = "" {
         didSet {
             if value.prefix(1) != "#" {
