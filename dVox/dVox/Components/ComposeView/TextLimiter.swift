@@ -20,6 +20,7 @@ class TextLimiter: ObservableObject {
         didSet {
             if value.prefix(1) != "#" {
                                 value = "#" + value
+            }
             if value.count >= 1 {
                 if charArray.contains(value.last ?? Character("")){
                     value = String(value.prefix(value.count - 1))
@@ -69,4 +70,4 @@ struct ContentView_Previews: PreviewProvider {
     ContentView()
   }
 }
-}
+
