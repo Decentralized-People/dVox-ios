@@ -23,7 +23,7 @@ struct HomeView: View {
     
     @State var nextIndex: Int
     
-    @State var votesDictionary = VotesContainer()
+    let votesDictionary: VotesContainer
     
     var numberOfPostsToLoad = 6
     
@@ -33,12 +33,13 @@ struct HomeView: View {
     
     @State var items: [Item] = [Item]()
     
-    init(_apis: APIs, _username: Username, _codeDM: PersistenceController, _postLoader: PostLoader){
+    init(_apis: APIs, _username: Username, _codeDM: PersistenceController, _postLoader: PostLoader, _votesDictionary: VotesContainer){
         apis = _apis
         username = _username
         codeDM = _codeDM
         loader = _postLoader
         nextIndex = 1
+        votesDictionary = _votesDictionary
     }
     
     var body: some View {
@@ -116,7 +117,7 @@ struct HomeView: View {
             eachPost = _post
             votesDictionary = _votesDictionary
             postUser.stringToUsername(usernameString: eachPost.author)
-            VotesBlock(_postId: eachPost.id, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
+            VotesBlock(_post: eachPost, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
 
         }
         
@@ -153,7 +154,7 @@ struct HomeView: View {
                     .padding(.horizontal, 20.0)
                     HStack{
                         
-                        VotesBlock(_postId: eachPost.id, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
+                        VotesBlock(_post: eachPost, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
                         
                         PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost, _votesDictionary: votesDictionary), isActive: $isActive) {
                             

@@ -205,7 +205,7 @@ struct CommentView: View {
                 .padding(.horizontal, 0)
                 HStack{
                     
-                    VotesBlock(_postId: post.id, _apis: apis, _voted: votesDictionary.getVote(postId: post.id), _votesContainer: votesDictionary)
+                    VotesBlock(_post: post, _apis: apis, _voted: votesDictionary.getVote(postId: post.id), _votesContainer: votesDictionary)
                         .padding(.leading, -20)
 
                     

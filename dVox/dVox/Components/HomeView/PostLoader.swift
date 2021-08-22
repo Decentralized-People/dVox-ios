@@ -22,10 +22,13 @@ class PostLoader: ObservableObject  {
     
     let apis: APIs
     
+    @State var votesDictionary: VotesContainer
     
-    init(_codeDM: PersistenceController, _apis: APIs){
+    
+    init(_codeDM: PersistenceController, _apis: APIs, _votesDictionary: VotesContainer){
         codeDM = _codeDM
         apis = _apis
+        votesDictionary = _votesDictionary
         getPosts(index: 0, currentId: -1, getPosts: 6)
     }
     
@@ -75,6 +78,12 @@ class PostLoader: ObservableObject  {
                                 DispatchQueue.main.async {
                                     
                                     countOfPosts = localCountOfPosts
+                                    
+                                    if (votesDictionary.getVote(postId: Post.id) == "1"){
+                                        Post.upVotes =  Post.upVotes - 1
+                                    } else if (votesDictionary.getVote(postId: Post.id) == "-1"){
+                                        Post.downVotes =  Post.downVotes - 1
+                                    }
                                     
                                     if (Post.ban != true){
                                         posts.append(Post)

@@ -34,11 +34,13 @@ struct MainView: View {
     
     let postLoader: PostLoader
     
+    let votesDictionary = VotesContainer()
+    
     init(){
         apis.resetAPIs()
         apis.getAPIs()
         username.retriveUsername(firstRun: true)
-        postLoader = PostLoader(_codeDM: codeDM, _apis: apis)
+        postLoader = PostLoader(_codeDM: codeDM, _apis: apis, _votesDictionary: votesDictionary)
     }
     
     @State var selection: Int = 0
@@ -64,7 +66,7 @@ struct MainView: View {
                             .frame(height: 0)
                         
                         TabView(selection: $selection) {
-                            HomeView(_apis: apis, _username: username, _codeDM: codeDM, _postLoader: postLoader)
+                            HomeView(_apis: apis, _username: username, _codeDM: codeDM, _postLoader: postLoader, _votesDictionary: votesDictionary)
                                 .tag(0)
                             
                             ComposeView(_apis: apis, _username: username)

@@ -11,12 +11,12 @@ import SwiftUI
 struct Preview : View {
     
     var body : some View {
-        VotesBlock(_postId: 1, _apis: APIs(), _voted: "", _votesContainer: VotesContainer())
+        VotesBlock(_post: Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false), _apis: APIs(), _voted: "", _votesContainer: VotesContainer())
     }
 }
 
 struct VotesBlock : View {
-    @State var postId: Int
+    @State var post: Post
     @State var apis: APIs
     @State var votesDictionary: VotesContainer
 
@@ -32,8 +32,8 @@ struct VotesBlock : View {
     @State var upVote: Int
     @State var downVote: Int
     
-    init(_postId: Int, _apis: APIs, _voted: String, _votesContainer: VotesContainer) {
-        postId = _postId;
+    init(_post: Post, _apis: APIs, _voted: String, _votesContainer: VotesContainer) {
+        post = _post
         apis = _apis
         votesDictionary = _votesContainer
         if ( _voted == "-1"){
@@ -99,7 +99,7 @@ struct VotesBlock : View {
             .frame(alignment: .leading)
             .padding([.leading, .bottom], 20)
             
-            Text(String(upVote))
+            Text(String(post.upVotes + upVote))
                 .font(.custom("Montserrat-Bold", size: 14))
                 .frame( alignment: .leading)
                 .padding([.bottom ], 20)
@@ -147,10 +147,11 @@ struct VotesBlock : View {
             .frame(alignment: .leading)
             .padding([.bottom ], 20)
             
-            Text(String(downVote))
+            Text(String(post.downVotes + downVote))
                 .font(.custom("Montserrat-Bold", size: 14))
                 .frame( alignment: .leading)
                 .padding([.bottom ], 20)
+         
         }
         
     }
@@ -158,9 +159,9 @@ struct VotesBlock : View {
     func voteUp(vote: Int) {
         
         if (vote == 1){
-            votesDictionary.addVote(postId: postId, vote: 1)
+            votesDictionary.addVote(postId: post.id, vote: 1)
         } else if (vote == -1){
-            votesDictionary.addVote(postId: postId, vote: 404)
+            votesDictionary.addVote(postId: post.id, vote: 404)
         }
  
         Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
@@ -177,15 +178,15 @@ struct VotesBlock : View {
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)
                     
                     if (vote == 1){
-                        contract.upVote(id: postId)
+                        contract.upVote(id: post.id)
                         
-                        print("Upvoting..post number \(postId)")
+                        print("Upvoting..post number \(post.id)")
                         
        
                     } else if (vote == -1){
                         //contract.upVote(id: postId)
                         
-                        print("REVERSE Upvoting..post number \(postId)")
+                        print("REVERSE Upvoting..post number \(post.id)")
                                             
                     }
                     
@@ -202,9 +203,9 @@ struct VotesBlock : View {
     func voteDown(vote: Int) {
  
         if (vote == 1){
-            votesDictionary.addVote(postId: postId, vote: -1)
+            votesDictionary.addVote(postId: post.id, vote: -1)
         } else if (vote == -1){
-            votesDictionary.addVote(postId: postId, vote: 404)
+            votesDictionary.addVote(postId: post.id, vote: 404)
         }
         
         Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
@@ -222,14 +223,14 @@ struct VotesBlock : View {
                     
                     
                     if (vote == 1){
-                        contract.downVote(id: postId)
+                        contract.downVote(id: post.id)
                         
-                        print("Downvoting..post number \(postId)")
+                        print("Downvoting..post number \(post.id)")
                         
                     } else if (vote == -1){
                         //contract.downVote(id: postId)
                         
-                        print("REVERSE Downvoting..post number \(postId)")
+                        print("REVERSE Downvoting..post number \(post.id)")
                         
                         
                     }
