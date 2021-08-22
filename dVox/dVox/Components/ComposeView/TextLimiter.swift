@@ -26,19 +26,15 @@ class TextLimiter: ObservableObject {
                     value = String(value.prefix(value.count - 1))
                 }
             }
+            if value.count > self.limit {
+                self.hasReachedLimit = true
+            }
             if self.hasReachedLimit == true {
-                if (value.count > 5) {
-                    value = String(value.prefix(5))
+                if (value.count > 10) {
+                    value = String(value.prefix(10))
                     self.hasReachedLimit = false
                 }
             }
-            if value.count > self.limit {
-                value = String(value.prefix(self.limit))
-                self.hasReachedLimit = true
-            } else {
-                self.hasReachedLimit = false
-            }
-         
         }
     }
 

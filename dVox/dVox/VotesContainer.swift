@@ -10,7 +10,7 @@ import Foundation
 class VotesContainer{
     
     var votesDictionary: [String:String]
-    
+
     init(){
         votesDictionary = UserDefaults.standard.object(forKey: "VotesContainer") as? [String:String] ?? [:]
         print(votesDictionary)

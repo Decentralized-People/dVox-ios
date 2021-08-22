@@ -128,6 +128,7 @@ class Username: ObservableObject {
                             
         self.getNewUsername()
                 
+                
         let group = DispatchGroup()
         
         group.enter()

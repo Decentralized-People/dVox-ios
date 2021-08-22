@@ -25,6 +25,7 @@ struct HomeView: View {
     
     var numberOfPostsToLoad = 6
     
+    
     var username: Username
     
     var codeDM: PersistenceController
@@ -51,42 +52,42 @@ struct HomeView: View {
                 if (loader.items.count == 0){
                     ScrollView{
                         LazyVStack{
-                        ForEach(0 ..< 1) { number in
-                            ShimmerPost()
-                                .padding([.bottom], 10)
-                        }
-                        Spacer()
-                        }
-                    }
-                } else {
-                ScrollView{
-                    LazyVStack{
-                        ForEach(loader.items.indices, id: \.self) { index in
-                            let post = Post(id: Int(loader.items[index].postId), title: loader.items[index].title ?? "No data provided", author: loader.items[index].author ?? "No data provided", message: loader.items[index].message ?? "No data provided", hastag: loader.items[index].hashtag ?? "No data provided", upVotes: Int(loader.items[index].upVotes), downVotes: Int(loader.items[index].downVotes), commentsNumber: Int(loader.items[index].commentsNumber), ban: false)
-                            CardRow(_apis: apis, _username: username, _post: post)
-                                .onAppear{
-                                    print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
-                                    if index == (6*nextIndex) - 2{
-                                        loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 6)
-                                        nextIndex += 1
-                                    }
-                                }
-                        }
-                        .padding([.bottom], 10)
-                        
-                        if loader.countOfPosts != loader.items.count{
                             ForEach(0 ..< 1) { number in
                                 ShimmerPost()
                                     .padding([.bottom], 10)
                             }
-
+                            Spacer()
                         }
-                
                     }
-                }
-
+                } else {
+                    ScrollView{
+                        LazyVStack{
+                            ForEach(loader.items.indices, id: \.self) { index in
+                                let post = Post(id: Int(loader.items[index].postId), title: loader.items[index].title ?? "No data provided", author: loader.items[index].author ?? "No data provided", message: loader.items[index].message ?? "No data provided", hastag: loader.items[index].hashtag ?? "No data provided", upVotes: Int(loader.items[index].upVotes), downVotes: Int(loader.items[index].downVotes), commentsNumber: Int(loader.items[index].commentsNumber), ban: false)
+                                CardRow(_apis: apis, _username: username, _post: post)
+                                    .onAppear{
+                                        print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
+                                        if (index == loader.items.count-1 && loader.noMorePosts == false) {
+                                            loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 6)
+                                            nextIndex += 1
+                                        }
+                                    }
+                            }
+                            .padding([.bottom], 10)
+                            
+                            if loader.noMorePosts == false {
+                                ForEach(0 ..< 1) { number in
+                                    ShimmerPost()
+                                        .padding([.bottom], 10)
+                                }
+                                
+                            }
+                            
+                        }
+                    }
+                    
                 }}
-            .navigationBarHidden(true)
+                .navigationBarHidden(true)
         }
     }
     
@@ -98,7 +99,7 @@ struct HomeView: View {
         @State var upVote = 0
         
         @State var downVote = 0
-
+        
         var apis: APIs
         
         var username: Username
@@ -131,7 +132,7 @@ struct HomeView: View {
                             
                             Text(postUser.getUsernameString())
                                 .font(.custom("Montserrat", size: 14))
-                            
+                                
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
@@ -145,8 +146,8 @@ struct HomeView: View {
                     .padding(.horizontal, 20.0)
                     HStack{
                         
-                       VotesBlock()
-                       
+                        VotesBlock()
+                        
                         PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost), isActive: $isActive) {
                             
                             
@@ -229,5 +230,38 @@ struct HomeView: View {
                 return path
             }
         }
+    
+    
+    func ban(post: Int) {
+ 
+        Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
+            
+            let add = apis.retriveKey(for: "ContractAddress") ?? "error"
+            let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
+            let cre = apis.retriveKey(for: "Credentials") ?? "error"
+            
+            if (add != "error" && inf != "error" && cre != "error") {
+                
+                
+                /// Get data at a background thread
+                DispatchQueue.global(qos: .userInitiated).async { [] in
+                    
+                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
+                    
+                    contract.banPost(postId: post)
+                }
+                
+                
+                
+                
+                /// Update UI at the main thread
+                DispatchQueue.main.async {
+    
+                    timer.invalidate()
+                }
+            }
+        }
+    }
+        
     }
 }

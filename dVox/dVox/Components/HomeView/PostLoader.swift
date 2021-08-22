@@ -16,6 +16,8 @@ class PostLoader: ObservableObject  {
     
     @Published var countOfPosts = 1
     
+    @Published var noMorePosts = false
+    
     let codeDM: PersistenceController
     
     let apis: APIs
@@ -61,7 +63,7 @@ class PostLoader: ObservableObject  {
                     if currentId == -1 {
                         postCount = localCountOfPosts
                     } else {
-                        postCount = currentId - 2
+                        postCount = currentId - 1
                     }
                     if postCount > 0 {
                         for i in stride(from: postCount, to: postCount - numberOfPosts, by: -1) {
@@ -69,17 +71,24 @@ class PostLoader: ObservableObject  {
                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false)
                                 Post = contract.getPost(id: i)
                                 
+                                
                                 DispatchQueue.main.async {
                                     
                                     countOfPosts = localCountOfPosts
                                     
-                                    posts.append(Post)
-
+                                    if (Post.ban != true){
+                                        posts.append(Post)
+                                    }
+                                    
+                                    if (Post.id == 1){
+                                        noMorePosts = true
+                                    }
+                                    
                                 }
                             }
                         }
                         /// Update UI at the main thread
-                        DispatchQueue.main.async {
+                        DispatchQueue.main.async {  
                             
         
                             codeDM.savePosts(posts: posts)
