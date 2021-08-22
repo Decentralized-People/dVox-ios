@@ -39,12 +39,15 @@ struct CommentView: View {
     
     var postUser = Username()
     
+    @State var numberOfComments: Int
+    
     @State var refresh = Refresh(started: false, released: false)
     
     init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer){
         apis = _apis
         username = _username
         post = _post
+        numberOfComments = _post.commentsNumber
         nextIndex = 1
         votesDictionary = _votesDictionary
     }
@@ -117,8 +120,8 @@ struct CommentView: View {
                                             .padding(.top,5)
                                         Divider()
                                         
-                                        if (loader.noMoreComments == false && post.commentsNumber != 0){
-                                            if post.commentsNumber < 15{
+                                        if (loader.noMoreComments == false && numberOfComments != 0){
+                                            if numberOfComments < 15{
                                                 ForEach(0 ..< post.commentsNumber) { number in
                                                 ShimmerComment()
                                                     .padding(-20)
@@ -432,23 +435,27 @@ struct CommentView: View {
                 
                 var com = Comment(id: -1, author: "", message: "", ban: false)
     
+                let whatToPost = comment
+                
                 if (add != "error" && inf != "error" && cre != "error") {
     
                     /// Get data at a background thread
                     DispatchQueue.global(qos: .userInitiated).async { [] in
                         let contract = SmartContract(credentials: cre, infura: inf, address: add)
                         
-                        //contract.addComment(postID: postID, author: usernameString ?? "Hacker", message: comment)
+                        contract.addComment(postID: postID, author: usernameString ?? "Hacker", message: whatToPost)
                                 
                     }
                     /// Update UI at the main thread
                     DispatchQueue.main.async {
                         com = Comment(id: -1, author: usernameString ?? "Hacker", message: comment, ban: false)
 
+                    
                         loader.addComment(comment: com)
                         
                         comment = ""
 
+                        
                         timer.invalidate()
                     }
                 }

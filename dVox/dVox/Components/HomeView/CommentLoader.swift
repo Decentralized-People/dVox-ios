@@ -14,7 +14,7 @@ class CommentLoader: ObservableObject  {
     @Published var noMoreComments = false
     
     init(){
-        allComments = []
+    
     }
 
     func addComment(comment: Comment){
@@ -49,7 +49,7 @@ class CommentLoader: ObservableObject  {
                     
                         var commentCount = 0;
                         if currentId == -1 {
-                            commentCount =  post.commentsNumber
+                            commentCount =  contract.getPost(id: post.id).commentsNumber
                         } else {
                             commentCount = currentId - 2
                         }
