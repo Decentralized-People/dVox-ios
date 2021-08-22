@@ -56,7 +56,7 @@ struct CommentView: View {
                     
                     VStack{
                                 
-                        if (loader.allComments.count == 0){
+                        if (loader.noMoreComments == false){
                             ScrollView{
                                 LazyVStack{
                                     CommentPost(_post: post, _avatar: username.getAvatarString())
@@ -82,7 +82,7 @@ struct CommentView: View {
                                     CommentItem(_comment: comment)
                                         .onAppear{
                                             print("Index \(index), nTl \(6)")
-                                            if index == (6*nextIndex) - 2{
+                                            if (index == loader.allComments.count-1 && loader.noMoreComments == false)  {
                                                 loader.getComments(index: index, apis: apis, post: post, currentId: comment.id, getComments: 6)
                                             }
                                         }
