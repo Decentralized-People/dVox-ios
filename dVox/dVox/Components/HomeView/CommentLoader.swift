@@ -12,7 +12,16 @@ class CommentLoader: ObservableObject  {
     @Published var tempComments = [Comment]()
     
     @Published var noMoreComments = false
+    
+    init(){
+        allComments = []
+    }
 
+    func addComment(comment: Comment){
+        withAnimation(Animation.linear){
+            self.allComments.append(comment)
+        }
+    }
         
     func getComments(index: Int, apis: APIs, post: Post, currentId: Int, getComments: Int){
         print("Getting new comments, cycle \(index)")
@@ -67,10 +76,15 @@ class CommentLoader: ObservableObject  {
                             }
                             /// Update UI at the main thread
                             DispatchQueue.main.async {
-                                                   
-                                self.allComments.append(contentsOf: self.tempComments.reversed())
-                
-                                self.tempComments = []
+                                            
+                                
+                                withAnimation(Animation.linear){
+
+                                    self.allComments.append(contentsOf: self.tempComments.reversed())
+                    
+                                    self.tempComments = []
+
+                                }
                             }
                         }
                     }

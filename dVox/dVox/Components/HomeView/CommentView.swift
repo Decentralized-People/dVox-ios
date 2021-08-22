@@ -61,33 +61,7 @@ struct CommentView: View {
                     Color("WhiteColor")
                     
                     VStack{
-                        
-                        if (loader.noMoreComments == false){
-                            ScrollView{
-                                ZStack{
-                                    if (refresh.started && refresh.released) {
-                                        ProgressView()
-                                            .offset(y: -35)
-                                            .progressViewStyle(CircularProgressViewStyle(tint: Color("BlackColor")))
-                                            .scaleEffect(1.5, anchor: .center)
-                                    }
-                                    
-                                    LazyVStack{
-                                        CommentPost(_post: post, _avatar: username.getAvatarString(), _apis: apis, _votesDictionary: votesDictionary)
-                                            .padding(.top,5)
-                                        Divider()
-                                        ForEach(0 ..< post.commentsNumber) { number in
-                                            ShimmerComment()
-                                                .padding(-20)
-                                                .padding(.horizontal, -10)
-                                                .padding([.bottom], 10)
-                                        }
-                                        Spacer()
-                                    }
-                                }
-                            }                            .offset(y: refresh.released ? 50: -5)
-                            
-                        } else {
+                    
                             ScrollView {
                                 //Gemoetry reader for calculating position...
                                 GeometryReader{ reader -> AnyView in
@@ -115,8 +89,7 @@ struct CommentView: View {
                                             refresh.invalid = false
                                             updateData()
                                         }
-                                        
-                                        
+
                                     }
                                     
                                     return AnyView(Color.white.frame(width: 0, height: 0))
@@ -143,6 +116,25 @@ struct CommentView: View {
                                         CommentPost(_post: post, _avatar: username.getAvatarString(), _apis: apis, _votesDictionary: votesDictionary)
                                             .padding(.top,5)
                                         Divider()
+                                        
+                                        if (loader.noMoreComments == false && post.commentsNumber != 0){
+                                            if post.commentsNumber < 15{
+                                                ForEach(0 ..< post.commentsNumber) { number in
+                                                ShimmerComment()
+                                                    .padding(-20)
+                                                    .padding(.horizontal, -10)
+                                                    .padding([.bottom], 10)
+                                                }
+                                            } else {
+                                                ForEach(0 ..< 15) { number in
+                                                ShimmerComment()
+                                                    .padding(-20)
+                                                    .padding(.horizontal, -10)
+                                                    .padding([.bottom], 10)
+                                                }
+                                            }
+                                        }
+                                        else{
                                         ForEach(loader.allComments.indices, id: \.self) { index in
                                             let comment = loader.allComments[index]
                                             CommentItem(_comment: comment)
@@ -156,11 +148,12 @@ struct CommentView: View {
                                         .padding([.bottom], 10)
                                         
                                     }
+                                    }
                                     
                                 }
                                 .offset(y: refresh.released ? 25: -5)
                                 
-                            }
+                            //}
                             
                         }
                         
@@ -185,11 +178,11 @@ struct CommentView: View {
                                 addComment(postID: post.id)
                             }) {
                                 Text("Post")
+                                    .font(.custom("Montserrat-Bold", size: 20))
                                     .foregroundColor(Color("BlackColor"))
                                     .padding(.trailing, 5)
                                     .padding(.top, 15)
                                     .frame(alignment: .trailing)
-                                    .font(.custom("Montserrat-Bold  ", size: 20))
                             }
                         }
                     }
@@ -430,23 +423,37 @@ struct CommentView: View {
     }
     
     func addComment(postID: Int) {
-        if comment != "" {
-            Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { timer in
+            
+            Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
+    
                 let add = apis.retriveKey(for: "ContractAddress") ?? "error"
                 let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
                 let cre = apis.retriveKey(for: "Credentials") ?? "error"
                 
+                var com = Comment(id: -1, author: "", message: "", ban: false)
+    
                 if (add != "error" && inf != "error" && cre != "error") {
-                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
-                    
-                    contract.addComment(postID: postID, author: usernameString ?? "No data provided", message: comment)
-                    
-                    comment = ""
-                    
-                    timer.invalidate()
+    
+                    /// Get data at a background thread
+                    DispatchQueue.global(qos: .userInitiated).async { [] in
+                        let contract = SmartContract(credentials: cre, infura: inf, address: add)
+                        
+                        //contract.addComment(postID: postID, author: usernameString ?? "Hacker", message: comment)
+                                
+                    }
+                    /// Update UI at the main thread
+                    DispatchQueue.main.async {
+                        com = Comment(id: -1, author: usernameString ?? "Hacker", message: comment, ban: false)
+
+                        loader.addComment(comment: com)
+                        
+                        comment = ""
+
+                        timer.invalidate()
+                    }
                 }
             }
-        }
+        
     }
     
 }
