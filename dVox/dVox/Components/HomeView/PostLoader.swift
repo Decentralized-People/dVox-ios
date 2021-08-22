@@ -99,12 +99,16 @@ class PostLoader: ObservableObject  {
                         /// Update UI at the main thread
                         DispatchQueue.main.async {  
                             
-        
-                            codeDM.savePosts(posts: posts)
-                            
-                            items = codeDM.getallItems().sorted(by: { item1, item2 in
-                                return item1.postId > item2.postId
-                            })
+                            withAnimation(Animation.linear){
+
+                                codeDM.savePosts(posts: posts)
+                                
+                                items = codeDM.getallItems().sorted(by: { item1, item2 in
+                                    return item1.postId > item2.postId
+                                })
+                                
+                           
+                            }
                             
                             posts = []
                         }

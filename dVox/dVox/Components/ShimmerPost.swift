@@ -25,12 +25,12 @@ struct ShimmerPost: View {
              
                 .mask(
                     Rectangle()
-                        .fill(LinearGradient(gradient: .init(colors: [Color.white.opacity(0.5),Color.black,Color.black.opacity(0.75)]), startPoint: .top, endPoint: .bottom))
+                        .fill(LinearGradient(gradient: .init(colors: [Color.white.opacity(0.5),Color.black,Color.black.opacity(0.75)]), startPoint: .topLeading, endPoint: .bottomTrailing))
                         .rotationEffect(.init(degrees: 130))
                         .padding(20)
                     //Moves the view to create shimmer effect
                         .offset(x: -250)
-                        .offset(x: animation ? 500 : 0)
+                        .offset(x: animation ? 600 : -100)
                 )
                 .onAppear(perform: {
                     

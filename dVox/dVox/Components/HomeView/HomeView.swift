@@ -11,7 +11,7 @@ import SwiftUI
 import NavigationStack
 
 struct HomeView: View {
-    
+        
     var apis: APIs
     
     var posts = [
@@ -32,6 +32,8 @@ struct HomeView: View {
     var codeDM: PersistenceController
     
     @State var items: [Item] = [Item]()
+    
+    @State var refresh = Refresh(started: false, released: false)
     
     init(_apis: APIs, _username: Username, _codeDM: PersistenceController, _postLoader: PostLoader, _votesDictionary: VotesContainer){
         apis = _apis
@@ -63,34 +65,118 @@ struct HomeView: View {
                     }
                 } else {
                     ScrollView{
-                        LazyVStack{
-                            ForEach(loader.items.indices, id: \.self) { index in
-                                let post = Post(id: Int(loader.items[index].postId), title: loader.items[index].title ?? "No data provided", author: loader.items[index].author ?? "No data provided", message: loader.items[index].message ?? "No data provided", hastag: loader.items[index].hashtag ?? "No data provided", upVotes: Int(loader.items[index].upVotes), downVotes: Int(loader.items[index].downVotes), commentsNumber: Int(loader.items[index].commentsNumber), ban: false)
-                                CardRow(_apis: apis, _username: username, _post: post, _votesDictionary: votesDictionary)
-                                    .onAppear{
-                                        print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
-                                        if (index == loader.items.count-1 && loader.noMorePosts == false) {
-                                            loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 6)
-                                            nextIndex += 1
-                                        }
-                                    }
-                            }
-                            .padding([.bottom], 10)
+                        
+                        //Gemoetry reader for calculating position...
+                        GeometryReader{ reader -> AnyView in
                             
-                            if loader.noMorePosts == false {
-                                ForEach(0 ..< 1) { number in
-                                    ShimmerPost()
-                                        .padding([.bottom], 10)
+                            DispatchQueue.main.async {
+                                if (refresh.startOffset == 0) {
+                                    refresh.startOffset = reader.frame(in: .global).minY
+                                }
+                                
+                                refresh.offset = reader.frame(in: .global).minY
+                                
+                                if (refresh.offset - refresh.startOffset > 90 && !refresh.started){
+                                    refresh.started = true
+                                }
+                                
+                                //checking if refresh is started and drag is released
+                                
+                                if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released{
+                                    withAnimation(Animation.linear){ refresh.released = true }
+                                    updateData();
+                                }
+                                
+                                //checking if invalid becomes valid....
+                                if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released && refresh.invalid{
+                                    refresh.invalid = false
+                                    updateData()
+                                }
+
+                                 
+                            }
+                            
+                            return AnyView(Color.black.frame(width: 0, height: 0))
+                        }
+                        .frame(width: 0, height: 0)
+                        
+                        ZStack(alignment: Alignment(horizontal: .center, vertical: .top)){
+                            
+                            if (refresh.started && refresh.released) {
+                                ProgressView()
+                                    .offset(y: -35)
+                                    .progressViewStyle(CircularProgressViewStyle(tint: Color("WhiteColor")))
+                                    .scaleEffect(1.5, anchor: .center)
+                            }
+                            else {
+                            Image(systemName: "arrow.down")
+                                .font(.system(size: 16, weight: .heavy))
+                                .foregroundColor(.white)
+                                .rotationEffect(.init(degrees: refresh.started ? 180 : 0))
+                                .offset(y: -25)
+                                .animation(.easeIn)
+                                .padding(.bottom, 10)
+                            }
+                            
+                            LazyVStack{
+                                ForEach(loader.items.indices, id: \.self) { index in
+                                    let post = Post(id: Int(loader.items[index].postId), title: loader.items[index].title ?? "No data provided", author: loader.items[index].author ?? "No data provided", message: loader.items[index].message ?? "No data provided", hastag: loader.items[index].hashtag ?? "No data provided", upVotes: Int(loader.items[index].upVotes), downVotes: Int(loader.items[index].downVotes), commentsNumber: Int(loader.items[index].commentsNumber), ban: false)
+                                    CardRow(_apis: apis, _username: username, _post: post, _votesDictionary: votesDictionary)
+                                        .onAppear{
+                                            print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
+                                            if (index == loader.items.count-1 && loader.noMorePosts == false) {
+                                                loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 6)
+                                                nextIndex += 1
+                                            }
+                                        }
+                                }
+                                .padding([.bottom], 10)
+                                
+                                if loader.noMorePosts == false {
+                                    ForEach(0 ..< 1) { number in
+                                        ShimmerPost()
+                                            .padding([.bottom], 10)
+                                    }
+                                    
                                 }
                                 
                             }
-                            
+        
                         }
+                        .offset(y: refresh.released ? 50: -5)
                     }
                     
                 }}
                 .navigationBarHidden(true)
         }
+    }
+    
+    func updateData(){
+        print("Updating data....")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+            withAnimation(Animation.linear){
+                
+                if refresh.startOffset == refresh.offset{
+                    loader.items = []
+                    refresh.released = false
+                    refresh.started = false
+                } else {
+                    refresh.invalid = true
+                }
+            }
+            loader.getPosts(index: 0, currentId: -1, getPosts: 6)
+            loader.noMorePosts = false
+        }
+    }
+    
+   
+    struct Refresh{
+        var startOffset: CGFloat = 0
+        var offset: CGFloat = 0
+        var started: Bool
+        var released: Bool
+        var invalid: Bool = false
     }
     
     struct CardRow: View {
@@ -118,7 +204,6 @@ struct HomeView: View {
             votesDictionary = _votesDictionary
             postUser.stringToUsername(usernameString: eachPost.author)
             VotesBlock(_post: eachPost, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
-
         }
         
         var body: some View {
