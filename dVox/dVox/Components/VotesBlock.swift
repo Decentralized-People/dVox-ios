@@ -156,6 +156,12 @@ struct VotesBlock : View {
     }
     
     func voteUp(vote: Int) {
+        
+        if (vote == 1){
+            votesDictionary.addVote(postId: postId, vote: 1)
+        } else if (vote == -1){
+            votesDictionary.addVote(postId: postId, vote: 404)
+        }
  
         Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
             
@@ -175,14 +181,12 @@ struct VotesBlock : View {
                         
                         print("Upvoting..post number \(postId)")
                         
-                        votesDictionary.addVote(postId: postId, vote: 1)
+       
                     } else if (vote == -1){
                         //contract.upVote(id: postId)
                         
                         print("REVERSE Upvoting..post number \(postId)")
-                        
-                        votesDictionary.addVote(postId: postId, vote: 404)
-                        
+                                            
                     }
                     
                 }
@@ -197,6 +201,12 @@ struct VotesBlock : View {
     
     func voteDown(vote: Int) {
  
+        if (vote == 1){
+            votesDictionary.addVote(postId: postId, vote: -1)
+        } else if (vote == -1){
+            votesDictionary.addVote(postId: postId, vote: 404)
+        }
+        
         Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
             
             let add = apis.retriveKey(for: "ContractAddress") ?? "error"
@@ -216,13 +226,11 @@ struct VotesBlock : View {
                         
                         print("Downvoting..post number \(postId)")
                         
-                        votesDictionary.addVote(postId: postId, vote: -1)
                     } else if (vote == -1){
                         //contract.downVote(id: postId)
                         
                         print("REVERSE Downvoting..post number \(postId)")
                         
-                        votesDictionary.addVote(postId: postId, vote: 404)
                         
                     }
                     

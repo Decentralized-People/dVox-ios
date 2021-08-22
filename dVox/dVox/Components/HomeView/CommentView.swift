@@ -32,15 +32,21 @@ struct CommentView: View {
     
     @State var nextIndex: Int
     
+    var votesDictionary: VotesContainer
+
+    
     var username: Username
     
     var postUser = Username()
     
-    init(_apis: APIs, _username: Username, _post: Post ){
+
+    
+    init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer){
         apis = _apis
         username = _username
         post = _post
         nextIndex = 1
+        votesDictionary = _votesDictionary
     }
     
     var body: some View {
@@ -59,7 +65,7 @@ struct CommentView: View {
                         if (loader.noMoreComments == false){
                             ScrollView{
                                 LazyVStack{
-                                    CommentPost(_post: post, _avatar: username.getAvatarString())
+                                    CommentPost(_post: post, _avatar: username.getAvatarString(), _apis: apis, _votesDictionary: votesDictionary)
                                         .padding(.top,5)
                                     Divider()
                                     ForEach(0 ..< post.commentsNumber) { number in
@@ -74,7 +80,7 @@ struct CommentView: View {
                         } else {
                         ScrollView {
                             LazyVStack{
-                                CommentPost(_post: post, _avatar: username.getAvatarString())
+                                CommentPost(_post: post, _avatar: username.getAvatarString(), _apis: apis, _votesDictionary: votesDictionary)
                                     .padding(.top,5)
                                 Divider()
                                 ForEach(loader.allComments.indices, id: \.self) { index in
@@ -144,11 +150,17 @@ struct CommentView: View {
         
         var post: Post
     
+        var apis: APIs
+        
         var avatar: String
         
-        init(_post: Post, _avatar: String){
+        var votesDictionary: VotesContainer
+        
+        init(_post: Post, _avatar: String, _apis: APIs, _votesDictionary: VotesContainer){
             post = _post
             avatar = _avatar
+            apis = _apis
+            votesDictionary = _votesDictionary
         }
         
         var body: some View {
@@ -193,61 +205,28 @@ struct CommentView: View {
                 .padding(.horizontal, 0)
                 HStack{
                     
-                    Button(action: {
-                        
-                    })
-                    {
-                        Image("fi-rr-thumbs-up")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20)
-                            .padding([.leading], 0)
-                    }
-                    .frame(alignment: .leading)
-                    .padding([.bottom], 20)
+                    VotesBlock(_postId: post.id, _apis: apis, _voted: votesDictionary.getVote(postId: post.id), _votesContainer: votesDictionary)
+                        .padding(.leading, -20)
+
                     
-                    Text(String(post.upVotes))
-                        .font(.custom("Montserrat-Bold", size: 14))
-                        .frame( alignment: .leading)
-                        .padding([.bottom ], 20)
-                    
-                    Button(action: {
-                        
-                    })
-                    {
-                        Image("fi-rr-thumbs-down")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20)
-                            .padding([.leading], 5)
-                    }
-                    .frame(alignment: .leading)
-                    .padding([.bottom ], 20)
-                    
-                    
-                    Text(String(post.downVotes))
-                        .font(.custom("Montserrat-Bold", size: 14))
-                        .frame( alignment: .leading)
-                        .padding([.bottom ], 20)
-                    
-                    Button(action: {
-                        
-                    })
-                    {
-                        Image("fi-rr-comment")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20)
-                            .padding([.leading], 5)
-                    }
-                    
-                    .frame(alignment: .leading)
-                    .padding([.bottom], 20)
-                    
-                    Text(String(post.commentsNumber))
-                        .font(.custom("Montserrat-Bold", size: 14))
-                        .frame( alignment: .leading)
-                        .padding([.bottom ], 20)
+//                    Button(action: {
+//
+//                    })
+//                    {
+//                        Image("fi-rr-comment")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: 20)
+//                            .padding([.leading], 5)
+//                    }
+//
+//                    .frame(alignment: .leading)
+//                    .padding([.bottom], 20)
+//
+//                    Text(String(post.commentsNumber))
+//                        .font(.custom("Montserrat-Bold", size: 14))
+//                        .frame( alignment: .leading)
+//                        .padding([.bottom ], 20)
                     
                     Text(post.hashtag)
                         .font(.custom("Montserrat-Bold", size: 14))
@@ -317,7 +296,7 @@ struct CommentView: View {
     struct CommentView_Preview: PreviewProvider {
         
         static var previews: some View {
-            CommentView(_apis: APIs(), _username: Username(), _post: Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", upVotes: 10, downVotes: 4, commentsNumber: 7, ban: false))
+            CommentView(_apis: APIs(), _username: Username(), _post: Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", upVotes: 10, downVotes: 4, commentsNumber: 7, ban: false), _votesDictionary: VotesContainer())
         }
     }
     

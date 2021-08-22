@@ -108,6 +108,7 @@ struct HomeView: View {
         var username: Username
         
         var postUser = Username()
+        
 
         init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer){
             apis = _apis
@@ -115,6 +116,8 @@ struct HomeView: View {
             eachPost = _post
             votesDictionary = _votesDictionary
             postUser.stringToUsername(usernameString: eachPost.author)
+            VotesBlock(_postId: eachPost.id, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
+
         }
         
         var body: some View {
@@ -152,7 +155,7 @@ struct HomeView: View {
                         
                         VotesBlock(_postId: eachPost.id, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
                         
-                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost), isActive: $isActive) {
+                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost, _votesDictionary: votesDictionary), isActive: $isActive) {
                             
                             
                             Button(action: {
