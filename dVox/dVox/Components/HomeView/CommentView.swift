@@ -15,11 +15,11 @@ struct CommentView: View {
     @State var avatarString = UserDefaults.standard.string(forKey: "dvoxUsernameAvatar")
     
     var post: Post
-        
+    
     @State var comment = ""
     
     var apis: APIs
-
+    
     @ObservedObject var loader = CommentLoader()
     
     var comments = [
@@ -33,13 +33,13 @@ struct CommentView: View {
     @State var nextIndex: Int
     
     var votesDictionary: VotesContainer
-
+    
     
     var username: Username
     
     var postUser = Username()
     
-
+    @State var refresh = Refresh(started: false, released: false)
     
     init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer){
         apis = _apis
@@ -61,44 +61,107 @@ struct CommentView: View {
                     Color("WhiteColor")
                     
                     VStack{
-                                
+                        
                         if (loader.noMoreComments == false){
                             ScrollView{
-                                LazyVStack{
-                                    CommentPost(_post: post, _avatar: username.getAvatarString(), _apis: apis, _votesDictionary: votesDictionary)
-                                        .padding(.top,5)
-                                    Divider()
-                                    ForEach(0 ..< post.commentsNumber) { number in
-                                    ShimmerComment()
-                                        .padding(-20)
-                                        .padding(.horizontal, -10)
-                                        .padding([.bottom], 10)
-                                }
-                                Spacer()
-                                }
-                            }
-                        } else {
-                        ScrollView {
-                            LazyVStack{
-                                CommentPost(_post: post, _avatar: username.getAvatarString(), _apis: apis, _votesDictionary: votesDictionary)
-                                    .padding(.top,5)
-                                Divider()
-                                ForEach(loader.allComments.indices, id: \.self) { index in
-                                    let comment = loader.allComments[index]
-                                    CommentItem(_comment: comment)
-                                        .onAppear{
-                                            print("Index \(index), nTl \(6)")
-                                            if (index == loader.allComments.count-1 && loader.noMoreComments == false)  {
-                                                loader.getComments(index: index, apis: apis, post: post, currentId: comment.id, getComments: 6)
-                                            }
+                                ZStack{
+                                    if (refresh.started && refresh.released) {
+                                        ProgressView()
+                                            .offset(y: -35)
+                                            .progressViewStyle(CircularProgressViewStyle(tint: Color("BlackColor")))
+                                            .scaleEffect(1.5, anchor: .center)
+                                    }
+                                    
+                                    LazyVStack{
+                                        CommentPost(_post: post, _avatar: username.getAvatarString(), _apis: apis, _votesDictionary: votesDictionary)
+                                            .padding(.top,5)
+                                        Divider()
+                                        ForEach(0 ..< post.commentsNumber) { number in
+                                            ShimmerComment()
+                                                .padding(-20)
+                                                .padding(.horizontal, -10)
+                                                .padding([.bottom], 10)
                                         }
+                                        Spacer()
+                                    }
                                 }
-                                .padding([.bottom], 10)
+                            }                            .offset(y: refresh.released ? 50: -5)
+                            
+                        } else {
+                            ScrollView {
+                                //Gemoetry reader for calculating position...
+                                GeometryReader{ reader -> AnyView in
+                                    
+                                    DispatchQueue.main.async {
+                                        if (refresh.startOffset == 0) {
+                                            refresh.startOffset = reader.frame(in: .global).minY
+                                        }
+                                        
+                                        refresh.offset = reader.frame(in: .global).minY
+                                        
+                                        if (refresh.offset - refresh.startOffset > 90 && !refresh.started){
+                                            refresh.started = true
+                                        }
+                                        
+                                        //checking if refresh is started and drag is released
+                                        
+                                        if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released{
+                                            withAnimation(Animation.linear){ refresh.released = true }
+                                            updateData();
+                                        }
+                                        
+                                        //checking if invalid becomes valid....
+                                        if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released && refresh.invalid{
+                                            refresh.invalid = false
+                                            updateData()
+                                        }
+                                        
+                                        
+                                    }
+                                    
+                                    return AnyView(Color.white.frame(width: 0, height: 0))
+                                }
+                                .frame(width: 0, height: 0)
+                                
+                                ZStack(alignment: Alignment(horizontal: .center, vertical: .top)){
+                                    
+                                    if (refresh.started && refresh.released) {
+                                        ProgressView()
+                                            .offset(y: -35)
+                                            .progressViewStyle(CircularProgressViewStyle(tint: Color("BlackColor")))
+                                    }
+                                    else {
+                                        Image(systemName: "arrow.down")
+                                            .font(.system(size: 16, weight: .heavy))
+                                            .foregroundColor(.black)
+                                            .rotationEffect(.init(degrees: refresh.started ? 180 : 0))
+                                            .offset(y: -25)
+                                            .animation(.easeIn)
+                                            .padding(.bottom, 10)
+                                    }
+                                    LazyVStack{
+                                        CommentPost(_post: post, _avatar: username.getAvatarString(), _apis: apis, _votesDictionary: votesDictionary)
+                                            .padding(.top,5)
+                                        Divider()
+                                        ForEach(loader.allComments.indices, id: \.self) { index in
+                                            let comment = loader.allComments[index]
+                                            CommentItem(_comment: comment)
+                                                .onAppear{
+                                                    print("Index \(index), nTl \(6)")
+                                                    if (index == loader.allComments.count-1 && loader.noMoreComments == false)  {
+                                                        loader.getComments(index: index, apis: apis, post: post, currentId: comment.id, getComments: 6)
+                                                    }
+                                                }
+                                        }
+                                        .padding([.bottom], 10)
+                                        
+                                    }
+                                    
+                                }
+                                .offset(y: refresh.released ? 25: -5)
                                 
                             }
                             
-                        }
-
                         }
                         
                         Spacer()
@@ -108,14 +171,14 @@ struct CommentView: View {
                         HStack{
                             
                             VStack{
-                               
+                                
                                 TextField("Comment as \(usernameString ?? "No data provided")", text: $comment)
                                     .accentColor(Color("BlackColor"))
                                     .font(.custom("Montserrat", size: 15))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.top, 15)
                                     .padding(.leading, 5)
-
+                                
                             }
                             
                             Button(action: {
@@ -146,10 +209,37 @@ struct CommentView: View {
         }
     }
     
+    func updateData(){
+        print("Updating data....")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+            withAnimation(Animation.linear){
+                
+                if refresh.startOffset == refresh.offset{
+                    loader.allComments = []
+                    refresh.released = false
+                    refresh.started = false
+                } else {
+                    refresh.invalid = true
+                }
+            }
+            loader.getComments(index: 0, apis: apis, post: post, currentId: -1, getComments: 6)
+            loader.noMoreComments = false
+        }
+    }
+    
+    struct Refresh{
+        var startOffset: CGFloat = 0
+        var offset: CGFloat = 0
+        var started: Bool
+        var released: Bool
+        var invalid: Bool = false
+    }
+    
     struct CommentPost: View {
         
         var post: Post
-    
+        
         var apis: APIs
         
         var avatar: String
@@ -182,7 +272,7 @@ struct CommentView: View {
                             
                             Text(post.author)
                                 .font(.custom("Montserrat", size: 14))
-                            
+                                
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         PopView {
@@ -207,26 +297,26 @@ struct CommentView: View {
                     
                     VotesBlock(_post: post, _apis: apis, _voted: votesDictionary.getVote(postId: post.id), _votesContainer: votesDictionary)
                         .padding(.leading, -20)
-
                     
-//                    Button(action: {
-//
-//                    })
-//                    {
-//                        Image("fi-rr-comment")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 20)
-//                            .padding([.leading], 5)
-//                    }
-//
-//                    .frame(alignment: .leading)
-//                    .padding([.bottom], 20)
-//
-//                    Text(String(post.commentsNumber))
-//                        .font(.custom("Montserrat-Bold", size: 14))
-//                        .frame( alignment: .leading)
-//                        .padding([.bottom ], 20)
+                    
+                    //                    Button(action: {
+                    //
+                    //                    })
+                    //                    {
+                    //                        Image("fi-rr-comment")
+                    //                            .resizable()
+                    //                            .aspectRatio(contentMode: .fit)
+                    //                            .frame(width: 20)
+                    //                            .padding([.leading], 5)
+                    //                    }
+                    //
+                    //                    .frame(alignment: .leading)
+                    //                    .padding([.bottom], 20)
+                    //
+                    //                    Text(String(post.commentsNumber))
+                    //                        .font(.custom("Montserrat-Bold", size: 14))
+                    //                        .frame( alignment: .leading)
+                    //                        .padding([.bottom ], 20)
                     
                     Text(post.hashtag)
                         .font(.custom("Montserrat-Bold", size: 14))
@@ -263,12 +353,12 @@ struct CommentView: View {
                             .frame(width: 30)
                             .padding(.top, 5)
                             .padding(.trailing, 5)
-                            
+                        
                         Spacer()
                     }
                     
                     VStack{
-                 
+                        
                         HStack{
                             
                             Text(commentUser.getUsernameString())
@@ -350,7 +440,7 @@ struct CommentView: View {
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)
                     
                     contract.addComment(postID: postID, author: usernameString ?? "No data provided", message: comment)
-    
+                    
                     comment = ""
                     
                     timer.invalidate()
