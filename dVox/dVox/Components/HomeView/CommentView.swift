@@ -426,7 +426,7 @@ struct CommentView: View {
     }
     
     func addComment(postID: Int) {
-            
+        if comment != "" {
             Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
     
                 let add = apis.retriveKey(for: "ContractAddress") ?? "error"
@@ -461,6 +461,7 @@ struct CommentView: View {
                 }
             }
         
+        }
     }
     
 }
