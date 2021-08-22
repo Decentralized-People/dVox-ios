@@ -23,8 +23,9 @@ struct HomeView: View {
     
     @State var nextIndex: Int
     
-    var numberOfPostsToLoad = 6
+    @State var votesDictionary = VotesContainer()
     
+    var numberOfPostsToLoad = 6
     
     var username: Username
     
@@ -64,7 +65,7 @@ struct HomeView: View {
                         LazyVStack{
                             ForEach(loader.items.indices, id: \.self) { index in
                                 let post = Post(id: Int(loader.items[index].postId), title: loader.items[index].title ?? "No data provided", author: loader.items[index].author ?? "No data provided", message: loader.items[index].message ?? "No data provided", hastag: loader.items[index].hashtag ?? "No data provided", upVotes: Int(loader.items[index].upVotes), downVotes: Int(loader.items[index].downVotes), commentsNumber: Int(loader.items[index].commentsNumber), ban: false)
-                                CardRow(_apis: apis, _username: username, _post: post)
+                                CardRow(_apis: apis, _username: username, _post: post, _votesDictionary: votesDictionary)
                                     .onAppear{
                                         print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
                                         if (index == loader.items.count-1 && loader.noMorePosts == false) {
@@ -100,16 +101,19 @@ struct HomeView: View {
         
         @State var downVote = 0
         
+        @State var votesDictionary: VotesContainer
+        
         var apis: APIs
         
         var username: Username
         
         var postUser = Username()
-        
-        init(_apis: APIs, _username: Username, _post: Post){
+
+        init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer){
             apis = _apis
             username = _username
             eachPost = _post
+            votesDictionary = _votesDictionary
             postUser.stringToUsername(usernameString: eachPost.author)
         }
         
@@ -146,7 +150,7 @@ struct HomeView: View {
                     .padding(.horizontal, 20.0)
                     HStack{
                         
-                        VotesBlock()
+                        VotesBlock(_postId: eachPost.id, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
                         
                         PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost), isActive: $isActive) {
                             
@@ -232,36 +236,29 @@ struct HomeView: View {
         }
     
     
-    func ban(post: Int) {
- 
-        Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
-            
-            let add = apis.retriveKey(for: "ContractAddress") ?? "error"
-            let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
-            let cre = apis.retriveKey(for: "Credentials") ?? "error"
-            
-            if (add != "error" && inf != "error" && cre != "error") {
-                
-                
-                /// Get data at a background thread
-                DispatchQueue.global(qos: .userInitiated).async { [] in
-                    
-                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
-                    
-                    contract.banPost(postId: post)
-                }
-                
-                
-                
-                
-                /// Update UI at the main thread
-                DispatchQueue.main.async {
-    
-                    timer.invalidate()
-                }
-            }
-        }
-    }
+//    func ban(post: Int) {
+//
+//        Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
+//
+//            let add = apis.retriveKey(for: "ContractAddress") ?? "error"
+//            let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
+//            let cre = apis.retriveKey(for: "Credentials") ?? "error"
+//
+//            if (add != "error" && inf != "error" && cre != "error") {
+//
+//                /// Get data at a background thread
+//                DispatchQueue.global(qos: .userInitiated).async { [] in
+//                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
+//                    contract.banPost(postId: post)
+//                }
+//                /// Update UI at the main thread
+//                DispatchQueue.main.async {
+//
+//                    timer.invalidate()
+//                }
+//            }
+//        }
+//    }
         
     }
 }
