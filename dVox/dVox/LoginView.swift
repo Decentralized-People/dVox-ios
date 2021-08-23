@@ -73,7 +73,7 @@ struct LoginView: View {
                         
                         
                         //********************* TEXT INPUT *********************//
-                        TextField("name@college.edu", text: $email_input)
+                        TextField("name@kzoo.edu", text: $email_input)
                             .font(.custom("Montserrat-Regular", size: 20))
                             .minimumScaleFactor(0.01)
                             .lineLimit(3)
@@ -162,11 +162,11 @@ struct LoginView: View {
         
         //If input is incorrect
         if !isValidCollegeEmail(testStr: email_input){
-            print("Please use a vaild (.edu) college email");
+            print("Please use a vaild (kzoo.edu) college email");
             //!!! ADD TOAST HERE !!!//
             
             //showIncorrectEmailAlert = true
-            toastMessage = "Please use a vaild (.edu) college email"
+            toastMessage = "Please use a vaild (kzoo.edu) college email"
             showToast = true
             
             return 1
@@ -179,7 +179,8 @@ struct LoginView: View {
     
     //Checking for valid University email
     func isValidCollegeEmail(testStr:String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[(edu)]{2,64}"
+        let name = "[A-Z0-9a-z]([A-Z0-9a-z._%+-]{0,30}[A-Z0-9a-z])?"
+        let emailRegEx = name + "@kzoo.edu"
         let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
         return emailTest.evaluate(with: testStr)
     }

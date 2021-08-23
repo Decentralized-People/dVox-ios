@@ -147,7 +147,8 @@ class SmartContract{
         do {
             let result = try transaction?.call(transactionOptions: transactionOptions)
             
-            print(result)
+            print(result ?? "error")
+            
             comment.id = Int(result?["0"] as! BigUInt)
             comment.author = result?["1"] as! String
             comment.message = result?["2"] as! String
@@ -163,6 +164,9 @@ class SmartContract{
         let transaction = contract.write("addComment", parameters: [postID, author, message] as [AnyObject], transactionOptions: transactionOptions);
         do {
             let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
+            
+            print(result ?? "error")
+
             print("Comment Created: \(message)")
         } catch {
                 print(error.localizedDescription)

@@ -150,7 +150,7 @@ struct ComposeView: View {
     
     struct ComposeView_Previews: PreviewProvider {
         static var previews: some View {
-            var apis = APIs()
+            let apis = APIs()
             ComposeView(_apis: apis, _username: Username())
         }
     }
