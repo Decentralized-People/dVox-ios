@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Firebase
 
 struct Preview : View {
     
@@ -32,6 +33,9 @@ struct VotesBlock : View {
     @State var upVote: Int
     @State var downVote: Int
     
+    @State var voteUp: Int = 0;
+    @State var voteDown: Int = 0;
+    
     init(_post: Post, _apis: APIs, _voted: String, _votesContainer: VotesContainer) {
         post = _post
         apis = _apis
@@ -51,6 +55,8 @@ struct VotesBlock : View {
             isDownVoted = false
             downVote = 0
             upVote = 0
+            
+            
         }
     }
 
@@ -99,10 +105,13 @@ struct VotesBlock : View {
             .frame(alignment: .leading)
             .padding([.leading, .bottom], 20)
             
-            Text(String(post.upVotes + upVote))
+            Text(String(voteUp))
                 .font(.custom("Montserrat-Bold", size: 14))
                 .frame( alignment: .leading)
                 .padding([.bottom ], 20)
+                .onAppear(perform: {
+                    getVoteUp()
+                })
             
             ZStack {
                 Image("fi-rr-thumbs-down.filled")
@@ -147,10 +156,13 @@ struct VotesBlock : View {
             .frame(alignment: .leading)
             .padding([.bottom ], 20)
             
-            Text(String(post.downVotes + downVote))
+            Text(String(voteDown))
                 .font(.custom("Montserrat-Bold", size: 14))
                 .frame( alignment: .leading)
                 .padding([.bottom ], 20)
+                .onAppear(perform: {
+                    getVoteDown()
+                })
          
         }
         
@@ -184,31 +196,20 @@ struct VotesBlock : View {
                   
                 /// Get data at a background thread
                 DispatchQueue.global(qos: .userInitiated).async { [] in
-                    
-                    print(cre, inf, add)
-                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
-                    
-                    if (vote == 1){
-                        contract.upVote(id: post.id, vote: 1)
-                         
-                        print("Upvoting..post number \(post.id)")
-                        
-       
-                    } else if (vote == -1){
-                        contract.upVote(id: post.id, vote: -1)
 
-                        print("REVERSE Upvoting..post number \(post.id)")
-                                            
-                    }
+                        let ref = Firestore.firestore().collection("Votes").document(add)
+
+                        ref.updateData([
+                            "\(post.id)_upvote": FieldValue.increment(Int64(vote))
+                        ])
                     
                 }
                 /// Update UI at the main thread
                 DispatchQueue.main.async {
-                    
-             
+                                    
+                    getVoteUp()
                     
                     timer.invalidate()
-
                 }
             }
         }
@@ -231,9 +232,7 @@ struct VotesBlock : View {
             UserDefaults.standard.set((currentNumber - 1), forKey: "dVoxDownVotedPosts")
             
         }
-        
 
-        
         Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
             
             let add = apis.retriveKey(for: "ContractAddress") ?? "error"
@@ -245,32 +244,102 @@ struct VotesBlock : View {
                 /// Get data at a background thread
                 DispatchQueue.global(qos: .userInitiated).async { [] in
                     
-                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
                     
-                    
-                    if (vote == 1){
-                        contract.downVote(id: post.id, vote: 1)
-                        
-                        print("Downvoting..post number \(post.id)")
-                        
-                    } else if (vote == -1){
-                        contract.downVote(id: post.id, vote: -1)
+                        let ref = Firestore.firestore().collection("Votes").document(add)
 
-                        print("REVERSE Downvoting..post number \(post.id)")
-                        
-                        
-                    }
-                    
+                        ref.updateData([
+                            "\(post.id)_downvote": FieldValue.increment(Int64(vote))
+                        ])
 
                 }
                 /// Update UI at the main thread
                 DispatchQueue.main.async {
                     
+                    getVoteDown()
+                    
+                    timer.invalidate()
+                }
+            }
+        }
+    }
+    
+    func getVoteUp() {
+        Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
+            
+            var currentPost = 0
+            
+            let add = apis.retriveKey(for: "ContractAddress") ?? "error"
+            
+            if (add != "error") {
+                  
+                DispatchQueue.global(qos: .userInitiated).async { [] in
+                    
+                    let ref = Firestore.firestore().collection("Votes").document(add)
+                    
+                    ref.getDocument{ [self] (document, error) in
+                        
+                        if let document = document, document.exists{
+                            
+                            currentPost = Int(document.get("\(post.id)_upvote") as? Int64 ?? 0)
+                            
+                            print("\(post.id) Current UpVote: \(currentPost)")
+                            
+                        } else {
+
+                            currentPost = 0
+                        }
+                        voteUp = currentPost
+                    }
+
+                }
+                /// Update UI at the main thread
+                DispatchQueue.main.async {
     
                     timer.invalidate()
                 }
             }
         }
+
+    }
+    
+    func getVoteDown() {
+        Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
+            
+            var currentPost = 0
+            
+            let add = apis.retriveKey(for: "ContractAddress") ?? "error"
+            
+            if (add != "error") {
+                  
+                DispatchQueue.global(qos: .userInitiated).async { [] in
+                    
+                    let ref = Firestore.firestore().collection("Votes").document(add)
+                    
+                    ref.getDocument{ [self] (document, error) in
+                        
+                        if let document = document, document.exists{
+                            
+                            currentPost = Int(document.get("\(post.id)_downvote") as? Int64 ?? 0)
+                            
+                            print("\(post.id) Current DownVote: \(currentPost)")
+                            
+                        } else {
+
+                            currentPost = 0
+                        }
+                        voteDown = currentPost
+                    }
+
+                }
+                /// Update UI at the main thread
+                DispatchQueue.main.async {
+
+                    timer.invalidate()
+                    
+                }
+            }
+        }
+
     }
     
 }
