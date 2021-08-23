@@ -12,7 +12,6 @@ import AlertToast
 
 import Firebase
 
-
 struct LoginView: View {
     init(){
         for family in UIFont.familyNames {
@@ -32,34 +31,12 @@ struct LoginView: View {
     
     @State var authenticationSuccess: Bool = false
     
-    @State var showSuccessAlert = false
-      
-      func successReminder() -> Alert {
-              Alert(
-                  title: Text("Notifications Required"),
-                  message: Text("Email sent! You the link through your phone."),
-                  dismissButton: .default(Text("Okay")))
-      }
-    
-    @State var showEmptyEmailAlert = false
-      
-      func emptyEmailReminder() -> Alert {
-              Alert(
-                  title: Text("Notifications Required"),
-                  message: Text("The field cannot be empty"),
-                  dismissButton: .default(Text("Okay")))
-      }
-    
-    @State var showIncorrectEmailAlert = false
-      
-      func incorrectEmailReminder() -> Alert {
-              Alert(
-                  title: Text("Notifications Required"),
-                  message: Text("Please use a valid college (.edu) email"),
-                  dismissButton: .default(Text("Okay")))
-      }
-    
+    @State var showToast: Bool = false
 
+    @State var toastMessage: String = "Interesting"
+    
+    
+    
     var body: some View {
         
         
@@ -151,14 +128,15 @@ struct LoginView: View {
                 
                 //************************** WHITE CARD **************************//
             }
-            .alert(isPresented: $showSuccessAlert,
-                          content: { self.successReminder() })
-            .alert(isPresented: $showIncorrectEmailAlert,
-                          content: { self.incorrectEmailReminder() })
-            .alert(isPresented: $showEmptyEmailAlert,
-                          content: { self.emptyEmailReminder() })
             //******* MAIN V STACK *******//
         }
+        .toast(isPresenting: $showToast){
+
+                   // `.alert` is the default displayMode
+                   //AlertToast(type: .regular, title: "Message Sent!")
+                   //Choose .hud to toast alert from the top of the screen
+            AlertToast(displayMode: .hud, type: .regular, title: toastMessage, custom: .custom(backgroundColor: Color("WhiteColor"), titleColor: Color("BlackColor"), subTitleColor: Color("BlackColor"), titleFont: Font.custom("Montserrat-Regular", size: 15.0),  subTitleFont: Font.custom("Montserrat-Regular", size: 15.0)))
+               }
         //******* MAIN Z STACK *******//
     }
 
@@ -181,7 +159,10 @@ struct LoginView: View {
             print("The field cannot be empty");
             //!!! ADD TOAST HERE !!!//
             
-            showEmptyEmailAlert = true
+            //showEmptyEmailAlert = true
+            
+            showToast = true
+            toastMessage = "The field cannot be empty"
             
             return 1
         }
@@ -191,7 +172,9 @@ struct LoginView: View {
             print("Please use a vaild (.edu) college email");
             //!!! ADD TOAST HERE !!!//
             
-            showIncorrectEmailAlert = true
+            //showIncorrectEmailAlert = true
+            toastMessage = "Please use a vaild (.edu) college email"
+            showToast = true
             
             return 1
         }
@@ -224,17 +207,18 @@ struct LoginView: View {
             if let error = error {
                 print("THIS ERROR MAKES THE LINK INCORRECT: ", error);
                 
-                showEmptyEmailAlert = true
-                
+                toastMessage = "Error. Request a new link."
+                showToast = true
                 
               return
             }
-            NSLog("The link is sent!");
-            
-            
-            showSuccessAlert = true
+            NSLog("The link was sent!");
             
             UserDefaults.standard.set(email, forKey: "Email")
+            
+            toastMessage = "The link was sent!"
+            showToast = true
+            
         }
     }
     
