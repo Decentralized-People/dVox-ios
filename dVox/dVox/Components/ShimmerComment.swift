@@ -31,6 +31,7 @@ struct ShimmerComment: View {
                     //Moves the view to create shimmer effect
                         .offset(x: -250)
                         .offset(x: animation ? 500 : 0)
+
                 )
                 .onAppear(perform: {
                     
@@ -80,10 +81,16 @@ struct ShimmerComment: View {
                          
                             
                             
-                            Text("█████████████████████████")
-                                .font(.custom("Montserrat", size: 9))
+                            Text("████████████████████████████████████")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .opacity(0.07)
+                                .font(.custom("Montserrat", size: 20))
+                                .minimumScaleFactor(0.01)
+                                .lineLimit(1)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(.bottom, 3)
+
+
 
                             
                         }

@@ -125,27 +125,42 @@ struct ShimmerPost: View {
                     .padding([.top, .leading, .trailing], 20)
                     VStack{
                         Text("████████████████████████████████████")
-                            .font(.custom("Montserrat", size: 10))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .opacity(0.07)
+                            .font(.custom("Montserrat", size: 20))
+                            .minimumScaleFactor(0.01)
+                            .lineLimit(1)
+                            .fixedSize(horizontal: false, vertical: true)
                             .padding(.bottom, 3)
+
                         
                         Text("████████████████████████████████████")
-                            .font(.custom("Montserrat", size: 10))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .opacity(0.07)
+                            .font(.custom("Montserrat", size: 20))
+                            .minimumScaleFactor(0.01)
+                            .lineLimit(1)
+                            .fixedSize(horizontal: false, vertical: true)
                             .padding(.bottom, 3)
                         Text("████████████████████████████████████")
-                            .font(.custom("Montserrat", size: 10))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .opacity(0.07)
+                            .font(.custom("Montserrat", size: 20))
+                            .minimumScaleFactor(0.01)
+                            .lineLimit(1)
+                            .fixedSize(horizontal: false, vertical: true)
                             .padding(.bottom, 3)
+
                         
                         Text("████████████████████████████████████")
-                            .font(.custom("Montserrat", size: 10))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .opacity(0.07)
+                            .font(.custom("Montserrat", size: 20))
+                            .minimumScaleFactor(0.01)
+                            .lineLimit(1)
+                            .fixedSize(horizontal: false, vertical: true)
                             .padding(.bottom, 3)
+
                         
                     }
                     .padding(.horizontal, 20.0)
@@ -192,9 +207,11 @@ struct ShimmerPost: View {
                         Text("██████")
                             .font(.custom("Montserrat-Bold", size: 12))
                             .frame(maxWidth: .infinity, alignment: .trailing)
-                            .padding([.leading, .bottom], 20)
-                            .padding(.trailing, 28)
+                            .padding(.bottom, 20)
+                            .padding(.trailing, 20)
                             .opacity(0.07)
+                            .lineLimit(1)
+
                     }
                 }
             }

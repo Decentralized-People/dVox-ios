@@ -37,7 +37,6 @@ struct ComposeView: View {
 
     @State var toastMessage: String = "It will appear in our decentralized storage soon"
     
-    
     @State var showToast: Bool = false
 
     
@@ -144,7 +143,7 @@ struct ComposeView: View {
                            //AlertToast(type: .regular, title: "Message Sent!")
                            //Choose .hud to toast alert from the top of the screen
                     AlertToast(displayMode: .hud, type: .complete(Color("BlackColor")), title: toastTitle, subTitle: toastMessage, custom: .custom(backgroundColor: Color("WhiteColor"), titleColor: Color("BlackColor"), subTitleColor: Color("BlackColor"), titleFont: Font.custom("Montserrat-Regular", size: 15.0),  subTitleFont: Font.custom("Montserrat-Regular", size: 12.0)))
-                       }
+                }
             }
         }
     }

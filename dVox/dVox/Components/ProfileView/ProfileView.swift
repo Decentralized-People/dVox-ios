@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import AlertToast
 
 struct ProfileView: View {
     
@@ -16,6 +17,10 @@ struct ProfileView: View {
     @State var disabled: Bool
     
     @State var username: Username
+    
+    @State var toastTitle: String = "Saved!"
+    
+    @State var showToast: Bool = false
     
     init(_apis: APIs, _username: Username){
         apis = _apis
@@ -140,8 +145,9 @@ struct ProfileView: View {
                                 Button(action: {
                                     self.generating = false
                 
-                        
                                     username.usernameConfirm()
+                                    
+                                    showToast = true
                                 })
                                 {
                                     (Text("Save")
@@ -163,6 +169,9 @@ struct ProfileView: View {
             }
             .padding(20)
             .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+            .toast(isPresenting: $showToast, duration: 4){
+              AlertToast(displayMode: .hud, type: .complete(Color("BlackColor")), title: toastTitle, custom: .custom(backgroundColor: Color("WhiteColor"), titleColor: Color("BlackColor"), subTitleColor: Color("BlackColor"), titleFont: Font.custom("Montserrat-Regular", size: 15.0),  subTitleFont: Font.custom("Montserrat-Regular", size: 12.0)))
+          }
         }
     }
     
