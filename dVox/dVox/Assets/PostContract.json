@@ -15,8 +15,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -54,14 +53,14 @@
         "type": "string"
       },
       {
-        "internalType": "uint256",
+        "internalType": "int256",
         "name": "upVotes",
-        "type": "uint256"
+        "type": "int256"
       },
       {
-        "internalType": "uint256",
+        "internalType": "int256",
         "name": "downVotes",
-        "type": "uint256"
+        "type": "int256"
       },
       {
         "internalType": "uint256",
@@ -75,8 +74,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -112,6 +110,11 @@
         "internalType": "uint256",
         "name": "id",
         "type": "uint256"
+      },
+      {
+        "internalType": "int256",
+        "name": "vote",
+        "type": "int256"
       }
     ],
     "name": "upVote",
@@ -125,6 +128,11 @@
         "internalType": "uint256",
         "name": "id",
         "type": "uint256"
+      },
+      {
+        "internalType": "int256",
+        "name": "vote",
+        "type": "int256"
       }
     ],
     "name": "downVote",
@@ -192,8 +200,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [

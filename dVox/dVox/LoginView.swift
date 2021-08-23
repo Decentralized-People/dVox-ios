@@ -29,9 +29,36 @@ struct LoginView: View {
     @State var shake: Bool = false
 
     @State var attempts: Int = 0
-
     
     @State var authenticationSuccess: Bool = false
+    
+    @State var showSuccessAlert = false
+      
+      func successReminder() -> Alert {
+              Alert(
+                  title: Text("Notifications Required"),
+                  message: Text("Email sent! You the link through your phone."),
+                  dismissButton: .default(Text("Okay")))
+      }
+    
+    @State var showEmptyEmailAlert = false
+      
+      func emptyEmailReminder() -> Alert {
+              Alert(
+                  title: Text("Notifications Required"),
+                  message: Text("The field cannot be empty"),
+                  dismissButton: .default(Text("Okay")))
+      }
+    
+    @State var showIncorrectEmailAlert = false
+      
+      func incorrectEmailReminder() -> Alert {
+              Alert(
+                  title: Text("Notifications Required"),
+                  message: Text("Please use a valid college (.edu) email"),
+                  dismissButton: .default(Text("Okay")))
+      }
+    
 
     var body: some View {
         
@@ -117,10 +144,19 @@ struct LoginView: View {
                     .cornerRadius(15)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 50)
+                    
+                    
 
                 }
+                
                 //************************** WHITE CARD **************************//
             }
+            .alert(isPresented: $showSuccessAlert,
+                          content: { self.successReminder() })
+            .alert(isPresented: $showIncorrectEmailAlert,
+                          content: { self.incorrectEmailReminder() })
+            .alert(isPresented: $showEmptyEmailAlert,
+                          content: { self.emptyEmailReminder() })
             //******* MAIN V STACK *******//
         }
         //******* MAIN Z STACK *******//
@@ -144,6 +180,9 @@ struct LoginView: View {
         if input == ""{
             print("The field cannot be empty");
             //!!! ADD TOAST HERE !!!//
+            
+            showEmptyEmailAlert = true
+            
             return 1
         }
         
@@ -151,6 +190,9 @@ struct LoginView: View {
         if !isValidCollegeEmail(testStr: email_input){
             print("Please use a vaild (.edu) college email");
             //!!! ADD TOAST HERE !!!//
+            
+            showIncorrectEmailAlert = true 
+            
             return 1
         }
     
@@ -182,13 +224,15 @@ struct LoginView: View {
             if let error = error {
                 print("THIS ERROR MAKES THE LINK INCORRECT: ", error);
                 
-                //!!! ADD ERROR TOAST HERE !!!//
+                showEmptyEmailAlert = true
+                
                 
               return
             }
             NSLog("The link is sent!");
             
-            //!!! ADD SUCCESS TOAST HERE !!!//
+            
+            showSuccessAlert = true
             
             UserDefaults.standard.set(email, forKey: "Email")
         }

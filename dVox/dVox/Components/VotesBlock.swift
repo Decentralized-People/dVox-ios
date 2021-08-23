@@ -157,13 +157,13 @@ struct VotesBlock : View {
     }
     
     func voteUp(vote: Int) {
-        
+    
         if (vote == 1){
             votesDictionary.addVote(postId: post.id, vote: 1)
         } else if (vote == -1){
             votesDictionary.addVote(postId: post.id, vote: 404)
         }
- 
+        
         Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
             
             let add = apis.retriveKey(for: "ContractAddress") ?? "error"
@@ -175,17 +175,18 @@ struct VotesBlock : View {
                 /// Get data at a background thread
                 DispatchQueue.global(qos: .userInitiated).async { [] in
                     
+                    print(cre, inf, add)
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)
                     
                     if (vote == 1){
-                        contract.upVote(id: post.id)
-                        
+                        contract.upVote(id: post.id, vote: 1)
+                         
                         print("Upvoting..post number \(post.id)")
                         
        
                     } else if (vote == -1){
-                        //contract.upVote(id: postId)
-                        
+                        contract.upVote(id: post.id, vote: -1)
+
                         print("REVERSE Upvoting..post number \(post.id)")
                                             
                     }
@@ -193,15 +194,18 @@ struct VotesBlock : View {
                 }
                 /// Update UI at the main thread
                 DispatchQueue.main.async {
-    
+                    
+             
+                    
                     timer.invalidate()
+
                 }
             }
         }
     }
     
     func voteDown(vote: Int) {
- 
+        
         if (vote == 1){
             votesDictionary.addVote(postId: post.id, vote: -1)
         } else if (vote == -1){
@@ -223,13 +227,13 @@ struct VotesBlock : View {
                     
                     
                     if (vote == 1){
-                        contract.downVote(id: post.id)
+                        contract.downVote(id: post.id, vote: 1)
                         
                         print("Downvoting..post number \(post.id)")
                         
                     } else if (vote == -1){
-                        //contract.downVote(id: postId)
-                        
+                        contract.downVote(id: post.id, vote: -1)
+
                         print("REVERSE Downvoting..post number \(post.id)")
                         
                         
@@ -239,6 +243,7 @@ struct VotesBlock : View {
                 }
                 /// Update UI at the main thread
                 DispatchQueue.main.async {
+                    
     
                     timer.invalidate()
                 }

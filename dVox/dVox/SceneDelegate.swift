@@ -27,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // ** NEED TO CHECK IF THE USER CREATED ACCOUNT: TRUE -> SWITCH TO MAINVIEW, FALSE -> KEEP LOGINVIEW ** //
         
-        let loginView = MainView() //LoginView()
+        let loginView = LoginView() //LoginView()
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
@@ -109,7 +109,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Check the email and the deep link
         if email != nil {
             if Auth.auth().isSignIn(withEmailLink: link) {
-                Auth.auth().signIn(withEmail: email as! String, link: link, completion: { auth, error in
+                Auth.auth().signIn(withEmail: email as! String, link: link, completion: { [self] auth, error in
                     
                     // Debugging
                     print("Auth: ", auth as Any);
@@ -121,6 +121,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         print("SUCCESS!")
                         
                         // ** SWITCH TO THE MAIN VIEW ** //
+                        
+                        let loginView = MainView() //LoginView()
+
+                
+         
                         
                     }})
             }
