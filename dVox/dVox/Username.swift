@@ -224,6 +224,7 @@ class Username: ObservableObject {
     }
     
     func usernameConfirm(){
+        
         let group = DispatchGroup()
         
         group.enter()
@@ -259,6 +260,7 @@ class Username: ObservableObject {
             let userAvatar = self.getAvatarString()
             UserDefaults.standard.set(userString, forKey: "dvoxUsername")
             UserDefaults.standard.set(userAvatar, forKey: "dvoxUsernameAvatar")
+            
         }
  
     }

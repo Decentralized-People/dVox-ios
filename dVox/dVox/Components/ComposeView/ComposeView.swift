@@ -197,6 +197,12 @@ struct ComposeView: View {
                     hashtag.value = ""
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)
                     contract.createPost(title: realTitle, author: username.getUsernameString(), message: realMessage, hashtag: realHashtag)
+                    
+                    // Increament created posts variable for statistics
+                    let currentNumber = UserDefaults.standard.integer(forKey: "dVoxCreatedPosts")
+                    UserDefaults.standard.set((currentNumber + 1), forKey: "dVoxCreatedPosts")
+                  
+                    
                     timer.invalidate()
                 }
             }

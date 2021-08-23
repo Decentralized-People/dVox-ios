@@ -83,7 +83,7 @@ struct MainView: View {
                                 .background(Color("BlackColor"))
 
                         }
-                        .animation(.none)
+                        
                     }
                     .overlay( // Overlay the custom TabView component here
                         Color("WhiteColor") // Base color for Tab Bar

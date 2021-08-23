@@ -160,8 +160,18 @@ struct VotesBlock : View {
     
         if (vote == 1){
             votesDictionary.addVote(postId: post.id, vote: 1)
+            
+            // Increament upvote posts variable for statistics
+            let currentNumber = UserDefaults.standard.integer(forKey: "dVoxUpVotedPosts")
+            UserDefaults.standard.set((currentNumber + 1), forKey: "dVoxUpVotedPosts")
+            
         } else if (vote == -1){
             votesDictionary.addVote(postId: post.id, vote: 404)
+            
+            // Decrement upvote posts variable for statistics
+            let currentNumber = UserDefaults.standard.integer(forKey: "dVoxUpVotedPosts")
+            UserDefaults.standard.set((currentNumber - 1), forKey: "dVoxUpVotedPosts")
+            
         }
         
         Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
@@ -208,9 +218,21 @@ struct VotesBlock : View {
         
         if (vote == 1){
             votesDictionary.addVote(postId: post.id, vote: -1)
+            
+            // Increment downvote posts variable for statistics
+            let currentNumber = UserDefaults.standard.integer(forKey: "dVoxDownVotedPosts")
+            UserDefaults.standard.set((currentNumber + 1), forKey: "dVoxDownVotedPosts")
+            
         } else if (vote == -1){
             votesDictionary.addVote(postId: post.id, vote: 404)
+            
+            // Decrement downvote posts variable for statistics
+            let currentNumber = UserDefaults.standard.integer(forKey: "dVoxDownVotedPosts")
+            UserDefaults.standard.set((currentNumber - 1), forKey: "dVoxDownVotedPosts")
+            
         }
+        
+
         
         Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
             

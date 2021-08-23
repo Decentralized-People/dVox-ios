@@ -455,6 +455,9 @@ struct CommentView: View {
                         
                         comment = ""
 
+                        // Increment commented posts variable for statistics
+                        let currentNumber = UserDefaults.standard.integer(forKey: "dVoxCommentedPosts")
+                        UserDefaults.standard.set((currentNumber + 1), forKey: "dVoxCommentedPosts")
                         
                         timer.invalidate()
                     }

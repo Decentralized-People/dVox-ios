@@ -22,6 +22,12 @@ struct ProfileView: View {
     
     @State var showToast: Bool = false
     
+    @State var dvoxCreatedPosts: Int = UserDefaults.standard.integer(forKey: "dVoxCreatedPosts")
+    @State var dvoxCommentedPosts: Int = UserDefaults.standard.integer(forKey: "dVoxCommentedPosts")
+    @State var dvoxUpVotedPosts: Int = UserDefaults.standard.integer(forKey: "dVoxUpVotedPosts")
+    @State var dvoxDownVotedPosts: Int = UserDefaults.standard.integer(forKey: "dVoxDownVotedPosts")
+
+    
     init(_apis: APIs, _username: Username){
         apis = _apis
         generating = false
@@ -73,35 +79,76 @@ struct ProfileView: View {
                             Text("Statistics")
                                 .font(.custom("Montserrat-Bold", size: 20))
                                 .padding(.top)
+                                .onAppear(perform: {
+                                    dvoxCreatedPosts = UserDefaults.standard.integer(forKey: "dVoxCreatedPosts")
+                                    dvoxCommentedPosts = UserDefaults.standard.integer(forKey: "dVoxCommentedPosts")
+                                    dvoxUpVotedPosts = UserDefaults.standard.integer(forKey: "dVoxUpVotedPosts")
+                                    dvoxDownVotedPosts = UserDefaults.standard.integer(forKey: "dVoxDownVotedPosts")
+                                })
+                            
                             Spacer()
                         }
                         
                         HStack{
-                            Text("Posts created: 0")
+                                
+                            Image("fi-rr-add")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, alignment: .center)
+                                .padding(.vertical, 10)
+                                                    
+                            Text("Posts created: \(dvoxCreatedPosts)")
                                 .font(.custom("Montserrat", size: 15))
-                                .padding(.top, 10)
+                                .padding(.vertical, 10)
+                            
                             Spacer()
+                            
                         }
                         
                         HStack{
-                            Text("Posts upvoted: 0")
+                            
+                            Image("fi-rr-thumbs-up")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, alignment: .center)
+                                .padding(.vertical, 10)
+                            
+                            Text("Posts upvoted: \(dvoxUpVotedPosts)")
                                 .font(.custom("Montserrat", size: 15))
-                                .padding(.top, 10)
+                                .padding(.vertical, 10)
+                            
                             Spacer()
+                            
                         }
                         
                         HStack{
-                            Text("Posts downvoted: 0")
+                            Image("fi-rr-thumbs-down")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, alignment: .center)
+                                .padding(.vertical, 10)
+                            
+                            Text("Posts downvoted: \(dvoxDownVotedPosts)")
                                 .font(.custom("Montserrat", size: 15))
-                                .padding(.top, 10)
+                                .padding(.vertical, 10)
+                            
                             Spacer()
+                            
                         }
                         
                         HStack{
-                            Text("Comments created: 0")
+                            Image("fi-rr-comment")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, alignment: .center)
+                                .padding(.vertical, 10)
+                            
+                            Text("Comments created: \(dvoxCommentedPosts)")
                                 .font(.custom("Montserrat", size: 15))
-                                .padding(.top, 10)
+                                .padding(.vertical, 10)
+                            
                             Spacer()
+                            
                         }
                         
                         Spacer()
@@ -148,6 +195,18 @@ struct ProfileView: View {
                                     username.usernameConfirm()
                                     
                                     showToast = true
+                                    
+                                    UserDefaults.standard.set((0), forKey: "dVoxCreatedPosts")
+                                    UserDefaults.standard.set((0), forKey: "dVoxCommentedPosts")
+                                    UserDefaults.standard.set((0), forKey: "dVoxUpVotedPosts")
+                                    UserDefaults.standard.set((0), forKey: "dVoxDownVotedPosts")
+                                    
+                                    dvoxDownVotedPosts = 0
+                                    dvoxUpVotedPosts = 0
+                                    dvoxCreatedPosts = 0
+                                    dvoxCommentedPosts = 0
+                                    
+                                    
                                 })
                                 {
                                     (Text("Save")
