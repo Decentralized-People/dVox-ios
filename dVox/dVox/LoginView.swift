@@ -28,8 +28,7 @@ struct LoginView: View {
     @State var showToast: Bool = false
 
     @State var toastMessage: String = "Interesting"
-    
-    
+
     
     var body: some View {
         

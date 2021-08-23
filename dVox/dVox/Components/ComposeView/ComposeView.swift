@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import AlertToast
 
 struct ComposeView: View {
     
@@ -31,6 +32,14 @@ struct ComposeView: View {
     @State private var wordCount: Int = 0
     
     @ObservedObject var hashtag = TextLimiter(limit: 5)
+    
+    @State var toastTitle: String = "Your post is sent!"
+
+    @State var toastMessage: String = "It will appear in our decentralized storage soon"
+    
+    
+    @State var showToast: Bool = false
+
     
     var apis: APIs
     
@@ -129,6 +138,13 @@ struct ComposeView: View {
                 }
                 .padding(20)
                 .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+                .toast(isPresenting: $showToast, duration: 4){
+
+                           // `.alert` is the default displayMode
+                           //AlertToast(type: .regular, title: "Message Sent!")
+                           //Choose .hud to toast alert from the top of the screen
+                    AlertToast(displayMode: .hud, type: .complete(Color("BlackColor")), title: toastTitle, subTitle: toastMessage, custom: .custom(backgroundColor: Color("WhiteColor"), titleColor: Color("BlackColor"), subTitleColor: Color("BlackColor"), titleFont: Font.custom("Montserrat-Regular", size: 15.0),  subTitleFont: Font.custom("Montserrat-Regular", size: 12.0)))
+                       }
             }
         }
     }
@@ -164,18 +180,24 @@ struct ComposeView: View {
     }
     
     func createPost() {
+        
+        let realTitle = title
+        let realMessage = message
+        let realHashtag = hashtag.value
+        
         if title != "" && message != "" && hashtag.value != "" {
-            Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { timer in
+            Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { timer in
                 let add = apis.retriveKey(for: "ContractAddress") ?? "error"
                 let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
                 let cre = apis.retriveKey(for: "Credentials") ?? "error"
                 
                 if (add != "error" && inf != "error" && cre != "error") {
-                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
-                    contract.createPost(title: title, author: username.getUsernameString(), message: message, hashtag: hashtag.value)
+                    showToast = true
                     title = ""
                     message = ""
                     hashtag.value = ""
+                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
+                    contract.createPost(title: realTitle, author: username.getUsernameString(), message: realMessage, hashtag: realHashtag)
                     timer.invalidate()
                 }
             }
