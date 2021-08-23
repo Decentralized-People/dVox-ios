@@ -191,7 +191,7 @@ struct LoginView: View {
             print("Please use a vaild (.edu) college email");
             //!!! ADD TOAST HERE !!!//
             
-            showIncorrectEmailAlert = true 
+            showIncorrectEmailAlert = true
             
             return 1
         }
@@ -216,7 +216,7 @@ struct LoginView: View {
         let actionCodeSettings = ActionCodeSettings()
         actionCodeSettings.url = URL(string: "https://projectdies-55a14.firebaseapp.com")
         actionCodeSettings.handleCodeInApp = true
-        actionCodeSettings.setIOSBundleID("com.dpearth.dvox")
+        actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
         actionCodeSettings.setAndroidPackageName("com.dpearth.dvox", installIfNotAvailable: false, minimumVersion: "12")
         //Send email
         Auth.auth().sendSignInLink(toEmail: email,
