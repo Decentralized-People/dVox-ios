@@ -68,6 +68,7 @@ struct MainView: View {
                         TabView(selection: $selection) {
                             HomeView(_apis: apis, _username: username, _codeDM: codeDM, _postLoader: postLoader, _votesDictionary: votesDictionary)
                                 .tag(0)
+
                             
                             ComposeView(_apis: apis, _username: username)
                                 .tag(1)
@@ -80,12 +81,16 @@ struct MainView: View {
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)
                                 .background(Color("BlackColor"))
-                        }}
+
+                        }
+                        .animation(.none)
+                    }
                     .overlay( // Overlay the custom TabView component here
                         Color("WhiteColor") // Base color for Tab Bar
                             .edgesIgnoringSafeArea(.vertical)
                             .frame(height: 50) // Match Height of native bar
-                            .overlay(EdgeBorder(width: 1  , edges: [.top]).foregroundColor(Color("BlackColor")))                         .overlay(HStack {
+                            .overlay(EdgeBorder(width: 1  , edges: [.top]).foregroundColor(Color("BlackColor")))
+                            .overlay(HStack {
                         Spacer()
                         
                         // First Tab Button
