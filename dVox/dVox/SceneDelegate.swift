@@ -146,8 +146,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     if error == nil {
                         print("SUCCESS!")
                         
-                        // ** SWITCH TO THE MAIN VIEW ** //
-         
+                        let mainview = MainView() //LoginView()
+
+                        // Use a UIHostingController as window root view controller.
+                        window!.rootViewController = UIHostingController(rootView: mainview)
+                        window!.makeKeyAndVisible()
                         
                     }})
             }
