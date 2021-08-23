@@ -17,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    @Published var view = LoginView()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -27,15 +28,40 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // ** NEED TO CHECK IF THE USER CREATED ACCOUNT: TRUE -> SWITCH TO MAINVIEW, FALSE -> KEEP LOGINVIEW ** //
         
-        let loginView = LoginView() //LoginView()
+        if FirebaseApp.app() == nil {
+               FirebaseApp.configure()
+           }
+                
+        
+        if Auth.auth().currentUser != nil {
+            
+            let loginView = MainView() //LoginView()
 
-        // Use a UIHostingController as window root view controller.
-        if let windowScene = scene as? UIWindowScene {
-            let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: loginView)
-            self.window = window
-            window.makeKeyAndVisible()
+            // Use a UIHostingController as window root view controller.
+            if let windowScene = scene as? UIWindowScene {
+                let window = UIWindow(windowScene: windowScene)
+                window.rootViewController = UIHostingController(rootView: loginView)
+                self.window = window
+                window.makeKeyAndVisible()
+            }
+            print("User exists!: \(Auth.auth().currentUser)")
+            
+        } else {
+        
+            let loginView = LoginView() //LoginView()
+
+            // Use a UIHostingController as window root view controller.
+            if let windowScene = scene as? UIWindowScene {
+                let window = UIWindow(windowScene: windowScene)
+                window.rootViewController = UIHostingController(rootView: loginView)
+                self.window = window
+                window.makeKeyAndVisible()
+            }
+            print("No user found!")
         }
+
+    
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -121,10 +147,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         print("SUCCESS!")
                         
                         // ** SWITCH TO THE MAIN VIEW ** //
-                        
-                        let loginView = MainView() //LoginView()
-
-                
          
                         
                     }})

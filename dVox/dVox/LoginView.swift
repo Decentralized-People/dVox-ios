@@ -14,13 +14,7 @@ import Firebase
 
 struct LoginView: View {
     init(){
-        for family in UIFont.familyNames {
-             print(family)
-
-             for names in UIFont.fontNames(forFamilyName: family){
-             print("== \(names)")
-             }
-        }
+        
     }
     
     @State var email_input = ""
