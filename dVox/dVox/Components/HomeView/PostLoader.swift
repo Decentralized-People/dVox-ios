@@ -32,6 +32,7 @@ class PostLoader: ObservableObject  {
         apis.getAPIs()
         votesDictionary = _votesDictionary
         getPosts(index: 0, currentId: -1, getPosts: 6)
+        print("Inited")
     }
     
     func getPosts(index: Int, currentId: Int, getPosts: Int){
@@ -46,8 +47,9 @@ class PostLoader: ObservableObject  {
 
     func loadMore(numberOfPosts: Int, currentId: Int) {
     
+        print("Loading...")
     
-        Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
+        Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [self] timer in
             
             let add = apis.retriveKey(for: "ContractAddress") ?? "error"
             let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
@@ -76,6 +78,7 @@ class PostLoader: ObservableObject  {
                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false)
                                 Post = contract.getPost(id: i)
                                 
+                                print("i: \(i)")
                                 
                                 DispatchQueue.main.async {
                                     
@@ -88,6 +91,7 @@ class PostLoader: ObservableObject  {
                                     }
                                     
                                     if (Post.ban != true){
+                                        print("Post \(Post.id): \(Post.title)")
                                         posts.append(Post)
                                     }
                                     
@@ -109,10 +113,9 @@ class PostLoader: ObservableObject  {
                                     return item1.postId > item2.postId
                                 })
                                 
+                                posts = []
                            
                             }
-                            
-                            posts = []
                         }
                     }   
                 }

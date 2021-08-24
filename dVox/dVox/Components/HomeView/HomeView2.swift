@@ -10,7 +10,7 @@ import SwiftUI
 
 import NavigationStack
 
-struct HomeView: View {
+struct HomeView2: View {
         
     var apis: APIs
     
@@ -36,6 +36,8 @@ struct HomeView: View {
     let codeDM = PersistenceController()
     
     let votesDictionary = VotesContainer()
+    
+    let state: Bool = true
     
     init(_apis: APIs, _username: Username){
         apis = _apis
@@ -69,32 +71,70 @@ struct HomeView: View {
                         GeometryReader{ reader -> AnyView in
                             
                             DispatchQueue.main.async {
+                                
+                                
                                 if (refresh.startOffset == 0) {
                                     refresh.startOffset = reader.frame(in: .global).minY
-                                }
-                                
-                                refresh.offset = reader.frame(in: .global).minY
-                                
-                                if (refresh.offset - refresh.startOffset > 90 && !refresh.started){
-                                    refresh.started = true
-                                }
-                                
-                                //checking if refresh is started and drag is released
-                                
-                                if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released{
-                                    withAnimation(Animation.linear){ refresh.released = true }
-                                    updateData();
-                                }
-                                
-                                //checking if invalid becomes valid....
-                                if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released && refresh.invalid{
-                                    refresh.invalid = false
-                                    updateData()
+                                    
                                 }
 
-                                 
+                               // ASSIGNING A VARIABLE CAUSES APP TO CRASH -> CALLING READER ALL THE TIME
+                               // refresh.offset = reader.frame(in: .global).minY
+
+                                if (reader.frame(in: .global).minY - refresh.startOffset > 90 && !refresh.started){
+                                    refresh.started = true
+                                }
+
+                                //checking if refresh is started and drag is released
+
+                                if refresh.startOffset  == reader.frame(in: .global).minY && refresh.started && !refresh.released{
+                                    withAnimation(Animation.linear){ refresh.released = true }
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                        withAnimation(Animation.linear){
+                                            
+                                            if refresh.startOffset == reader.frame(in: .global).minY{
+                                                
+                                                loader.items = []
+                                                loader.getPosts(index: 0, currentId: -1, getPosts: 6)
+                                                loader.noMorePosts = false
+                                                
+                                                refresh.released = false
+                                                refresh.started = false
+                                            } else {
+                                                refresh.invalid = true
+                                            }
+                                        }
+//                                        loader.getPosts(index: 0, currentId: -1, getPosts: 6)
+//                                        loader.noMorePosts = false
+                                    }
+                                    
+                                }
+
+                                //checking if invalid becomes valid....
+                                if refresh.startOffset  == reader.frame(in: .global).minY && refresh.started && !refresh.released && refresh.invalid{
+                                    refresh.invalid = false
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                        withAnimation(Animation.linear){
+                                            
+                                            if refresh.startOffset == reader.frame(in: .global).minY{
+                                                loader.items = []
+                                                refresh.released = false
+                                                refresh.started = false
+                                            } else {
+                                                refresh.invalid = true
+                                            }
+                                        }
+//                                        loader.getPosts(index: 0, currentId: -1, getPosts: 6)
+//                                        loader.noMorePosts = false
+                                    }
+                                    
+                                }
+
+
                             }
-                            
+
                             return AnyView(Color.black.frame(width: 0, height: 0))
                         }
                         .frame(width: 0, height: 0)
@@ -123,8 +163,8 @@ struct HomeView: View {
                                     CardRow(_apis: apis, _username: username, _post: post, _votesDictionary: votesDictionary)
                                         .onAppear{
                                             print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
-                                            if (index == loader.items.count-1 && loader.noMorePosts == false) {
-                                                loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 6)
+                                            if (index == loader.items.count-1 && posts.count == 3) {
+                                                //loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 6)
                                                 nextIndex += 1
                                             }
                                         }
@@ -150,29 +190,29 @@ struct HomeView: View {
         }
     }
     
-    func updateData(){
-        print("Updating data....")
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-            withAnimation(Animation.linear){
-                
-                if refresh.startOffset == refresh.offset{
-                    loader.items = []
-                    refresh.released = false
-                    refresh.started = false
-                } else {
-                    refresh.invalid = true
-                }
-            }
-            loader.getPosts(index: 0, currentId: -1, getPosts: 6)
-            loader.noMorePosts = false
-        }
-    }
+//    func updateData(){
+//        print("Updating data....")
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+//            withAnimation(Animation.linear){
+//
+//                if refresh.startOffset == 0{
+//                    loader.items = []
+//                    refresh.released = false
+//                    refresh.started = false
+//                } else {
+//                    refresh.invalid = true
+//                }
+//            }
+//            loader.getPosts(index: 0, currentId: -1, getPosts: 6)
+//            loader.noMorePosts = false
+//        }
+//    }
     
    
     struct Refresh{
         var startOffset: CGFloat = 0
-        var offset: CGFloat = 0
+        //var offset: CGFloat = 0
         var started: Bool
         var released: Bool
         var invalid: Bool = false
@@ -238,25 +278,25 @@ struct HomeView: View {
                     .padding(.horizontal, 20.0)
                     HStack{
                         
-                        VotesBlock(_post: eachPost, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
+                        //VotesBlock(_post: eachPost, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
                         
-                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost, _votesDictionary: votesDictionary), isActive: $isActive) {
-                            
-                            
-                            Button(action: {
-                                self.isActive.toggle()
-                            })
-                            {
-                                Image("fi-rr-comment")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 20)
-                            }
-                        }
+//                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost, _votesDictionary: votesDictionary), isActive: $isActive) {
+//                            
+//                            
+//                            Button(action: {
+//                                self.isActive.toggle()
+//                            })
+//                            {
+//                                Image("fi-rr-comment")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 20)
+//                            }
+//                        }
                         
                         
-                        .frame(alignment: .leading)
-                        .padding([.bottom], 20)
+//                        .frame(alignment: .leading)
+//                        .padding([.bottom], 20)
                         
                         Text(String(eachPost.commentsNumber))
                             .font(.custom("Montserrat-Bold", size: 14))
@@ -284,45 +324,45 @@ struct HomeView: View {
         //            }
         //        }
         
-        struct RoundedCorners: Shape {
-            var tl: CGFloat = 0.0
-            var tr: CGFloat = 0.0
-            var bl: CGFloat = 0.0
-            var br: CGFloat = 0.0
-            
-            func path(in rect: CGRect) -> Path {
-                var path = Path()
-                
-                let w = rect.size.width
-                let h = rect.size.height
-                
-                // Make sure we do not exceed the size of the rectangle
-                let tr = min(min(self.tr, h/2), w/2)
-                let tl = min(min(self.tl, h/2), w/2)
-                let bl = min(min(self.bl, h/2), w/2)
-                let br = min(min(self.br, h/2), w/2)
-                
-                path.move(to: CGPoint(x: w / 2.0, y: 0))
-                path.addLine(to: CGPoint(x: w - tr, y: 0))
-                path.addArc(center: CGPoint(x: w - tr, y: tr), radius: tr,
-                            startAngle: Angle(degrees: -90), endAngle: Angle(degrees: 0), clockwise: false)
-                
-                path.addLine(to: CGPoint(x: w, y: h - br))
-                path.addArc(center: CGPoint(x: w - br, y: h - br), radius: br,
-                            startAngle: Angle(degrees: 0), endAngle: Angle(degrees: 90), clockwise: false)
-                
-                path.addLine(to: CGPoint(x: bl, y: h))
-                path.addArc(center: CGPoint(x: bl, y: h - bl), radius: bl,
-                            startAngle: Angle(degrees: 90), endAngle: Angle(degrees: 180), clockwise: false)
-                
-                path.addLine(to: CGPoint(x: 0, y: tl))
-                path.addArc(center: CGPoint(x: tl, y: tl), radius: tl,
-                            startAngle: Angle(degrees: 180), endAngle: Angle(degrees: 270), clockwise: false)
-                
-                return path
-            }
-        }
-    
+//        struct RoundedCorners: Shape {
+//            var tl: CGFloat = 0.0
+//            var tr: CGFloat = 0.0
+//            var bl: CGFloat = 0.0
+//            var br: CGFloat = 0.0
+//
+//            func path(in rect: CGRect) -> Path {
+//                var path = Path()
+//
+//                let w = rect.size.width
+//                let h = rect.size.height
+//
+//                // Make sure we do not exceed the size of the rectangle
+//                let tr = min(min(self.tr, h/2), w/2)
+//                let tl = min(min(self.tl, h/2), w/2)
+//                let bl = min(min(self.bl, h/2), w/2)
+//                let br = min(min(self.br, h/2), w/2)
+//
+//                path.move(to: CGPoint(x: w / 2.0, y: 0))
+//                path.addLine(to: CGPoint(x: w - tr, y: 0))
+//                path.addArc(center: CGPoint(x: w - tr, y: tr), radius: tr,
+//                            startAngle: Angle(degrees: -90), endAngle: Angle(degrees: 0), clockwise: false)
+//
+//                path.addLine(to: CGPoint(x: w, y: h - br))
+//                path.addArc(center: CGPoint(x: w - br, y: h - br), radius: br,
+//                            startAngle: Angle(degrees: 0), endAngle: Angle(degrees: 90), clockwise: false)
+//
+//                path.addLine(to: CGPoint(x: bl, y: h))
+//                path.addArc(center: CGPoint(x: bl, y: h - bl), radius: bl,
+//                            startAngle: Angle(degrees: 90), endAngle: Angle(degrees: 180), clockwise: false)
+//
+//                path.addLine(to: CGPoint(x: 0, y: tl))
+//                path.addArc(center: CGPoint(x: tl, y: tl), radius: tl,
+//                            startAngle: Angle(degrees: 180), endAngle: Angle(degrees: 270), clockwise: false)
+//
+//                return path
+//            }
+//        }
+//
     
 //    func ban(post: Int) {
 //

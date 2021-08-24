@@ -31,16 +31,13 @@ struct MainView: View {
     let username = Username()
     
     let codeDM = PersistenceController()
-    
-    let postLoader: PostLoader
-    
+        
     let votesDictionary = VotesContainer()
     
     init(){
         apis.resetAPIs()
         apis.getAPIs()
         username.retriveUsername(firstRun: true)
-        postLoader = PostLoader(_codeDM: codeDM, _votesDictionary: votesDictionary)
     }
     
     @State var selection: Int = 0
@@ -66,9 +63,9 @@ struct MainView: View {
                             .frame(height: 0)
                         
                         TabView(selection: $selection) {
-                            HomeView(_apis: apis, _username: username)
+                            HomeView2(_apis: apis, _username: username)
                                 .background(Color("BlackColor"))
-                                .tag(1)
+                                .tag(0)
 
                             
                             ComposeView(_apis: apis, _username: username)
