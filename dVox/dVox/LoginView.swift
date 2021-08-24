@@ -65,6 +65,7 @@ struct LoginView: View {
                             .padding(.horizontal, 20)
                             .padding(.bottom, 5)
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .foregroundColor(Color("BlackColor"))
                             .font(.custom("Montserrat-Regular", size: 20))
                             .minimumScaleFactor(0.01)
                             .lineLimit(1)
@@ -77,6 +78,7 @@ struct LoginView: View {
                             .font(.custom("Montserrat-Regular", size: 20))
                             .minimumScaleFactor(0.01)
                             .lineLimit(3)
+                            .foregroundColor(Color("BlackColor"))
                             .padding(.horizontal, 20)
                             .modifier(Shake(animatableData: CGFloat(attempts)))
                         

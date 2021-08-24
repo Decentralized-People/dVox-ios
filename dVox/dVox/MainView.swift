@@ -40,7 +40,7 @@ struct MainView: View {
         apis.resetAPIs()
         apis.getAPIs()
         username.retriveUsername(firstRun: true)
-        postLoader = PostLoader(_codeDM: codeDM, _apis: apis, _votesDictionary: votesDictionary)
+        postLoader = PostLoader(_codeDM: codeDM, _votesDictionary: votesDictionary)
     }
     
     @State var selection: Int = 0
@@ -66,8 +66,9 @@ struct MainView: View {
                             .frame(height: 0)
                         
                         TabView(selection: $selection) {
-                            HomeView(_apis: apis, _username: username, _codeDM: codeDM, _postLoader: postLoader, _votesDictionary: votesDictionary)
-                                .tag(0)
+                            HomeView(_apis: apis, _username: username)
+                                .background(Color("BlackColor"))
+                                .tag(1)
 
                             
                             ComposeView(_apis: apis, _username: username)

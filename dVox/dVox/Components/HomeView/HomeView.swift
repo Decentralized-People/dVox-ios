@@ -19,29 +19,28 @@ struct HomeView: View {
         Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false),
     ]
     
-    @ObservedObject var loader: PostLoader
+    @ObservedObject var loader: PostLoader = PostLoader(_codeDM: PersistenceController(), _votesDictionary: VotesContainer())
     
     @State var nextIndex: Int
     
-    let votesDictionary: VotesContainer
     
     var numberOfPostsToLoad = 6
     
     var username: Username
     
-    var codeDM: PersistenceController
-    
+
     @State var items: [Item] = [Item]()
     
     @State var refresh = Refresh(started: false, released: false)
     
-    init(_apis: APIs, _username: Username, _codeDM: PersistenceController, _postLoader: PostLoader, _votesDictionary: VotesContainer){
+    let codeDM = PersistenceController()
+    
+    let votesDictionary = VotesContainer()
+    
+    init(_apis: APIs, _username: Username){
         apis = _apis
         username = _username
-        codeDM = _codeDM
-        loader = _postLoader
         nextIndex = 1
-        votesDictionary = _votesDictionary
     }
     
     var body: some View {
@@ -195,6 +194,7 @@ struct HomeView: View {
         var username: Username
         
         var postUser = Username()
+        
         
 
         init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer){

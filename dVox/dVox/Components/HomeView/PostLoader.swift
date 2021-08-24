@@ -25,9 +25,11 @@ class PostLoader: ObservableObject  {
     @State var votesDictionary: VotesContainer
     
     
-    init(_codeDM: PersistenceController, _apis: APIs, _votesDictionary: VotesContainer){
+    init(_codeDM: PersistenceController, _votesDictionary: VotesContainer){
         codeDM = _codeDM
-        apis = _apis
+        apis = APIs()
+        apis.resetAPIs()
+        apis.getAPIs()
         votesDictionary = _votesDictionary
         getPosts(index: 0, currentId: -1, getPosts: 6)
     }
@@ -112,7 +114,7 @@ class PostLoader: ObservableObject  {
                             
                             posts = []
                         }
-                    }
+                    }   
                 }
                 timer.invalidate()
             }

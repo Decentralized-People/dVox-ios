@@ -44,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.window = window
                 window.makeKeyAndVisible()
             }
-            print("User exists!: \(Auth.auth().currentUser)")
+            //print("User exists!: \(Auth.auth().currentUser)")
             
         } else {
         
