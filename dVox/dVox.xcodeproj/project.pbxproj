@@ -18,6 +18,8 @@
 		8B0A5CFB26CB1EFF00D76809 /* SavedPosts.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8B0A5CF926CB1EFF00D76809 /* SavedPosts.xcdatamodeld */; };
 		8B0A5CFD26CB20A500D76809 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0A5CFC26CB20A500D76809 /* PersistenceController.swift */; };
 		8B13BC7C26D5552000D24C29 /* HomeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B13BC7B26D5552000D24C29 /* HomeView2.swift */; };
+		8B13BC7E26D5750B00D24C29 /* PostLoader2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B13BC7D26D5750B00D24C29 /* PostLoader2.swift */; };
+		8B13BC8126D579C600D24C29 /* SwiftUIPullToRefresh in Frameworks */ = {isa = PBXBuildFile; productRef = 8B13BC8026D579C600D24C29 /* SwiftUIPullToRefresh */; };
 		8B16CBEC26C73EAB0072DA3F /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B16CBEB26C73EAB0072DA3F /* Comment.swift */; };
 		8B1B9B9426C5CBE400089C83 /* PostLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B9B9326C5CBE400089C83 /* PostLoader.swift */; };
 		8B3B2E1526A5E13D001224F6 /* PostContract.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B3B2E1426A5E13D001224F6 /* PostContract.json */; };
@@ -56,6 +58,7 @@
 		8B0A5CFA26CB1EFF00D76809 /* SavedPosts.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SavedPosts.xcdatamodel; sourceTree = "<group>"; };
 		8B0A5CFC26CB20A500D76809 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		8B13BC7B26D5552000D24C29 /* HomeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView2.swift; sourceTree = "<group>"; };
+		8B13BC7D26D5750B00D24C29 /* PostLoader2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLoader2.swift; sourceTree = "<group>"; };
 		8B16CBEB26C73EAB0072DA3F /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		8B1B9B9326C5CBE400089C83 /* PostLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLoader.swift; sourceTree = "<group>"; };
 		8B3B2E1426A5E13D001224F6 /* PostContract.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PostContract.json; sourceTree = "<group>"; };
@@ -91,6 +94,7 @@
 			files = (
 				8BB3401226967ECA00AEE389 /* AlertToast in Frameworks */,
 				0CB921B061DC6F5F388AE999 /* Pods_dVox.framework in Frameworks */,
+				8B13BC8126D579C600D24C29 /* SwiftUIPullToRefresh in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +121,7 @@
 				8B13BC7B26D5552000D24C29 /* HomeView2.swift */,
 				8B786BBA26C93B4B00A8164E /* CommentLoader.swift */,
 				8B1B9B9326C5CBE400089C83 /* PostLoader.swift */,
+				8B13BC7D26D5750B00D24C29 /* PostLoader2.swift */,
 				8B5B590826C80F36008D4114 /* CommentView.swift */,
 			);
 			path = HomeView;
@@ -254,6 +259,7 @@
 			name = dVox;
 			packageProductDependencies = (
 				8BB3401126967ECA00AEE389 /* AlertToast */,
+				8B13BC8026D579C600D24C29 /* SwiftUIPullToRefresh */,
 			);
 			productName = dVox;
 			productReference = 8B6C722926951D4D004A34A3 /* dVox.app */;
@@ -284,6 +290,7 @@
 			mainGroup = 8B6C722026951D4D004A34A3;
 			packageReferences = (
 				8BB3401026967ECA00AEE389 /* XCRemoteSwiftPackageReference "AlertToast" */,
+				8B13BC7F26D579C600D24C29 /* XCRemoteSwiftPackageReference "SwiftUI-PullToRefresh" */,
 			);
 			productRefGroup = 8B6C722A26951D4D004A34A3 /* Products */;
 			projectDirPath = "";
@@ -376,6 +383,7 @@
 				8B0A5CFD26CB20A500D76809 /* PersistenceController.swift in Sources */,
 				8B786BBB26C93B4B00A8164E /* CommentLoader.swift in Sources */,
 				8B801F2526C9D0D400F36D1F /* Username.swift in Sources */,
+				8B13BC7E26D5750B00D24C29 /* PostLoader2.swift in Sources */,
 				0D44E9BB2696599500697753 /* MainView.swift in Sources */,
 				2806D72D26B1973700FEC670 /* Post.swift in Sources */,
 				8B6C722F26951D4D004A34A3 /* SceneDelegate.swift in Sources */,
@@ -602,6 +610,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8B13BC7F26D579C600D24C29 /* XCRemoteSwiftPackageReference "SwiftUI-PullToRefresh" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppPear/SwiftUI-PullToRefresh";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		8BAAF16C269FCE15006056C4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -621,6 +637,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8B13BC8026D579C600D24C29 /* SwiftUIPullToRefresh */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8B13BC7F26D579C600D24C29 /* XCRemoteSwiftPackageReference "SwiftUI-PullToRefresh" */;
+			productName = SwiftUIPullToRefresh;
+		};
 		8BB3401126967ECA00AEE389 /* AlertToast */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8BB3401026967ECA00AEE389 /* XCRemoteSwiftPackageReference "AlertToast" */;

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class PostLoader: ObservableObject  {
+class PostLoader2: ObservableObject  {
     
     
     @Published var items: [Item] = [Item]()
@@ -18,19 +18,16 @@ class PostLoader: ObservableObject  {
     
     @Published var noMorePosts = false
     
-    let codeDM: PersistenceController
+    let codeDM: PersistenceController = PersistenceController()
     
-    let apis: APIs
+    let apis = APIs()
     
-  //  @State var votesDictionary: VotesContainer
+    @Published var votesDictionary: VotesContainer = VotesContainer()
     
     
-    init(_codeDM: PersistenceController, _votesDictionary: VotesContainer){
-        codeDM = _codeDM
-        apis = APIs()
+    init(){
         apis.resetAPIs()
         apis.getAPIs()
-        //votesDictionary = _votesDictionary
         getPosts(index: 0, currentId: -1, getPosts: 6)
         print("Inited")
     }
@@ -84,11 +81,11 @@ class PostLoader: ObservableObject  {
                                     
                                     countOfPosts = localCountOfPosts
                                     
-//                                    if (votesDictionary.getVote(postId: Post.id) == "1"){
-//                                        Post.upVotes =  Post.upVotes - 1
-//                                    } else if (votesDictionary.getVote(postId: Post.id) == "-1"){
-//                                        Post.downVotes =  Post.downVotes - 1
-//                                    }
+                                    if (votesDictionary.getVote(postId: Post.id) == "1"){
+                                        Post.upVotes =  Post.upVotes - 1
+                                    } else if (votesDictionary.getVote(postId: Post.id) == "-1"){
+                                        Post.downVotes =  Post.downVotes - 1
+                                    }
                                     
                                     if (Post.ban != true){
                                         print("Post \(Post.id): \(Post.title)")
@@ -103,7 +100,7 @@ class PostLoader: ObservableObject  {
                             }
                         }
                         /// Update UI at the main thread
-                        DispatchQueue.main.async {  
+                        DispatchQueue.main.async {
                             
                             withAnimation(Animation.linear){
 
@@ -117,7 +114,7 @@ class PostLoader: ObservableObject  {
                            
                             }
                         }
-                    }   
+                    }
                 }
                 timer.invalidate()
             }

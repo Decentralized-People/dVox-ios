@@ -19,7 +19,7 @@ struct HomeView2: View {
         Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false),
     ]
     
-    @ObservedObject var loader: PostLoader = PostLoader(_codeDM: PersistenceController(), _votesDictionary: VotesContainer())
+    @StateObject var loader: PostLoader2 = PostLoader2()
     
     @State var nextIndex: Int
     
@@ -78,56 +78,59 @@ struct HomeView2: View {
                                     
                                 }
 
+                                var offvar = reader.frame(in: .global).minY
+
                                // ASSIGNING A VARIABLE CAUSES APP TO CRASH -> CALLING READER ALL THE TIME
                                // refresh.offset = reader.frame(in: .global).minY
 
-                                if (reader.frame(in: .global).minY - refresh.startOffset > 90 && !refresh.started){
+                                if (offvar - refresh.startOffset > 90 && !refresh.started){
                                     refresh.started = true
                                 }
 
                                 //checking if refresh is started and drag is released
 
-                                if refresh.startOffset  == reader.frame(in: .global).minY && refresh.started && !refresh.released{
+                                if refresh.startOffset == offvar && refresh.started && !refresh.released{
                                     withAnimation(Animation.linear){ refresh.released = true }
                                     
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                                         withAnimation(Animation.linear){
                                             
-                                            if refresh.startOffset == reader.frame(in: .global).minY{
-                                                
+                                            if refresh.startOffset == offvar{
                                                 loader.items = []
                                                 loader.getPosts(index: 0, currentId: -1, getPosts: 6)
                                                 loader.noMorePosts = false
-                                                
                                                 refresh.released = false
                                                 refresh.started = false
+                                                refresh.startOffset = 0
+                                                
                                             } else {
                                                 refresh.invalid = true
                                             }
                                         }
-//                                        loader.getPosts(index: 0, currentId: -1, getPosts: 6)
-//                                        loader.noMorePosts = false
                                     }
                                     
                                 }
 
                                 //checking if invalid becomes valid....
-                                if refresh.startOffset  == reader.frame(in: .global).minY && refresh.started && !refresh.released && refresh.invalid{
+                                if refresh.startOffset  == offvar && refresh.started && !refresh.released && refresh.invalid{
                                     refresh.invalid = false
                                     
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                                         withAnimation(Animation.linear){
                                             
-                                            if refresh.startOffset == reader.frame(in: .global).minY{
+                                            if refresh.startOffset == offvar{
                                                 loader.items = []
+                                                loader.getPosts(index: 0, currentId: -1, getPosts: 6)
+                                                loader.noMorePosts = false
                                                 refresh.released = false
                                                 refresh.started = false
-                                            } else {
+                                                refresh.startOffset = 0
+                                            }
+                                            else{
                                                 refresh.invalid = true
                                             }
                                         }
-//                                        loader.getPosts(index: 0, currentId: -1, getPosts: 6)
-//                                        loader.noMorePosts = false
+
                                     }
                                     
                                 }
@@ -187,6 +190,7 @@ struct HomeView2: View {
                     
                 }}
                 .navigationBarHidden(true)
+                .environmentObject(loader)
         }
     }
     
