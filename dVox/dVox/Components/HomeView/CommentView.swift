@@ -195,6 +195,7 @@ struct CommentView: View {
                 .padding(.horizontal, 20)
                 .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
             }
+            .preferredColorScheme(.light)
             .padding(.bottom, 10)
             .padding(.top, 10)
             .padding(.horizontal, 10)

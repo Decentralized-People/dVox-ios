@@ -19,7 +19,7 @@ struct HomeView2: View {
         Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false),
     ]
     
-    @StateObject var loader: PostLoader2 = PostLoader2()
+    @ObservedObject var loader: PostLoader2
     
     @State var nextIndex: Int
     
@@ -39,9 +39,10 @@ struct HomeView2: View {
     
     let state: Bool = true
     
-    init(_apis: APIs, _username: Username){
+    init(_apis: APIs, _username: Username, _loader: PostLoader2){
         apis = _apis
         username = _username
+        loader = _loader
         nextIndex = 1
     }
     
@@ -282,25 +283,25 @@ struct HomeView2: View {
                     .padding(.horizontal, 20.0)
                     HStack{
                         
-                        //VotesBlock(_post: eachPost, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
+                        VotesBlock(_post: eachPost, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
                         
-//                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost, _votesDictionary: votesDictionary), isActive: $isActive) {
-//                            
-//                            
-//                            Button(action: {
-//                                self.isActive.toggle()
-//                            })
-//                            {
-//                                Image("fi-rr-comment")
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fit)
-//                                    .frame(width: 20)
-//                            }
-//                        }
+                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost, _votesDictionary: votesDictionary), isActive: $isActive) {
+                            
+                            
+                            Button(action: {
+                                self.isActive.toggle()
+                            })
+                            {
+                                Image("fi-rr-comment")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20)
+                            }
+                        }
                         
                         
-//                        .frame(alignment: .leading)
-//                        .padding([.bottom], 20)
+                        .frame(alignment: .leading)
+                        .padding([.bottom], 20)
                         
                         Text(String(eachPost.commentsNumber))
                             .font(.custom("Montserrat-Bold", size: 14))

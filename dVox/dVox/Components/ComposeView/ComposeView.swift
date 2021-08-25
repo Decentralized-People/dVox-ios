@@ -11,7 +11,6 @@ import AlertToast
 
 struct ComposeView: View {
     
-    @State var title = ""
     //@State var hashtag = ""
     @State var message = ""
     
@@ -31,7 +30,9 @@ struct ComposeView: View {
     
     @State private var wordCount: Int = 0
     
-    @ObservedObject var hashtag = TextLimiter(limit: 5)
+    @ObservedObject var hashtag = TextLimiterH(limit: 15)
+    @ObservedObject var title = TextLimiterT(limit: 30)
+
     
     @State var toastTitle: String = "Your post is sent!"
 
@@ -69,7 +70,7 @@ struct ComposeView: View {
                                 .padding([.trailing], 10)
                             
                             VStack{
-                                TextField("Enter your title", text: $title)
+                                TextField("Enter your title", text: $title.value)
                                     .font(.custom("Montserrat-Bold", size: 20))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .modifier(Shake(animatableData: CGFloat(title_attempts)))
@@ -88,9 +89,8 @@ struct ComposeView: View {
                                     .disabled(true)
                             }
                             TextEditor(text: $message)
-                                .font(.body)
                                 .opacity(self.message.isEmpty ? 0.25 : 1)
-                                .font(.custom("Montserrat", size: 15))
+                                .font(Font.custom("Montserrat", size: 15, relativeTo: .body))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .onChange(of: message) { value in
                                     let words = message.split { $0 == " " || $0.isNewline }
@@ -165,7 +165,7 @@ struct ComposeView: View {
     }
     
     func titleShake() -> Int{
-        if title == ""{
+        if title.value == ""{
             return 1
         }
         return 0
@@ -180,11 +180,11 @@ struct ComposeView: View {
     
     func createPost() {
         
-        let realTitle = title
+        let realTitle = title.value
         let realMessage = message
         let realHashtag = hashtag.value
         
-        if title != "" && message != "" && hashtag.value != "" {
+        if title.value != "" && message != "" && hashtag.value != "" {
             Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { timer in
                 let add = apis.retriveKey(for: "ContractAddress") ?? "error"
                 let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
@@ -192,7 +192,7 @@ struct ComposeView: View {
                 
                 if (add != "error" && inf != "error" && cre != "error") {
                     showToast = true
-                    title = ""
+                    title.value = ""
                     message = ""
                     hashtag.value = ""
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)

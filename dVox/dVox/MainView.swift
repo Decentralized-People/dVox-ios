@@ -34,6 +34,8 @@ struct MainView: View {
         
     let votesDictionary = VotesContainer()
     
+    @StateObject var loader: PostLoader2 = PostLoader2()
+    
     init(){
         apis.resetAPIs()
         apis.getAPIs()
@@ -63,7 +65,8 @@ struct MainView: View {
                             .frame(height: 0)
                         
                         TabView(selection: $selection) {
-                            HomeView2(_apis: apis, _username: username)
+                            HomeView2(_apis: apis, _username: username, _loader: loader)
+                                .preferredColorScheme(.light)
                                 .background(Color("BlackColor"))
                                 .tag(0)
 
@@ -72,12 +75,14 @@ struct MainView: View {
                                 .tag(1)
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)
+                                .preferredColorScheme(.light)
                                 .background(Color("BlackColor"))
                             
                             ProfileView(_apis: apis, _username: username)
                                 .tag(2)
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)
+                                .preferredColorScheme(.light)
                                 .background(Color("BlackColor"))
 
                         }
