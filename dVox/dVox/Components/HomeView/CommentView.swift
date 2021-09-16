@@ -200,7 +200,7 @@ struct CommentView: View {
             .padding(.top, 10)
             .padding(.horizontal, 10)
             .onAppear {
-                loader.getComments(index: 0, apis: apis, post: post, currentId: -1, getComments: 6)
+                loader.getComments(index: 0, apis: apis, post: post, currentId: -1, getComments: numberOfComments)
             }
             
         }
