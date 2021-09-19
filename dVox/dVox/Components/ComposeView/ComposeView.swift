@@ -31,7 +31,7 @@ struct ComposeView: View {
     @State private var wordCount: Int = 0
     
     @ObservedObject var hashtag = TextLimiterH(limit: 15)
-    @ObservedObject var title = TextLimiterT(limit: 30)
+    @ObservedObject var title = TextLimiterT(limit: 25)
 
     
     @State var toastTitle: String = "Your post is sent!"

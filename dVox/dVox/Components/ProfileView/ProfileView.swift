@@ -171,24 +171,7 @@ struct ProfileView: View {
                             }
                         } else {
                             HStack{
-                                Button(action: {
-                                    
-                                    self.generating = false
-                                    
-                                    username.usernameAbort()
-                                })
-                                {
-                                    (Text("Cancel")
-                                        .padding([.leading, .bottom, .trailing], 20))
-                                        .foregroundColor(buttonColor)
-                                        .font(.custom("Montserrat-Bold", size: 20))
-                                        .minimumScaleFactor(0.01)
-                                        .lineLimit(3)
-                                        .padding(.top, 20)
-                                        .padding(.trailing, 35)
-                                }.disabled(disabled)
-                                
-                                
+                    
                                 Button(action: {
                                     self.generating = false
                 
@@ -198,11 +181,7 @@ struct ProfileView: View {
                                     
                                     UserDefaults.standard.set((0), forKey: "dVoxCreatedPosts")
                                     UserDefaults.standard.set((0), forKey: "dVoxCommentedPosts")
-                                    UserDefaults.standard.set((0), forKey: "dVoxUpVotedPosts")
-                                    UserDefaults.standard.set((0), forKey: "dVoxDownVotedPosts")
                                     
-                                    dvoxDownVotedPosts = 0
-                                    dvoxUpVotedPosts = 0
                                     dvoxCreatedPosts = 0
                                     dvoxCommentedPosts = 0
                                     
@@ -218,6 +197,25 @@ struct ProfileView: View {
                                         .padding(.top, 20)
                                         .padding(.leading, 35)
 
+                                }.disabled(disabled)
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    
+                                    self.generating = false
+                                    
+                                    username.usernameAbort()
+                                })
+                                {
+                                    (Text("Cancel")
+                                        .padding([.leading, .bottom, .trailing], 20))
+                                        .foregroundColor(buttonColor)
+                                        .font(.custom("Montserrat-Bold", size: 20))
+                                        .minimumScaleFactor(0.01)
+                                        .lineLimit(3)
+                                        .padding(.top, 20)
+                                        .padding(.trailing, 35)
                                 }.disabled(disabled)
                                 
                             }

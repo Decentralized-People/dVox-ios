@@ -277,7 +277,7 @@ struct CommentView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20)
-                                .padding(.top, -30)
+                                .padding(.top, -35)
                         }
                         
                     }
