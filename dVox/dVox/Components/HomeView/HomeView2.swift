@@ -70,13 +70,13 @@ struct HomeView2: View {
                         
                         //Gemoetry reader for calculating position...
                         GeometryReader{ reader -> AnyView in
-                            
+
                             DispatchQueue.main.async {
-                                
-                                
+
+
                                 if (refresh.startOffset == 0) {
                                     refresh.startOffset = reader.frame(in: .global).minY
-                                    
+
                                 }
 
                                 var offvar = reader.frame(in: .global).minY
@@ -92,10 +92,10 @@ struct HomeView2: View {
 
                                 if refresh.startOffset == offvar && refresh.started && !refresh.released{
                                     withAnimation(Animation.linear){ refresh.released = true }
-                                    
+
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                                         withAnimation(Animation.linear){
-                                            
+
                                             if refresh.startOffset == offvar{
                                                 loader.items = []
                                                 loader.getPosts(index: 0, currentId: -1, getPosts: 6)
@@ -103,22 +103,22 @@ struct HomeView2: View {
                                                 refresh.released = false
                                                 refresh.started = false
                                                 refresh.startOffset = 0
-                                                
+
                                             } else {
                                                 refresh.invalid = true
                                             }
                                         }
                                     }
-                                    
+
                                 }
 
                                 //checking if invalid becomes valid....
                                 if refresh.startOffset  == offvar && refresh.started && !refresh.released && refresh.invalid{
                                     refresh.invalid = false
-                                    
+
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                                         withAnimation(Animation.linear){
-                                            
+
                                             if refresh.startOffset == offvar{
                                                 loader.items = []
                                                 loader.getPosts(index: 0, currentId: -1, getPosts: 6)
@@ -133,7 +133,7 @@ struct HomeView2: View {
                                         }
 
                                     }
-                                    
+
                                 }
 
 

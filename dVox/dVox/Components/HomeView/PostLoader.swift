@@ -46,7 +46,11 @@ class PostLoader: ObservableObject  {
     
 
     func loadMore(numberOfPosts: Int, currentId: Int) {
-    
+        
+        let start = clock();
+        //main body of the function taking up time
+
+                
         print("Loading...")
     
         Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
@@ -65,6 +69,11 @@ class PostLoader: ObservableObject  {
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)
 
                     localCountOfPosts = contract.getPostCount()
+                    
+                    let end = clock();
+
+                    //add this at the bottom and keep accumulating time spent across all calls
+                    let time_consumed = (Int32)(end - start) / CLOCKS_PER_SEC;
                     
                     var postCount = 0;
                     if currentId == -1 {
@@ -115,6 +124,8 @@ class PostLoader: ObservableObject  {
                                 
                                 posts = []
                            
+                                print("TIME CONSUMED: \(time_consumed)")
+
                             }
                         }
                     }   

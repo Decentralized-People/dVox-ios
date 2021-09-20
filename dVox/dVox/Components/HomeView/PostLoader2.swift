@@ -43,7 +43,9 @@ class PostLoader2: ObservableObject  {
     
 
     func loadMore(numberOfPosts: Int, currentId: Int) {
-    
+
+
+        
         print("Loading...")
     
         Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
@@ -59,9 +61,22 @@ class PostLoader2: ObservableObject  {
                 /// Get data at a background thread
                 DispatchQueue.global(qos: .userInitiated).async { [self] in
                     
+                    let start = clock();
+                    //main body of the function taking up time
+                    
                     let contract = SmartContract(credentials: cre, infura: inf, address: add)
 
+
+                    
+                    let end = clock();
+
+                    //add this at the bottom and keep accumulating time spent across all calls
+                    let time_consumed = (Int32)(end - start) / CLOCKS_PER_SEC;
+                    
+                    print("TIME CONSUMED: \(time_consumed)")
+                    
                     localCountOfPosts = contract.getPostCount()
+
                     
                     var postCount = 0;
                     if currentId == -1 {
@@ -74,8 +89,6 @@ class PostLoader2: ObservableObject  {
                             if i > 0 {
                                 var Post = Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false)
                                 Post = contract.getPost(id: i)
-                                
-                                print("i: \(i)")
                                 
                                 DispatchQueue.main.async {
                                     
@@ -111,6 +124,7 @@ class PostLoader2: ObservableObject  {
                                 })
                                 
                                 posts = []
+                                
                            
                             }
                         }

@@ -29,10 +29,24 @@ class SmartContract{
     }
     
     init(credentials: String, infura: String, address: String){
+        
+        var apis = APIs()
+        
+        var add = apis.retriveKey(for: "ContractAddress") ?? "error"
+        var inf = apis.retriveKey(for: "InfuraURL") ?? "error"
+        var cre = apis.retriveKey(for: "Credentials") ?? "error"
+        
+        while(add == "error" || inf == "error" || cre == "error" || add == nil || inf == nil || cre == nil){
+            add = apis.retriveKey(for: "ContractAddress") ?? "error"
+            inf = apis.retriveKey(for: "InfuraURL") ?? "error"
+            cre = apis.retriveKey(for: "Credentials") ?? "error"
+        }
+                
+        
         //KEYS !!! REMOVE BEFORE COMMITING !!!
-        let CREDENTIALS = credentials
-        let INFURA = infura
-        let ADDRESS = address
+        let CREDENTIALS = cre
+        let INFURA = inf
+        let ADDRESS = add
         
         // Import Wallet
         let name = "Wallet"
@@ -147,7 +161,6 @@ class SmartContract{
         do {
             let result = try transaction?.call(transactionOptions: transactionOptions)
             
-            print(result ?? "error")
             
             comment.id = Int(result?["0"] as! BigUInt)
             comment.author = result?["1"] as! String
@@ -165,9 +178,6 @@ class SmartContract{
         do {
             let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
             
-            print(result ?? "error")
-
-            print("Comment Created: \(message)")
         } catch {
                 print(error.localizedDescription)
         }
