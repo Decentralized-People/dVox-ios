@@ -99,7 +99,7 @@ struct HomeView2: View {
 
                                             if refresh.startOffset == offvar{
                                                 loader.items = []
-                                                loader.getPosts(index: 0, currentId: -1, getPosts: 6)
+                                                loader.getPosts(index: 0, currentId: -1, getPosts:12)
                                                 loader.noMorePosts = false
                                                 refresh.released = false
                                                 refresh.started = false
@@ -122,7 +122,7 @@ struct HomeView2: View {
 
                                             if refresh.startOffset == offvar{
                                                 loader.items = []
-                                                loader.getPosts(index: 0, currentId: -1, getPosts: 6)
+                                                loader.getPosts(index: 0, currentId: -1, getPosts: 12)
                                                 loader.noMorePosts = false
                                                 refresh.released = false
                                                 refresh.started = false
@@ -169,7 +169,7 @@ struct HomeView2: View {
                                         .onAppear{
                                             print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
                                             if (index == loader.items.count-1 && loader.noMorePosts == false) {
-                                                loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 6)
+                                                loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 12)
                                             }
                                         }
                                 }
@@ -240,6 +240,8 @@ struct HomeView2: View {
         
         var postUser = Username()
         
+        @State var commentView: CommentView!
+        
         @ObservedObject var commentLoader: CommentLoader
     
         init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer, _commentLoader: CommentLoader){
@@ -286,7 +288,7 @@ struct HomeView2: View {
                         
                         VotesBlock(_post: eachPost, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
                         
-                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost, _votesDictionary: votesDictionary, _commentLoader: commentLoader), isActive: $isActive) {
+                        PushView(destination: CommentView(_username: postUser, _post: eachPost, _votesDictionary: votesDictionary, _commentLoader: commentLoader), isActive: $isActive) {
                             
                             
                             Button(action: {
@@ -299,6 +301,7 @@ struct HomeView2: View {
                                     .frame(width: 20)
                             }
                         }
+                          
                         
                         
                         .frame(alignment: .leading)

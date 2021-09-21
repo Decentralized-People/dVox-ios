@@ -27,10 +27,10 @@ class CommentLoader: ObservableObject  {
         
     func getComments(index: Int, apis: APIs, post: Post, currentId: Int, getComments: Int){
         print("Getting new comments, cycle \(index)")
-        loadMore(apis: apis, post: post, numberOfComments: getComments, currentId: currentId)
+        loadMore(post: post, numberOfComments: getComments, currentId: currentId)
     }
 
-    func loadMore(apis: APIs, post: Post, numberOfComments: Int, currentId: Int) {
+    func loadMore(post: Post, numberOfComments: Int, currentId: Int) {
     
         
         print("Loading more posts...")

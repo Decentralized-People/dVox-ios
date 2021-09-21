@@ -18,22 +18,11 @@ struct CommentView: View {
     
     @State var comment = ""
     
-    var apis: APIs
-    
     @ObservedObject var loader: CommentLoader
-    
-    var comments = [
-        Comment(id: 1, author: "@Lazy_snake_9", message: "Hello brother!", ban: false),
-        Comment(id: 1, author: "@Black_and_white_snake_23", message: "I totally agree, but why this or not this?", ban: false),
-        Comment(id: 1, author: "@Cozy_snake_85", message: "Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco.", ban: false),
-        Comment(id: 1, author: "author", message: "message", ban: false),
-        Comment(id: 1, author: "author", message: "message", ban: false),
-    ]
     
     @State var nextIndex: Int
     
     var votesDictionary: VotesContainer
-    
     
     var username: Username
     
@@ -43,8 +32,10 @@ struct CommentView: View {
     
     @State var refresh = Refresh(started: false, released: false)
     
-    init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer, _commentLoader: CommentLoader){
-        apis = _apis
+    @State private var postheight: CGFloat = 0
+
+    
+    init(_username: Username, _post: Post, _votesDictionary: VotesContainer, _commentLoader: CommentLoader){
         username = _username
         post = _post
         numberOfComments = _post.commentsNumber
@@ -64,20 +55,30 @@ struct CommentView: View {
                     
                     Color("WhiteColor")
                     
+                
+                    
                     VStack{
                     
+
+                        CommentPost(_post: post, _avatar: username.getAvatarString(), _votesDictionary: votesDictionary)
+                    
+                        Divider()
+                        
+                            
                             ScrollView {
                                 //Gemoetry reader for calculating position...
                                 GeometryReader{ reader -> AnyView in
                                     
                                     DispatchQueue.main.async {
+                                        
+                                        print(reader.frame(in: .global).minY)
                                         if (refresh.startOffset == 0) {
                                             refresh.startOffset = reader.frame(in: .global).minY
                                         }
                                         
                                         refresh.offset = reader.frame(in: .global).minY
                                         
-                                        if (refresh.offset - refresh.startOffset > 90 && !refresh.started){
+                                        if (refresh.offset - refresh.startOffset > 50 && !refresh.started){
                                             refresh.started = true
                                         }
                                         
@@ -117,9 +118,7 @@ struct CommentView: View {
                                             .padding(.bottom, 10)
                                     }
                                     LazyVStack{
-                                        CommentPost(_post: post, _avatar: username.getAvatarString(), _apis: apis, _votesDictionary: votesDictionary)
-                                            .padding(.top,5)
-                                        Divider()
+                                       
                                         
                                         if ( numberOfComments != 0 && loader.allComments.count == 0){
                                             if (numberOfComments > 12){
@@ -145,7 +144,7 @@ struct CommentView: View {
                                                 .onAppear{
                                                     print("Index \(index), nTl \(6)")
                                                     if (index == loader.allComments.count-1 && loader.noMoreComments == false)  {
-                                                        loader.loadMore(apis: apis, post: post, numberOfComments: 6, currentId: comment.id)
+                                                        loader.loadMore(post: post, numberOfComments: 6, currentId: comment.id)
                                                     }
                                                 }
                                         }
@@ -201,9 +200,9 @@ struct CommentView: View {
             .padding(.horizontal, 10)
             .onAppear {
                 if (numberOfComments > 12){
-                    loader.loadMore(apis: apis, post: post, numberOfComments: 12, currentId: -1)
+                    loader.loadMore(post: post, numberOfComments: 12, currentId: -1)
                 } else{
-                    loader.loadMore(apis: apis, post: post, numberOfComments: numberOfComments, currentId: -1)
+                    loader.loadMore(post: post, numberOfComments: numberOfComments, currentId: -1)
                 }
             }
             
@@ -224,7 +223,7 @@ struct CommentView: View {
                     refresh.invalid = true
                 }
             }
-            loader.getComments(index: 0, apis: apis, post: post, currentId: -1, getComments: 6)
+            loader.loadMore(post: post, numberOfComments: 6, currentId: -1)
             loader.noMoreComments = false
         }
     }
@@ -241,16 +240,16 @@ struct CommentView: View {
         
         var post: Post
         
-        var apis: APIs
         
         var avatar: String
         
         var votesDictionary: VotesContainer
         
-        init(_post: Post, _avatar: String, _apis: APIs, _votesDictionary: VotesContainer){
+        @State private var scrollViewContentSize: CGSize = .zero
+        
+        init(_post: Post, _avatar: String, _votesDictionary: VotesContainer){
             post = _post
             avatar = _avatar
-            apis = _apis
             votesDictionary = _votesDictionary
         }
         
@@ -281,22 +280,37 @@ struct CommentView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20)
-                                .padding(.top, -30)
+                                .padding(.top, -35)
                         }
                         
                     }
                     
                 }
                 .padding([.top, .leading, .trailing], 0)
-                HStack{
-                    Text(post.message)
-                        .font(.custom("Montserrat", size: 15))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                
+                HStack {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        Text(post.message)
+                            .font(.custom("Montserrat", size: 15))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(
+                            GeometryReader { geo -> Color in
+                                DispatchQueue.main.async {
+                                    scrollViewContentSize = geo.size
+                                }
+                                return Color.clear
+                            }
+                        )
+                    }
+                    .frame(
+                        maxHeight: scrollViewContentSize.height
+                    )
                 }
                 .padding(.horizontal, 0)
+                
                 HStack{
                     
-                    VotesBlock(_post: post, _apis: apis, _voted: votesDictionary.getVote(postId: post.id), _votesContainer: votesDictionary)
+                    VotesBlock(_post: post, _apis: APIs(), _voted: votesDictionary.getVote(postId: post.id), _votesContainer: votesDictionary)
                         .padding(.leading, -20)
                     
                     
