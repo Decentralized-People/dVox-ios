@@ -31,6 +31,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if FirebaseApp.app() == nil {
                FirebaseApp.configure()
            }
+        
+        
+        let apis = APIs()
+        
+        apis.resetAPIs()
+        apis.getAPIs()
                 
         
         var userAuthed = false

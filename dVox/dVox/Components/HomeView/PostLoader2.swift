@@ -18,16 +18,16 @@ class PostLoader2: ObservableObject  {
     
     @Published var noMorePosts = false
     
+    var contract: SmartContract = SmartContract()
+    
     let codeDM: PersistenceController = PersistenceController()
     
-    let apis = APIs()
     
     @Published var votesDictionary: VotesContainer = VotesContainer()
     
     
-    init(){
-        apis.resetAPIs()
-        apis.getAPIs()
+    init(_contract: SmartContract){
+        contract = _contract
         getPosts(index: 0, currentId: -1, getPosts: 6)
         print("Inited")
     }
@@ -40,44 +40,26 @@ class PostLoader2: ObservableObject  {
         
         loadMore(numberOfPosts: getPosts, currentId: currentId)
     }
-    
 
     func loadMore(numberOfPosts: Int, currentId: Int) {
-
-
         
         print("Loading...")
     
-        Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [self] timer in
             
-            let add = apis.retriveKey(for: "ContractAddress") ?? "error"
-            let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
-            let cre = apis.retriveKey(for: "Credentials") ?? "error"
             
-            if (add != "error" && inf != "error" && cre != "error") {
+            if (contract.loaded == true) {
+                timer.invalidate()
                 
                 var localCountOfPosts = 0;
                                 
                 /// Get data at a background thread
                 DispatchQueue.global(qos: .userInitiated).async { [self] in
-                    
-                    let start = clock();
-                    //main body of the function taking up time
-                    
-                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
-
-
-                    
-                    let end = clock();
-
-                    //add this at the bottom and keep accumulating time spent across all calls
-                    let time_consumed = (Int32)(end - start) / CLOCKS_PER_SEC;
-                    
-                    print("TIME CONSUMED: \(time_consumed)")
+            
                     
                     localCountOfPosts = contract.getPostCount()
 
-                    
+                
                     var postCount = 0;
                     if currentId == -1 {
                         postCount = localCountOfPosts
@@ -130,7 +112,6 @@ class PostLoader2: ObservableObject  {
                         }
                     }
                 }
-                timer.invalidate()
             }
         }
         

@@ -34,11 +34,11 @@ struct MainView: View {
         
     let votesDictionary = VotesContainer()
     
-    @StateObject var loader: PostLoader2 = PostLoader2()
-    
+    @StateObject var loader: PostLoader2 = PostLoader2(_contract: SmartContract())
+        
     init(){
-        apis.resetAPIs()
-        apis.getAPIs()
+        //apis.resetAPIs()
+        //apis.getAPIs()
         username.retriveUsername(firstRun: true)
     }
     

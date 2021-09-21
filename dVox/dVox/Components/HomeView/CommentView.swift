@@ -442,7 +442,7 @@ struct CommentView: View {
     
                     /// Get data at a background thread
                     DispatchQueue.global(qos: .userInitiated).async { [] in
-                        let contract = SmartContract(credentials: cre, infura: inf, address: add)
+                        let contract = SmartContract()
                         
                         contract.addComment(postID: postID, author: usernameString ?? "Hacker", message: whatToPost)
                                 

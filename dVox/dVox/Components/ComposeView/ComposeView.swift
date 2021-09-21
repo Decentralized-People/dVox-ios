@@ -195,7 +195,7 @@ struct ComposeView: View {
                     title.value = ""
                     message = ""
                     hashtag.value = ""
-                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
+                    let contract = SmartContract()
                     contract.createPost(title: realTitle, author: username.getUsernameString(), message: realMessage, hashtag: realHashtag)
                     
                     // Increament created posts variable for statistics

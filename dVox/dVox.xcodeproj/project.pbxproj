@@ -13,7 +13,6 @@
 		0D44E9BB2696599500697753 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D44E9BA2696599500697753 /* MainView.swift */; };
 		2806D72B26B194DF00FEC670 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2806D72A26B194DF00FEC670 /* GoogleService-Info.plist */; };
 		2806D72D26B1973700FEC670 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2806D72C26B1973700FEC670 /* Post.swift */; };
-		28E24F2A26B9B6F40092EA14 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E24F2926B9B6F40092EA14 /* HomeView.swift */; };
 		28E24F2C26B9B8330092EA14 /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E24F2B26B9B8330092EA14 /* ComposeView.swift */; };
 		8B0A5CFB26CB1EFF00D76809 /* SavedPosts.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8B0A5CF926CB1EFF00D76809 /* SavedPosts.xcdatamodeld */; };
 		8B0A5CFD26CB20A500D76809 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0A5CFC26CB20A500D76809 /* PersistenceController.swift */; };
@@ -21,7 +20,6 @@
 		8B13BC7E26D5750B00D24C29 /* PostLoader2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B13BC7D26D5750B00D24C29 /* PostLoader2.swift */; };
 		8B13BC8126D579C600D24C29 /* SwiftUIPullToRefresh in Frameworks */ = {isa = PBXBuildFile; productRef = 8B13BC8026D579C600D24C29 /* SwiftUIPullToRefresh */; };
 		8B16CBEC26C73EAB0072DA3F /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B16CBEB26C73EAB0072DA3F /* Comment.swift */; };
-		8B1B9B9426C5CBE400089C83 /* PostLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B9B9326C5CBE400089C83 /* PostLoader.swift */; };
 		8B3B2E1526A5E13D001224F6 /* PostContract.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B3B2E1426A5E13D001224F6 /* PostContract.json */; };
 		8B5B590926C80F36008D4114 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5B590826C80F36008D4114 /* CommentView.swift */; };
 		8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B65B70626A5D7B50040E559 /* SmartContract.swift */; };
@@ -52,7 +50,6 @@
 		12BD82E9961D79B68D53AA08 /* Pods-dVox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dVox.release.xcconfig"; path = "Target Support Files/Pods-dVox/Pods-dVox.release.xcconfig"; sourceTree = "<group>"; };
 		2806D72A26B194DF00FEC670 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2806D72C26B1973700FEC670 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Post.swift; path = ../Post.swift; sourceTree = "<group>"; };
-		28E24F2926B9B6F40092EA14 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		28E24F2B26B9B8330092EA14 /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
 		3E4CD4796A0472B854D98463 /* Pods_dVox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dVox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B0A5CFA26CB1EFF00D76809 /* SavedPosts.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SavedPosts.xcdatamodel; sourceTree = "<group>"; };
@@ -60,7 +57,6 @@
 		8B13BC7B26D5552000D24C29 /* HomeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView2.swift; sourceTree = "<group>"; };
 		8B13BC7D26D5750B00D24C29 /* PostLoader2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLoader2.swift; sourceTree = "<group>"; };
 		8B16CBEB26C73EAB0072DA3F /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		8B1B9B9326C5CBE400089C83 /* PostLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLoader.swift; sourceTree = "<group>"; };
 		8B3B2E1426A5E13D001224F6 /* PostContract.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PostContract.json; sourceTree = "<group>"; };
 		8B5B590826C80F36008D4114 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		8B65B70626A5D7B50040E559 /* SmartContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartContract.swift; sourceTree = "<group>"; };
@@ -117,10 +113,8 @@
 		28E24F2E26B9B8BE0092EA14 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
-				28E24F2926B9B6F40092EA14 /* HomeView.swift */,
 				8B13BC7B26D5552000D24C29 /* HomeView2.swift */,
 				8B786BBA26C93B4B00A8164E /* CommentLoader.swift */,
-				8B1B9B9326C5CBE400089C83 /* PostLoader.swift */,
 				8B13BC7D26D5750B00D24C29 /* PostLoader2.swift */,
 				8B5B590826C80F36008D4114 /* CommentView.swift */,
 			);
@@ -372,10 +366,8 @@
 				8B16CBEC26C73EAB0072DA3F /* Comment.swift in Sources */,
 				8BF4424F26CC9A0B0071D8DD /* ShimmerComment.swift in Sources */,
 				28E24F2C26B9B8330092EA14 /* ComposeView.swift in Sources */,
-				28E24F2A26B9B6F40092EA14 /* HomeView.swift in Sources */,
 				8B9C299926D20B5000C2D30B /* CommentsContainer.swift in Sources */,
 				8B13BC7C26D5552000D24C29 /* HomeView2.swift in Sources */,
-				8B1B9B9426C5CBE400089C83 /* PostLoader.swift in Sources */,
 				8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */,
 				0D3D339226CD507E002C28F6 /* VotesBlock.swift in Sources */,
 				8BD9756026C972F9009D54C1 /* ProfileView.swift in Sources */,

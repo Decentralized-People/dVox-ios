@@ -22,13 +22,11 @@ struct HomeView2: View {
     @ObservedObject var loader: PostLoader2
     
     @State var nextIndex: Int
-    
-    
+
     var numberOfPostsToLoad = 6
     
     var username: Username
     
-
     @State var items: [Item] = [Item]()
     
     @State var refresh = Refresh(started: false, released: false)
@@ -233,13 +231,12 @@ struct HomeView2: View {
         @State var downVote = 0
         
         @State var votesDictionary: VotesContainer
-        
+                
         var apis: APIs
         
         var username: Username
         
         var postUser = Username()
-        
         
 
         init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer){
