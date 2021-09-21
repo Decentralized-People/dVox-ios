@@ -11,75 +11,105 @@ import web3swift
 import BigInt
 import SwiftUI
 
-class SmartContract{
+class SmartContract: ObservableObject{
     
-    var contract: web3.web3contract
-    var transactionOptions: TransactionOptions
+    @Published var loaded: Bool = false
+    
+    var contract: web3.web3contract!
+    var transactionOptions: TransactionOptions!
     
     struct Wallet {
-        let address: String
-        let data: Data
-        let name: String
-        let isHD: Bool
+        let address: String!
+        let data: Data!
+        let name: String!
+        let isHD: Bool!
     }
 
     struct HDKey {
-        let name: String?
-        let address: String
+        let name: String!
+        let address: String!
     }
     
-    init(credentials: String, infura: String, address: String){
-        //KEYS !!! REMOVE BEFORE COMMITING !!!
-        let CREDENTIALS = credentials
-        let INFURA = infura
-        let ADDRESS = address
+    init(){
         
-        // Import Wallet
-        let name = "Wallet"
-        let formattedKey = CREDENTIALS.trimmingCharacters(in: .whitespacesAndNewlines)
-        let password = "web3swift"
-        let dataKey = Data.fromHex(formattedKey)!
-        let keystore = try! EthereumKeystoreV3(privateKey: dataKey, password: password)!
-        let keyData = try! JSONEncoder().encode(keystore.keystoreParams)
-        let address = keystore.addresses!.first!.address
-        let wallet = Wallet(address: address, data: keyData, name: name, isHD: false)
-        let data = wallet.data
+        var apis = APIs()
+        apis.resetAPIs()
+        apis.getAPIs()
         
-        //Create KeystoreManager
-        let keystoreManager: KeystoreManager
-        if wallet.isHD {
-            let keystore = BIP32Keystore(data)!
-            keystoreManager = KeystoreManager([keystore])
-        } else {
-            let keystore = EthereumKeystoreV3(data)!
-            keystoreManager = KeystoreManager([keystore])
-        }
-        
-        // Contect to Infura
-        let web3 = Web3.InfuraRinkebyWeb3(accessToken: INFURA)
-        web3.addKeystoreManager(keystoreManager)
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [self] timer in
+            
+            let add = apis.retriveKey(for: "ContractAddress") ?? "error"
+            let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
+            let cre = apis.retriveKey(for: "Credentials") ?? "error"
+            
+            if (add != "error" && inf != "error" && cre != "error") {
+                
+                timer.invalidate()
+            
+                /// Get data at a background thread
+              
+              
+                
+                
+                /// Update UI at the main thread
+                    //KEYS !!! REMOVE BEFORE COMMITING !!!
+                    let CREDENTIALS = cre
+                    let INFURA = inf
+                    let ADDRESS = add
+                    
+                    // Import Wallet
+                    let name = "Wallet"
+                    let formattedKey = CREDENTIALS.trimmingCharacters(in: .whitespacesAndNewlines)
+                    let password = "web3swift"
+                    let dataKey = Data.fromHex(formattedKey)!
+                    let keystore = try! EthereumKeystoreV3(privateKey: dataKey, password: password)!
+                    let keyData = try! JSONEncoder().encode(keystore.keystoreParams)
+                    let address = keystore.addresses!.first!.address
+                    let wallet = Wallet(address: address, data: keyData, name: name, isHD: false)
+                    let data = wallet.data
+                    
+                    //Create KeystoreManager
+                    let keystoreManager: KeystoreManager
+                    if wallet.isHD {
+                        let keystore = BIP32Keystore(data!)!
+                        keystoreManager = KeystoreManager([keystore])
+                    } else {
+                        let keystore = EthereumKeystoreV3(data!)!
+                        keystoreManager = KeystoreManager([keystore])
+                    }
+                    
+                    // Contect to Infura
+                    let web3 = Web3.InfuraRinkebyWeb3(accessToken: INFURA)
+                    web3.addKeystoreManager(keystoreManager)
 
-        // Create Smart Contract
-        var contractABI = ""
-        let path = Bundle.main.url(forResource: "PostContract", withExtension: "json")!
-        do {
-            contractABI = try String(contentsOf: path)
-            } catch {
-                print(error.localizedDescription)
+                    // Create Smart Contract
+                    var contractABI = ""
+                    let path = Bundle.main.url(forResource: "PostContract", withExtension: "json")!
+                    do {
+                        contractABI = try String(contentsOf: path)
+                        } catch {
+                            print(error.localizedDescription)
+                    }
+                    let contractAddress = EthereumAddress(ADDRESS, ignoreChecksum: true)
+                    let abiVersion = 2
+                    contract = web3.contract(contractABI, at: contractAddress, abiVersion: abiVersion)!
+                    
+                    // Set transaction options
+                    let value: String = "0.0"
+                    let walletAddress = EthereumAddress(wallet.address)!
+                    let amount = Web3.Utils.parseToBigUInt(value, units: .eth)
+                    transactionOptions = TransactionOptions.defaultOptions
+                    transactionOptions.value = amount
+                    transactionOptions.from = walletAddress
+                    transactionOptions.gasPrice = .automatic
+                    transactionOptions.gasLimit = .automatic
+                    
+                    loaded = true
+                
+            }
         }
-        let contractAddress = EthereumAddress(ADDRESS, ignoreChecksum: true)
-        let abiVersion = 2
-        contract = web3.contract(contractABI, at: contractAddress, abiVersion: abiVersion)!
-        
-        // Set transaction options
-        let value: String = "0.0"
-        let walletAddress = EthereumAddress(wallet.address)!
-        let amount = Web3.Utils.parseToBigUInt(value, units: .eth)
-        transactionOptions = TransactionOptions.defaultOptions
-        transactionOptions.value = amount
-        transactionOptions.from = walletAddress
-        transactionOptions.gasPrice = .automatic
-        transactionOptions.gasLimit = .automatic
+
+    
     }
     
  
@@ -107,8 +137,8 @@ class SmartContract{
             post.author = result?["author"] as! String
             post.message = result?["message"] as! String
             post.hashtag = result?["hashtag"] as! String
-            post.upVotes = Int(result?["upVotes"] as! BigInt)
-            post.downVotes = Int(result?["downVotes"] as! BigInt)
+            post.upVotes = 0
+            post.downVotes = 0
             post.commentsNumber = Int(result?["commentCount"] as! BigUInt)
             post.ban = result?["ban"] as! Bool
             
@@ -118,26 +148,26 @@ class SmartContract{
         return post
     }
     
-    func upVote(id: Int, vote: Int){
-        let transaction = contract.write("upVote", parameters: [BigUInt(id), BigInt(vote)] as [AnyObject], transactionOptions: transactionOptions);
-        do {
-            let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
-            print("Vote added!" , result ?? "Error")
-        } catch {
-                print(error.localizedDescription)
-        }
-    }
-    
-    func downVote(id: Int, vote: Int){
-        print(id, vote)
-        let transaction = contract.write("downVote", parameters: [BigUInt(id), BigInt(vote)] as [AnyObject], transactionOptions: transactionOptions);
-        do {
-            let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
-            print("Vote added!" , result ?? "Error")
-        } catch {
-                print(error.localizedDescription)
-        }
-    }
+//    func upVote(id: Int, vote: Int){
+//        let transaction = contract.write("upVote", parameters: [BigUInt(id), BigInt(vote)] as [AnyObject], transactionOptions: transactionOptions);
+//        do {
+//            let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
+//            print("Vote added!" , result ?? "Error")
+//        } catch {
+//                print(error.localizedDescription)
+//        }
+//    }
+//    
+//    func downVote(id: Int, vote: Int){
+//        print(id, vote)
+//        let transaction = contract.write("downVote", parameters: [BigUInt(id), BigInt(vote)] as [AnyObject], transactionOptions: transactionOptions);
+//        do {
+//            let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
+//            print("Vote added!" , result ?? "Error")
+//        } catch {
+//                print(error.localizedDescription)
+//        }
+//    }
     
     func getComment(postId: Int, commentId: Int) -> Comment {
         
@@ -147,7 +177,6 @@ class SmartContract{
         do {
             let result = try transaction?.call(transactionOptions: transactionOptions)
             
-            print(result ?? "error")
             
             comment.id = Int(result?["0"] as! BigUInt)
             comment.author = result?["1"] as! String
@@ -165,9 +194,6 @@ class SmartContract{
         do {
             let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
             
-            print(result ?? "error")
-
-            print("Comment Created: \(message)")
         } catch {
                 print(error.localizedDescription)
         }

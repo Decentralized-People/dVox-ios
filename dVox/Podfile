@@ -6,6 +6,9 @@ target 'dVox' do
    use_frameworks!
    
    pod 'web3swift', :git => 'https://github.com/lvyikai/web3swift.git', :branch => 'develop'
+
+   pod 'Starscream', '~> 4.0.4'
+ 
    pod 'Firebase/Auth'
    pod 'Firebase/Firestore'
    pod 'Firebase/Crashlytics'

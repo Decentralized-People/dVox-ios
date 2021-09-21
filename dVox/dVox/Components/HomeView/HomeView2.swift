@@ -10,7 +10,7 @@ import SwiftUI
 
 import NavigationStack
 
-struct HomeView: View {
+struct HomeView2: View {
         
     var apis: APIs
     
@@ -19,29 +19,32 @@ struct HomeView: View {
         Post(id: 2, title: "It's time for physics!", author: "@Crazy_snake_95", message: " Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat.Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#letsgopeople", upVotes: 3, downVotes: 2, commentsNumber: 5, ban: false),
     ]
     
-    @ObservedObject var loader: PostLoader
+    @ObservedObject var loader: PostLoader2
+    
+    @ObservedObject var commentLoader: CommentLoader
     
     @State var nextIndex: Int
-    
-    let votesDictionary: VotesContainer
-    
+
     var numberOfPostsToLoad = 6
     
     var username: Username
-    
-    var codeDM: PersistenceController
     
     @State var items: [Item] = [Item]()
     
     @State var refresh = Refresh(started: false, released: false)
     
-    init(_apis: APIs, _username: Username, _codeDM: PersistenceController, _postLoader: PostLoader, _votesDictionary: VotesContainer){
+    let codeDM = PersistenceController()
+    
+    let votesDictionary = VotesContainer()
+    
+    let state: Bool = true
+    
+    init(_apis: APIs, _username: Username, _loader: PostLoader2, _commentsLoader: CommentLoader){
         apis = _apis
         username = _username
-        codeDM = _codeDM
-        loader = _postLoader
+        loader = _loader
+        commentLoader = _commentsLoader
         nextIndex = 1
-        votesDictionary = _votesDictionary
     }
     
     var body: some View {
@@ -68,34 +71,75 @@ struct HomeView: View {
                         
                         //Gemoetry reader for calculating position...
                         GeometryReader{ reader -> AnyView in
-                            
+
                             DispatchQueue.main.async {
+
+
                                 if (refresh.startOffset == 0) {
                                     refresh.startOffset = reader.frame(in: .global).minY
-                                }
-                                
-                                refresh.offset = reader.frame(in: .global).minY
-                                
-                                if (refresh.offset - refresh.startOffset > 90 && !refresh.started){
-                                    refresh.started = true
-                                }
-                                
-                                //checking if refresh is started and drag is released
-                                
-                                if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released{
-                                    withAnimation(Animation.linear){ refresh.released = true }
-                                    updateData();
-                                }
-                                
-                                //checking if invalid becomes valid....
-                                if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released && refresh.invalid{
-                                    refresh.invalid = false
-                                    updateData()
+
                                 }
 
-                                 
+                                var offvar = reader.frame(in: .global).minY
+
+                               // ASSIGNING A VARIABLE CAUSES APP TO CRASH -> CALLING READER ALL THE TIME
+                               // refresh.offset = reader.frame(in: .global).minY
+
+                                if (offvar - refresh.startOffset > 90 && !refresh.started){
+                                    refresh.started = true
+                                }
+
+                                //checking if refresh is started and drag is released
+
+                                if refresh.startOffset == offvar && refresh.started && !refresh.released{
+                                    withAnimation(Animation.linear){ refresh.released = true }
+
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                        withAnimation(Animation.linear){
+
+                                            if refresh.startOffset == offvar{
+                                                loader.items = []
+                                                loader.getPosts(index: 0, currentId: -1, getPosts: 6)
+                                                loader.noMorePosts = false
+                                                refresh.released = false
+                                                refresh.started = false
+                                                refresh.startOffset = 0
+
+                                            } else {
+                                                refresh.invalid = true
+                                            }
+                                        }
+                                    }
+
+                                }
+
+                                //checking if invalid becomes valid....
+                                if refresh.startOffset  == offvar && refresh.started && !refresh.released && refresh.invalid{
+                                    refresh.invalid = false
+
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                        withAnimation(Animation.linear){
+
+                                            if refresh.startOffset == offvar{
+                                                loader.items = []
+                                                loader.getPosts(index: 0, currentId: -1, getPosts: 6)
+                                                loader.noMorePosts = false
+                                                refresh.released = false
+                                                refresh.started = false
+                                                refresh.startOffset = 0
+                                            }
+                                            else{
+                                                refresh.invalid = true
+                                            }
+                                        }
+
+                                    }
+
+                                }
+
+
                             }
-                            
+
                             return AnyView(Color.black.frame(width: 0, height: 0))
                         }
                         .frame(width: 0, height: 0)
@@ -121,12 +165,11 @@ struct HomeView: View {
                             LazyVStack{
                                 ForEach(loader.items.indices, id: \.self) { index in
                                     let post = Post(id: Int(loader.items[index].postId), title: loader.items[index].title ?? "No data provided", author: loader.items[index].author ?? "No data provided", message: loader.items[index].message ?? "No data provided", hastag: loader.items[index].hashtag ?? "No data provided", upVotes: Int(loader.items[index].upVotes), downVotes: Int(loader.items[index].downVotes), commentsNumber: Int(loader.items[index].commentsNumber), ban: false)
-                                    CardRow(_apis: apis, _username: username, _post: post, _votesDictionary: votesDictionary)
+                                    CardRow(_apis: apis, _username: username, _post: post, _votesDictionary: votesDictionary, _commentLoader: commentLoader)
                                         .onAppear{
                                             print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
                                             if (index == loader.items.count-1 && loader.noMorePosts == false) {
                                                 loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 6)
-                                                nextIndex += 1
                                             }
                                         }
                                 }
@@ -148,32 +191,33 @@ struct HomeView: View {
                     
                 }}
                 .navigationBarHidden(true)
+                .environmentObject(loader)
         }
     }
     
-    func updateData(){
-        print("Updating data....")
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-            withAnimation(Animation.linear){
-                
-                if refresh.startOffset == refresh.offset{
-                    loader.items = []
-                    refresh.released = false
-                    refresh.started = false
-                } else {
-                    refresh.invalid = true
-                }
-            }
-            loader.getPosts(index: 0, currentId: -1, getPosts: 6)
-            loader.noMorePosts = false
-        }
-    }
+//    func updateData(){
+//        print("Updating data....")
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+//            withAnimation(Animation.linear){
+//
+//                if refresh.startOffset == 0{
+//                    loader.items = []
+//                    refresh.released = false
+//                    refresh.started = false
+//                } else {
+//                    refresh.invalid = true
+//                }
+//            }
+//            loader.getPosts(index: 0, currentId: -1, getPosts: 6)
+//            loader.noMorePosts = false
+//        }
+//    }
     
    
     struct Refresh{
         var startOffset: CGFloat = 0
-        var offset: CGFloat = 0
+        //var offset: CGFloat = 0
         var started: Bool
         var released: Bool
         var invalid: Bool = false
@@ -189,21 +233,22 @@ struct HomeView: View {
         @State var downVote = 0
         
         @State var votesDictionary: VotesContainer
-        
+                
         var apis: APIs
         
         var username: Username
         
         var postUser = Username()
         
-
-        init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer){
+        @ObservedObject var commentLoader: CommentLoader
+    
+        init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer, _commentLoader: CommentLoader){
             apis = _apis
             username = _username
             eachPost = _post
             votesDictionary = _votesDictionary
+            commentLoader = _commentLoader
             postUser.stringToUsername(usernameString: eachPost.author)
-            VotesBlock(_post: eachPost, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
         }
         
         var body: some View {
@@ -241,7 +286,7 @@ struct HomeView: View {
                         
                         VotesBlock(_post: eachPost, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
                         
-                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost, _votesDictionary: votesDictionary), isActive: $isActive) {
+                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost, _votesDictionary: votesDictionary, _commentLoader: commentLoader), isActive: $isActive) {
                             
                             
                             Button(action: {
@@ -285,45 +330,45 @@ struct HomeView: View {
         //            }
         //        }
         
-        struct RoundedCorners: Shape {
-            var tl: CGFloat = 0.0
-            var tr: CGFloat = 0.0
-            var bl: CGFloat = 0.0
-            var br: CGFloat = 0.0
-            
-            func path(in rect: CGRect) -> Path {
-                var path = Path()
-                
-                let w = rect.size.width
-                let h = rect.size.height
-                
-                // Make sure we do not exceed the size of the rectangle
-                let tr = min(min(self.tr, h/2), w/2)
-                let tl = min(min(self.tl, h/2), w/2)
-                let bl = min(min(self.bl, h/2), w/2)
-                let br = min(min(self.br, h/2), w/2)
-                
-                path.move(to: CGPoint(x: w / 2.0, y: 0))
-                path.addLine(to: CGPoint(x: w - tr, y: 0))
-                path.addArc(center: CGPoint(x: w - tr, y: tr), radius: tr,
-                            startAngle: Angle(degrees: -90), endAngle: Angle(degrees: 0), clockwise: false)
-                
-                path.addLine(to: CGPoint(x: w, y: h - br))
-                path.addArc(center: CGPoint(x: w - br, y: h - br), radius: br,
-                            startAngle: Angle(degrees: 0), endAngle: Angle(degrees: 90), clockwise: false)
-                
-                path.addLine(to: CGPoint(x: bl, y: h))
-                path.addArc(center: CGPoint(x: bl, y: h - bl), radius: bl,
-                            startAngle: Angle(degrees: 90), endAngle: Angle(degrees: 180), clockwise: false)
-                
-                path.addLine(to: CGPoint(x: 0, y: tl))
-                path.addArc(center: CGPoint(x: tl, y: tl), radius: tl,
-                            startAngle: Angle(degrees: 180), endAngle: Angle(degrees: 270), clockwise: false)
-                
-                return path
-            }
-        }
-    
+//        struct RoundedCorners: Shape {
+//            var tl: CGFloat = 0.0
+//            var tr: CGFloat = 0.0
+//            var bl: CGFloat = 0.0
+//            var br: CGFloat = 0.0
+//
+//            func path(in rect: CGRect) -> Path {
+//                var path = Path()
+//
+//                let w = rect.size.width
+//                let h = rect.size.height
+//
+//                // Make sure we do not exceed the size of the rectangle
+//                let tr = min(min(self.tr, h/2), w/2)
+//                let tl = min(min(self.tl, h/2), w/2)
+//                let bl = min(min(self.bl, h/2), w/2)
+//                let br = min(min(self.br, h/2), w/2)
+//
+//                path.move(to: CGPoint(x: w / 2.0, y: 0))
+//                path.addLine(to: CGPoint(x: w - tr, y: 0))
+//                path.addArc(center: CGPoint(x: w - tr, y: tr), radius: tr,
+//                            startAngle: Angle(degrees: -90), endAngle: Angle(degrees: 0), clockwise: false)
+//
+//                path.addLine(to: CGPoint(x: w, y: h - br))
+//                path.addArc(center: CGPoint(x: w - br, y: h - br), radius: br,
+//                            startAngle: Angle(degrees: 0), endAngle: Angle(degrees: 90), clockwise: false)
+//
+//                path.addLine(to: CGPoint(x: bl, y: h))
+//                path.addArc(center: CGPoint(x: bl, y: h - bl), radius: bl,
+//                            startAngle: Angle(degrees: 90), endAngle: Angle(degrees: 180), clockwise: false)
+//
+//                path.addLine(to: CGPoint(x: 0, y: tl))
+//                path.addArc(center: CGPoint(x: tl, y: tl), radius: tl,
+//                            startAngle: Angle(degrees: 180), endAngle: Angle(degrees: 270), clockwise: false)
+//
+//                return path
+//            }
+//        }
+//
     
 //    func ban(post: Int) {
 //

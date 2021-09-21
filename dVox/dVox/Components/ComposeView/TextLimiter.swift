@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class TextLimiter: ObservableObject {
+class TextLimiterH: ObservableObject {
     @Published var hasReachedLimit = false
     private let charArray: Array<Character> = [" ", "!", "@", "$", "%"]
     private let limit: Int
@@ -30,8 +30,8 @@ class TextLimiter: ObservableObject {
                 self.hasReachedLimit = true
             }
             if self.hasReachedLimit == true {
-                if (value.count > 10) {
-                    value = String(value.prefix(10))
+                if (value.count > limit) {
+                    value = String(value.prefix(limit))
                     self.hasReachedLimit = false
                 }
             }
@@ -47,11 +47,35 @@ class TextLimiter: ObservableObject {
    
 }
 
+class TextLimiterT: ObservableObject {
+    @Published var hasReachedLimit = false
+    private let limit: Int
+    
+    init(limit: Int) {
+        self.limit = limit
+    }
+    
+    @Published var value = "" {
+        didSet {
+
+            if value.count > self.limit {
+                self.hasReachedLimit = true
+            }
+            if self.hasReachedLimit == true {
+                if (value.count > limit) {
+                    value = String(value.prefix(limit))
+                    self.hasReachedLimit = false
+                }
+            }
+        }
+    }
+}
+
 
 
 struct ContentView: View {
 
-    @ObservedObject var input = TextLimiter(limit: 5)
+    @ObservedObject var input = TextLimiterH(limit: 5)
 
   var body: some View {
       TextField("Text Input",

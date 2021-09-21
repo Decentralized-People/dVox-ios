@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "8E23AB3B-0A41-4814-9CFF-5F40A3D7F00B"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "dVox/SmartContract.swift"
@@ -18,6 +18,484 @@
             endingLineNumber = "11"
             landmarkName = "unknown"
             landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "72CFD969-4A04-4C42-A204-FFFBD6A18117"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/ShimmerPost.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "243"
+            endingLineNumber = "243"
+            landmarkName = "ShimmerPost"
+            landmarkType = "14">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "163EBBBD-7C1C-4ADE-A440-5B1CE621FB94"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/PostLoader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "loadMore(numberOfPosts:currentId:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BBF0612A-37D9-4B60-85AA-33A078377E83"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/PostLoader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "loadMore(numberOfPosts:currentId:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B2F685D8-64E8-4418-9393-46D5253B80EB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/PostLoader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "loadMore(numberOfPosts:currentId:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A676FC0F-D319-43A2-A611-9190CBFEEBB1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/PostLoader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
+            landmarkName = "loadMore(numberOfPosts:currentId:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A676FC0F-D319-43A2-A611-9190CBFEEBB1 - 88cd757f02f17610"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[3] = [Closure Propagated : function signature specialization &lt;Arg[2] = [Constant Propagated Function : closure #1 (dVox.Item, dVox.Item) -&gt; Swift.Bool in closure #1 () -&gt; () in closure #2 () -&gt; () in closure #1 () -&gt; () in closure #1 (__C.NSTimer) -&gt; () in dVox.PostLoader.loadMore(numberOfPosts: Swift.Int, currentId: Swift.Int) -&gt; ()]&gt; of reabstraction thunk helper from @callee_guaranteed (@guaranteed dVox.Item, @guaranteed dVox.Item) -&gt; (@unowned Swift.Bool, @error @owned Swift.Error) to @escaping @callee_guaranteed (@in_guaranteed dVox.Item, @in_guaranteed dVox.Item) -&gt; (@unowned Swift.Bool, @error @owned Swift.Error), Argument Types : []&gt; of generic specialization &lt;dVox.Item&gt; of closure #1 (inout Swift.UnsafeMutableBufferPointer&lt;&#x3c4;_0_0&gt;, inout Swift.Int) throws -&gt; () in Swift.UnsafeMutableBufferPointer._stableSortImpl(by: (&#x3c4;_0_0, &#x3c4;_0_0) throws -&gt; Swift.Bool) throws -&gt; ()"
+                  moduleName = "dVox"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amolchagin/Desktop/Projects/dVox-ios/dVox/dVox/Components/HomeView/PostLoader.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113"
+                  offsetFromSymbolStart = "156">
+               </Location>
+               <Location
+                  uuid = "A676FC0F-D319-43A2-A611-9190CBFEEBB1 - 88cd757f02f17610"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[3] = [Closure Propagated : function signature specialization &lt;Arg[2] = [Constant Propagated Function : closure #1 (dVox.Item, dVox.Item) -&gt; Swift.Bool in closure #1 () -&gt; () in closure #2 () -&gt; () in closure #1 () -&gt; () in closure #1 (__C.NSTimer) -&gt; () in dVox.PostLoader.loadMore(numberOfPosts: Swift.Int, currentId: Swift.Int) -&gt; ()]&gt; of reabstraction thunk helper from @callee_guaranteed (@guaranteed dVox.Item, @guaranteed dVox.Item) -&gt; (@unowned Swift.Bool, @error @owned Swift.Error) to @escaping @callee_guaranteed (@in_guaranteed dVox.Item, @in_guaranteed dVox.Item) -&gt; (@unowned Swift.Bool, @error @owned Swift.Error), Argument Types : []&gt; of generic specialization &lt;dVox.Item&gt; of closure #1 (inout Swift.UnsafeMutableBufferPointer&lt;&#x3c4;_0_0&gt;, inout Swift.Int) throws -&gt; () in Swift.UnsafeMutableBufferPointer._stableSortImpl(by: (&#x3c4;_0_0, &#x3c4;_0_0) throws -&gt; Swift.Bool) throws -&gt; ()"
+                  moduleName = "dVox"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amolchagin/Desktop/Projects/dVox-ios/dVox/dVox/Components/HomeView/PostLoader.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113"
+                  offsetFromSymbolStart = "636">
+               </Location>
+               <Location
+                  uuid = "A676FC0F-D319-43A2-A611-9190CBFEEBB1 - a9b361cf8c5c188b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[2] = [Closure Propagated : function signature specialization &lt;Arg[2] = [Constant Propagated Function : closure #1 (dVox.Item, dVox.Item) -&gt; Swift.Bool in closure #1 () -&gt; () in closure #2 () -&gt; () in closure #1 () -&gt; () in closure #1 (__C.NSTimer) -&gt; () in dVox.PostLoader.loadMore(numberOfPosts: Swift.Int, currentId: Swift.Int) -&gt; ()]&gt; of reabstraction thunk helper from @callee_guaranteed (@guaranteed dVox.Item, @guaranteed dVox.Item) -&gt; (@unowned Swift.Bool, @error @owned Swift.Error) to @escaping @callee_guaranteed (@in_guaranteed dVox.Item, @in_guaranteed dVox.Item) -&gt; (@unowned Swift.Bool, @error @owned Swift.Error), Argument Types : []&gt; of generic specialization &lt;Swift.UnsafeMutableBufferPointer&lt;dVox.Item&gt;&gt; of Swift.MutableCollection&lt; where &#x3c4;_0_0: Swift.BidirectionalCollection&gt;._insertionSort(within: Swift.Range&lt;&#x3c4;_0_0.Swift.Collection.Index&gt;, sortedEnd: &#x3c4;_0_0.Swift.Collection.Index, by: (&#x3c4;_0_0.Swift.Sequence.Element, &#x3c4;_0_0.Swift.Sequence.Element) throws -&gt; Swift.Bool) throws -&gt; ()"
+                  moduleName = "dVox"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amolchagin/Desktop/Projects/dVox-ios/dVox/dVox/Components/HomeView/PostLoader.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "A676FC0F-D319-43A2-A611-9190CBFEEBB1 - 85fe6463547fcd8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[4] = [Closure Propagated : function signature specialization &lt;Arg[2] = [Constant Propagated Function : closure #1 (dVox.Item, dVox.Item) -&gt; Swift.Bool in closure #1 () -&gt; () in closure #2 () -&gt; () in closure #1 () -&gt; () in closure #1 (__C.NSTimer) -&gt; () in dVox.PostLoader.loadMore(numberOfPosts: Swift.Int, currentId: Swift.Int) -&gt; ()]&gt; of reabstraction thunk helper from @callee_guaranteed (@guaranteed dVox.Item, @guaranteed dVox.Item) -&gt; (@unowned Swift.Bool, @error @owned Swift.Error) to @escaping @callee_guaranteed (@in_guaranteed dVox.Item, @in_guaranteed dVox.Item) -&gt; (@unowned Swift.Bool, @error @owned Swift.Error), Argument Types : []&gt; of generic specialization &lt;dVox.Item&gt; of Swift._merge&lt;&#x3c4;_0_0&gt;(low: Swift.UnsafeMutablePointer&lt;&#x3c4;_0_0&gt;, mid: Swift.UnsafeMutablePointer&lt;&#x3c4;_0_0&gt;, high: Swift.UnsafeMutablePointer&lt;&#x3c4;_0_0&gt;, buffer: Swift.UnsafeMutablePointer&lt;&#x3c4;_0_0&gt;, by: (&#x3c4;_0_0, &#x3c4;_0_0) throws -&gt; Swift.Bool) throws -&gt; Swift.Bool"
+                  moduleName = "dVox"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amolchagin/Desktop/Projects/dVox-ios/dVox/dVox/Components/HomeView/PostLoader.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113"
+                  offsetFromSymbolStart = "168">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EE8E9AA9-8017-4123-876A-2E2F01A6DF3B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/PostLoader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "loadMore(numberOfPosts:currentId:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0F8753B5-8230-4368-843B-EEAE406BCF4D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/PostLoader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "loadMore(numberOfPosts:currentId:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "17C3F5EC-9619-49D5-85D1-046C73701AB8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/PostLoader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "loadMore(numberOfPosts:currentId:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A398DE8B-1275-4098-8A83-348AF6672994"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/PostLoader.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "loadMore(numberOfPosts:currentId:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3F2DD20F-4EF5-40A5-973A-CD51CE92FDBC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "88BA27D5-5CA7-4FD4-BC1D-A695B45FB6F7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/HomeView2.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0078FC61-F445-4881-A9EE-2C5A3E993E78"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "12633D29-E844-4C0B-BF90-EF920CD11E39"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B8E28AF3-9A72-43A3-A3A7-0A238A059764"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/HomeView2.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0A482E82-C7F0-4EFD-9F85-7B7556A949A4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/web3swift/Sources/web3swift/Convenience/SECP256k1.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "parsePublicKey(serializedKey:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BDBA14C8-7E8A-437C-89AB-0FC2F917E034"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/APIs.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8E48812E-DF96-4A42-B9A7-93B139513816"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/APIs.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "17AC9EB7-2E5F-4EB5-B7E1-A53A20BFCCAA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/APIs.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "705C8062-6859-4E0B-839A-730750C83E81"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/APIs.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "getAPIs()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "03FC1A57-5C89-4CCA-A8D1-449127EF1523"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/APIs.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "getAPIs()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CF55759D-E105-463A-AFD7-A5CD41C51EA9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/APIs.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "getAPIs()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DD9D1B8D-D286-458E-8531-D0373DB689E6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/SmartContract.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "168D7454-535E-4447-A087-1025DFA69DE5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/SmartContract.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EAC2A06C-4F81-40C8-AFED-0EF9139366A1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/SmartContract.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7B4FABE9-70CD-497E-8D93-5EDE23CFEC59"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/SmartContract.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F57C4807-F376-4D6A-B6B9-3EA7DE42BEFD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/HomeView/PostLoader2.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "loadMore(numberOfPosts:currentId:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

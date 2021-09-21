@@ -31,11 +31,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if FirebaseApp.app() == nil {
                FirebaseApp.configure()
            }
+        
+        
+        let apis = APIs()
+        
+        apis.resetAPIs()
+        apis.getAPIs()
                 
         
-        if Auth.auth().currentUser != nil {
+        var userAuthed = false
+        if (UserDefaults.standard.bool(forKey: "userAuthed") == true){
+            userAuthed = true
+        }
+        
+        if (Auth.auth().currentUser == nil && userAuthed != true) {
             
-            let loginView = MainView() //LoginView()
+            let loginView = LoginView() //LoginView()
 
             // Use a UIHostingController as window root view controller.
             if let windowScene = scene as? UIWindowScene {
@@ -43,17 +54,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 window.rootViewController = UIHostingController(rootView: loginView)
                 self.window = window
                 window.makeKeyAndVisible()
+                UserDefaults.standard.set( false, forKey: "userAuthed")
+
             }
-            print("User exists!: \(Auth.auth().currentUser)")
+            
+            //print("User exists!: \(Auth.auth().currentUser)")
             
         } else {
         
-            let loginView = LoginView() //LoginView()
+            let mainView = MainView() //LoginView()
 
             // Use a UIHostingController as window root view controller.
             if let windowScene = scene as? UIWindowScene {
                 let window = UIWindow(windowScene: windowScene)
-                window.rootViewController = UIHostingController(rootView: loginView)
+                window.rootViewController = UIHostingController(rootView: mainView)
                 self.window = window
                 window.makeKeyAndVisible()
             }
@@ -145,6 +159,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     
                     if error == nil {
                         print("SUCCESS!")
+                        
+                        UserDefaults.standard.set( true, forKey: "userAuthed")
                         
                         let mainview = MainView() //LoginView()
 

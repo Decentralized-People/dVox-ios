@@ -31,16 +31,15 @@ struct MainView: View {
     let username = Username()
     
     let codeDM = PersistenceController()
-    
-    let postLoader: PostLoader
-    
+        
     let votesDictionary = VotesContainer()
     
+    @StateObject var loader: PostLoader2 = PostLoader2(_contract: SmartContract())
+    
+    @StateObject var commentsLoader: CommentLoader = CommentLoader(_contract: SmartContract())
+        
     init(){
-        apis.resetAPIs()
-        apis.getAPIs()
         username.retriveUsername(firstRun: true)
-        postLoader = PostLoader(_codeDM: codeDM, _apis: apis, _votesDictionary: votesDictionary)
     }
     
     @State var selection: Int = 0
@@ -66,20 +65,24 @@ struct MainView: View {
                             .frame(height: 0)
                         
                         TabView(selection: $selection) {
-                            HomeView(_apis: apis, _username: username, _codeDM: codeDM, _postLoader: postLoader, _votesDictionary: votesDictionary)
+                            HomeView2(_apis: apis, _username: username, _loader: loader, _commentsLoader: commentsLoader)
+                                .preferredColorScheme(.light)
+                                .background(Color("BlackColor"))
                                 .tag(0)
 
                             
-                            ComposeView(_apis: apis, _username: username)
+                            ComposeView(_apis: apis, _username: username, _loader: loader)
                                 .tag(1)
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)
+                                .preferredColorScheme(.light)
                                 .background(Color("BlackColor"))
                             
                             ProfileView(_apis: apis, _username: username)
                                 .tag(2)
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)
+                                .preferredColorScheme(.light)
                                 .background(Color("BlackColor"))
 
                         }
