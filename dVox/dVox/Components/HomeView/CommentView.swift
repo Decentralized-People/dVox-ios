@@ -122,11 +122,20 @@ struct CommentView: View {
                                         Divider()
                                         
                                         if ( numberOfComments != 0 && loader.allComments.count == 0){
-                                            ForEach(0 ..< post.commentsNumber) { number in
-                                            ShimmerComment()
-                                                .padding(-20)
-                                                .padding(.horizontal, -10)
-                                                .padding([.bottom], 10)
+                                            if (numberOfComments > 12){
+                                                ForEach(0 ..< 12) { number in
+                                                ShimmerComment()
+                                                    .padding(-20)
+                                                    .padding(.horizontal, -10)
+                                                    .padding([.bottom], 10)
+                                                }
+                                            } else {
+                                                ForEach(0 ..< post.commentsNumber) { number in
+                                                ShimmerComment()
+                                                    .padding(-20)
+                                                    .padding(.horizontal, -10)
+                                                    .padding([.bottom], 10)
+                                                }
                                             }
                                         }
                                         else{
@@ -191,7 +200,11 @@ struct CommentView: View {
             .padding(.top, 10)
             .padding(.horizontal, 10)
             .onAppear {
-                loader.loadMore(apis: apis, post: post, numberOfComments: 6, currentId: -1)
+                if (numberOfComments > 12){
+                    loader.loadMore(apis: apis, post: post, numberOfComments: 12, currentId: -1)
+                } else{
+                    loader.loadMore(apis: apis, post: post, numberOfComments: numberOfComments, currentId: -1)
+                }
             }
             
         }
@@ -414,22 +427,17 @@ struct CommentView: View {
     func addComment(postID: Int) {
         if comment != "" {
             Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
-    
-                let add = apis.retriveKey(for: "ContractAddress") ?? "error"
-                let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
-                let cre = apis.retriveKey(for: "Credentials") ?? "error"
-                
+
                 var com = Comment(id: -1, author: "", message: "", ban: false)
     
                 let whatToPost = comment
                 
-                if (add != "error" && inf != "error" && cre != "error") {
+                if (loader.contract.loaded == true) {
     
                     /// Get data at a background thread
                     DispatchQueue.global(qos: .userInitiated).async { [] in
-                        let contract = loader.contract
                         
-                        contract.addComment(postID: postID, author: usernameString ?? "Hacker", message: whatToPost)
+                        loader.contract.addComment(postID: postID, author: usernameString ?? "Hacker", message: whatToPost)
                                 
                     }
                     /// Update UI at the main thread

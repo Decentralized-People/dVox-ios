@@ -170,7 +170,6 @@ struct HomeView2: View {
                                             print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
                                             if (index == loader.items.count-1 && loader.noMorePosts == false) {
                                                 loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 6)
-                                                nextIndex += 1
                                             }
                                         }
                                 }

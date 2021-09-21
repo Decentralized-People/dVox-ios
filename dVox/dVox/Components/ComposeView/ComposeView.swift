@@ -40,16 +40,18 @@ struct ComposeView: View {
     
     @State var showToast: Bool = false
 
+    @State var loader: PostLoader2
     
     var apis: APIs
     
     var username: Username
     
     
-    init(_apis: APIs, _username: Username){
+    
+    init(_apis: APIs, _username: Username, _loader: PostLoader2){
         apis = _apis
         username = _username
-    }
+        loader = _loader    }
     
     var body: some View {
         ZStack{
@@ -148,13 +150,7 @@ struct ComposeView: View {
         }
     }
     
-    struct ComposeView_Previews: PreviewProvider {
-        static var previews: some View {
-            let apis = APIs()
-            ComposeView(_apis: apis, _username: Username())
-        }
-    }
-    
+
     
     
     func hashtagShake() -> Int{
@@ -186,24 +182,21 @@ struct ComposeView: View {
         
         if title.value != "" && message != "" && hashtag.value != "" {
             Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { timer in
-                let add = apis.retriveKey(for: "ContractAddress") ?? "error"
-                let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
-                let cre = apis.retriveKey(for: "Credentials") ?? "error"
+ 
                 
-                if (add != "error" && inf != "error" && cre != "error") {
+                if (loader.contract.loaded == true) {
+                    timer.invalidate()
+
                     showToast = true
                     title.value = ""
                     message = ""
                     hashtag.value = ""
-                    let contract = SmartContract()
-                    contract.createPost(title: realTitle, author: username.getUsernameString(), message: realMessage, hashtag: realHashtag)
+                    loader.contract.createPost(title: realTitle, author: username.getUsernameString(), message: realMessage, hashtag: realHashtag)
                     
                     // Increament created posts variable for statistics
                     let currentNumber = UserDefaults.standard.integer(forKey: "dVoxCreatedPosts")
                     UserDefaults.standard.set((currentNumber + 1), forKey: "dVoxCreatedPosts")
-                  
                     
-                    timer.invalidate()
                 }
             }
         }

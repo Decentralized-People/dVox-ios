@@ -39,8 +39,6 @@ struct MainView: View {
     @StateObject var commentsLoader: CommentLoader = CommentLoader(_contract: SmartContract())
         
     init(){
-        //apis.resetAPIs()
-        //apis.getAPIs()
         username.retriveUsername(firstRun: true)
     }
     
@@ -73,7 +71,7 @@ struct MainView: View {
                                 .tag(0)
 
                             
-                            ComposeView(_apis: apis, _username: username)
+                            ComposeView(_apis: apis, _username: username, _loader: loader)
                                 .tag(1)
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)
