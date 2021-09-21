@@ -21,6 +21,8 @@ struct HomeView2: View {
     
     @ObservedObject var loader: PostLoader2
     
+    @ObservedObject var commentLoader: CommentLoader
+    
     @State var nextIndex: Int
 
     var numberOfPostsToLoad = 6
@@ -37,10 +39,11 @@ struct HomeView2: View {
     
     let state: Bool = true
     
-    init(_apis: APIs, _username: Username, _loader: PostLoader2){
+    init(_apis: APIs, _username: Username, _loader: PostLoader2, _commentsLoader: CommentLoader){
         apis = _apis
         username = _username
         loader = _loader
+        commentLoader = _commentsLoader
         nextIndex = 1
     }
     
@@ -162,7 +165,7 @@ struct HomeView2: View {
                             LazyVStack{
                                 ForEach(loader.items.indices, id: \.self) { index in
                                     let post = Post(id: Int(loader.items[index].postId), title: loader.items[index].title ?? "No data provided", author: loader.items[index].author ?? "No data provided", message: loader.items[index].message ?? "No data provided", hastag: loader.items[index].hashtag ?? "No data provided", upVotes: Int(loader.items[index].upVotes), downVotes: Int(loader.items[index].downVotes), commentsNumber: Int(loader.items[index].commentsNumber), ban: false)
-                                    CardRow(_apis: apis, _username: username, _post: post, _votesDictionary: votesDictionary)
+                                    CardRow(_apis: apis, _username: username, _post: post, _votesDictionary: votesDictionary, _commentLoader: commentLoader)
                                         .onAppear{
                                             print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
                                             if (index == loader.items.count-1 && loader.noMorePosts == false) {
@@ -238,12 +241,14 @@ struct HomeView2: View {
         
         var postUser = Username()
         
-
-        init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer){
+        @ObservedObject var commentLoader: CommentLoader
+    
+        init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer, _commentLoader: CommentLoader){
             apis = _apis
             username = _username
             eachPost = _post
             votesDictionary = _votesDictionary
+            commentLoader = _commentLoader
             postUser.stringToUsername(usernameString: eachPost.author)
         }
         
@@ -282,7 +287,7 @@ struct HomeView2: View {
                         
                         VotesBlock(_post: eachPost, _apis: apis, _voted: votesDictionary.getVote(postId: eachPost.id), _votesContainer: votesDictionary)
                         
-                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost, _votesDictionary: votesDictionary), isActive: $isActive) {
+                        PushView(destination: CommentView(_apis: apis, _username: postUser, _post: eachPost, _votesDictionary: votesDictionary, _commentLoader: commentLoader), isActive: $isActive) {
                             
                             
                             Button(action: {

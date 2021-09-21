@@ -20,7 +20,7 @@ struct CommentView: View {
     
     var apis: APIs
     
-    @ObservedObject var loader = CommentLoader()
+    @ObservedObject var loader: CommentLoader
     
     var comments = [
         Comment(id: 1, author: "@Lazy_snake_9", message: "Hello brother!", ban: false),
@@ -43,13 +43,14 @@ struct CommentView: View {
     
     @State var refresh = Refresh(started: false, released: false)
     
-    init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer){
+    init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer, _commentLoader: CommentLoader){
         apis = _apis
         username = _username
         post = _post
         numberOfComments = _post.commentsNumber
         nextIndex = 1
         votesDictionary = _votesDictionary
+        loader = CommentLoader(_contract: _commentLoader.contract)
     }
     
     var body: some View {
@@ -103,7 +104,7 @@ struct CommentView: View {
                                     
                                     if (refresh.started && refresh.released) {
                                         ProgressView()
-                                            .offset(y: -35)
+                                            .offset(y: -30)
                                             .progressViewStyle(CircularProgressViewStyle(tint: Color("BlackColor")))
                                     }
                                     else {
@@ -120,21 +121,12 @@ struct CommentView: View {
                                             .padding(.top,5)
                                         Divider()
                                         
-                                        if (loader.noMoreComments == false && numberOfComments != 0){
-                                            if numberOfComments < 15{
-                                                ForEach(0 ..< post.commentsNumber) { number in
-                                                ShimmerComment()
-                                                    .padding(-20)
-                                                    .padding(.horizontal, -10)
-                                                    .padding([.bottom], 10)
-                                                }
-                                            } else {
-                                                ForEach(0 ..< 15) { number in
-                                                ShimmerComment()
-                                                    .padding(-20)
-                                                    .padding(.horizontal, -10)
-                                                    .padding([.bottom], 10)
-                                                }
+                                        if ( numberOfComments != 0 && loader.allComments.count == 0){
+                                            ForEach(0 ..< post.commentsNumber) { number in
+                                            ShimmerComment()
+                                                .padding(-20)
+                                                .padding(.horizontal, -10)
+                                                .padding([.bottom], 10)
                                             }
                                         }
                                         else{
@@ -144,19 +136,19 @@ struct CommentView: View {
                                                 .onAppear{
                                                     print("Index \(index), nTl \(6)")
                                                     if (index == loader.allComments.count-1 && loader.noMoreComments == false)  {
-                                                        loader.getComments(index: index, apis: apis, post: post, currentId: comment.id, getComments: 6)
+                                                        loader.loadMore(apis: apis, post: post, numberOfComments: 6, currentId: comment.id)
                                                     }
                                                 }
                                         }
                                         .padding([.bottom], 10)
                                         
-                                    }
+//                                    }
                                     }
                                     
                                 }
                                 .offset(y: refresh.released ? 25: -5)
                                 
-                            //}
+                            }
                             
                         }
                         
@@ -195,12 +187,11 @@ struct CommentView: View {
                 .padding(.horizontal, 20)
                 .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
             }
-            .preferredColorScheme(.light)
             .padding(.bottom, 10)
             .padding(.top, 10)
             .padding(.horizontal, 10)
             .onAppear {
-                loader.getComments(index: 0, apis: apis, post: post, currentId: -1, getComments: numberOfComments)
+                loader.loadMore(apis: apis, post: post, numberOfComments: 6, currentId: -1)
             }
             
         }
@@ -277,7 +268,7 @@ struct CommentView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20)
-                                .padding(.top, -35)
+                                .padding(.top, -30)
                         }
                         
                     }
@@ -380,13 +371,7 @@ struct CommentView: View {
             }
         }
     }
-    struct CommentView_Preview: PreviewProvider {
-        
-        static var previews: some View {
-            CommentView(_apis: APIs(), _username: Username(), _post: Post(id: 1, title: "This is the title", author: "@Lazy_snake_1", message: "Ullamco nulla reprehenderit fugiat pariatur. Aliqua in laboris commodo nisi aute tempor dolor nulla. Laboris deserunt deserunt occaecat cupidatat. Deserunt velit ullamco nisi deserunt sint reprehenderit ea. Proident deserunt irure culpa ea ad dolor magna aute aliquip ullamco. Laboris deserunt nisi amet elit velit dolor laboris aute. Adipisicing do velit cillum fugiat nostrud et veniam laboris laboris velit ut dolor ad.", hastag: "#physicstalk", upVotes: 10, downVotes: 4, commentsNumber: 7, ban: false), _votesDictionary: VotesContainer())
-        }
-    }
-    
+
     struct RoundedCorners: Shape {
         var tl: CGFloat = 0.0
         var tr: CGFloat = 0.0
@@ -442,7 +427,7 @@ struct CommentView: View {
     
                     /// Get data at a background thread
                     DispatchQueue.global(qos: .userInitiated).async { [] in
-                        let contract = SmartContract()
+                        let contract = loader.contract
                         
                         contract.addComment(postID: postID, author: usernameString ?? "Hacker", message: whatToPost)
                                 
@@ -456,9 +441,6 @@ struct CommentView: View {
                         
                         comment = ""
 
-                        // Increment commented posts variable for statistics
-                        let currentNumber = UserDefaults.standard.integer(forKey: "dVoxCommentedPosts")
-                        UserDefaults.standard.set((currentNumber + 1), forKey: "dVoxCommentedPosts")
                         
                         timer.invalidate()
                     }
@@ -469,4 +451,3 @@ struct CommentView: View {
     }
     
 }
-

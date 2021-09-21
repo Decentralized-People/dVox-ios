@@ -18,7 +18,7 @@ class PostLoader2: ObservableObject  {
     
     @Published var noMorePosts = false
     
-    var contract: SmartContract = SmartContract()
+    var contract: SmartContract
     
     let codeDM: PersistenceController = PersistenceController()
     
@@ -29,7 +29,6 @@ class PostLoader2: ObservableObject  {
     init(_contract: SmartContract){
         contract = _contract
         getPosts(index: 0, currentId: -1, getPosts: 6)
-        print("Inited")
     }
     
     func getPosts(index: Int, currentId: Int, getPosts: Int){

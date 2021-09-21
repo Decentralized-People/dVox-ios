@@ -35,6 +35,8 @@ struct MainView: View {
     let votesDictionary = VotesContainer()
     
     @StateObject var loader: PostLoader2 = PostLoader2(_contract: SmartContract())
+    
+    @StateObject var commentsLoader: CommentLoader = CommentLoader(_contract: SmartContract())
         
     init(){
         //apis.resetAPIs()
@@ -65,7 +67,7 @@ struct MainView: View {
                             .frame(height: 0)
                         
                         TabView(selection: $selection) {
-                            HomeView2(_apis: apis, _username: username, _loader: loader)
+                            HomeView2(_apis: apis, _username: username, _loader: loader, _commentsLoader: commentsLoader)
                                 .preferredColorScheme(.light)
                                 .background(Color("BlackColor"))
                                 .tag(0)
