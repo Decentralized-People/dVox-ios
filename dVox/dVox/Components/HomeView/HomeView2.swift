@@ -73,7 +73,8 @@ struct HomeView2: View {
                         GeometryReader{ reader -> AnyView in
 
                             DispatchQueue.main.async {
-
+                                
+                                print(reader.frame(in: .global).minY)
 
                                 if (refresh.startOffset == 0) {
                                     refresh.startOffset = reader.frame(in: .global).minY
@@ -169,7 +170,7 @@ struct HomeView2: View {
                                         .onAppear{
                                             print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
                                             if (index == loader.items.count-1 && loader.noMorePosts == false) {
-                                                loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 12)
+                                                loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 4)
                                             }
                                         }
                                 }

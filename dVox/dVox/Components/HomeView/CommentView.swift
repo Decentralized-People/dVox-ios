@@ -33,6 +33,8 @@ struct CommentView: View {
     @State var refresh = Refresh(started: false, released: false)
     
     @State private var postheight: CGFloat = 0
+    
+    @State var ready: Bool = false
 
     
     init(_username: Username, _post: Post, _votesDictionary: VotesContainer, _commentLoader: CommentLoader){
@@ -61,38 +63,44 @@ struct CommentView: View {
                     
 
                         CommentPost(_post: post, _avatar: username.getAvatarString(), _votesDictionary: votesDictionary)
+                         
                     
                         Divider()
                         
                             
                             ScrollView {
+                                
                                 //Gemoetry reader for calculating position...
                                 GeometryReader{ reader -> AnyView in
                                     
                                     DispatchQueue.main.async {
                                         
                                         print(reader.frame(in: .global).minY)
-                                        if (refresh.startOffset == 0) {
+                                        if (refresh.startOffset == 0 && ready == true) {
                                             refresh.startOffset = reader.frame(in: .global).minY
                                         }
                                         
                                         refresh.offset = reader.frame(in: .global).minY
                                         
-                                        if (refresh.offset - refresh.startOffset > 50 && !refresh.started){
+                                        if (refresh.offset - refresh.startOffset > 50 && !refresh.started && ready == true){
                                             refresh.started = true
                                         }
                                         
                                         //checking if refresh is started and drag is released
                                         
-                                        if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released{
+                                        if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released && ready == true{
                                             withAnimation(Animation.linear){ refresh.released = true }
                                             updateData();
                                         }
                                         
                                         //checking if invalid becomes valid....
-                                        if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released && refresh.invalid{
+                                        if refresh.startOffset  == refresh.offset && refresh.started && !refresh.released && refresh.invalid && ready == true{
                                             refresh.invalid = false
                                             updateData()
+                                        }
+                                        
+                                        if ready == false{
+                                            ready = true
                                         }
 
                                     }
@@ -105,8 +113,8 @@ struct CommentView: View {
                                     
                                     if (refresh.started && refresh.released) {
                                         ProgressView()
-                                            .offset(y: -30)
-                                            .progressViewStyle(CircularProgressViewStyle(tint: Color("BlackColor")))
+                                            .offset(y: -5)
+                                            .progressViewStyle(CircularProgressViewStyle(tint: Color.black))
                                     }
                                     else {
                                         Image(systemName: "arrow.down")
@@ -117,6 +125,7 @@ struct CommentView: View {
                                             .animation(.easeIn)
                                             .padding(.bottom, 10)
                                     }
+                                    
                                     LazyVStack{
                                        
                                         
@@ -170,6 +179,7 @@ struct CommentView: View {
                                 
                                 TextField("Comment as \(usernameString ?? "No data provided")", text: $comment)
                                     .accentColor(Color("BlackColor"))
+                                    .foregroundColor(Color("BlackColor"))
                                     .font(.custom("Montserrat", size: 15))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.top, 15)
@@ -379,18 +389,24 @@ struct CommentView: View {
                             Text(commentUser.getUsernameString())
                                 .font(.custom("Montserrat-Bold", size: 14))
                                 .frame(alignment: .leading)
+                                .foregroundColor(Color("BlackColor"))
+
                             Spacer()
                         }
                         
                         HStack{
                             
                             Text(comment.message)
+                            
                                 .font(.custom("Montserrat", size: 14))
                                 .frame(alignment: .leading)
+                                .foregroundColor(Color("BlackColor"))
+
                             Spacer()
                         }
                         
                     }
+                    .foregroundColor(Color("BlackColor"))
                     Spacer()
                     
                 }
