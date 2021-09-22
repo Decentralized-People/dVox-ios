@@ -9,6 +9,8 @@ import SwiftUI
 
 import NavigationStack
 
+import AlertToast
+
 struct CommentView: View {
     
     @State var usernameString = UserDefaults.standard.string(forKey: "dvoxUsername")
@@ -35,6 +37,13 @@ struct CommentView: View {
     @State private var postheight: CGFloat = 0
     
     @State var ready: Bool = false
+    
+    
+    @State var toastTitle: String = "Your comment is sent!"
+
+    @State var toastMessage: String = "It will appear in our decentralized storage soon"
+
+    @State var showToast: Bool = false
 
     
     init(_username: Username, _post: Post, _votesDictionary: VotesContainer, _commentLoader: CommentLoader){
@@ -176,14 +185,18 @@ struct CommentView: View {
                         HStack{
                             
                             VStack{
+                                                                
+                                    TextField("Comment as \(usernameString ?? "No data provided")", text: $comment)
+                                        .accentColor(Color("BlackColor"))
+                                        .colorScheme(.light)
+                                        .foregroundColor(Color("BlackColor"))
+                                        .font(.custom("Montserrat", size: 15))
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.top, 15)
+                                        .padding(.leading, 5)
+                                    
+                             
                                 
-                                TextField("Comment as \(usernameString ?? "No data provided")", text: $comment)
-                                    .accentColor(Color("BlackColor"))
-                                    .foregroundColor(Color("BlackColor"))
-                                    .font(.custom("Montserrat", size: 15))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.top, 15)
-                                    .padding(.leading, 5)
                                 
                             }
                             
@@ -214,6 +227,13 @@ struct CommentView: View {
                 } else{
                     loader.loadMore(post: post, numberOfComments: numberOfComments, currentId: -1)
                 }
+            }
+            .toast(isPresenting: $showToast, duration: 4){
+
+                       // `.alert` is the default displayMode
+                       //AlertToast(type: .regular, title: "Message Sent!")
+                       //Choose .hud to toast alert from the top of the screen
+                AlertToast(displayMode: .hud, type: .complete(Color("BlackColor")), title: toastTitle, subTitle: toastMessage, custom: .custom(backgroundColor: Color("WhiteColor"), titleColor: Color("BlackColor"), subTitleColor: Color("BlackColor"), titleFont: Font.custom("Montserrat-Regular", size: 15.0),  subTitleFont: Font.custom("Montserrat-Regular", size: 12.0)))
             }
             
         }
@@ -272,7 +292,7 @@ struct CommentView: View {
                         Image(avatar)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 45)
+                            .frame(height: 45)
                             .padding([.trailing], 5)
                         
                         VStack{
@@ -466,6 +486,8 @@ struct CommentView: View {
     
                     /// Get data at a background thread
                     DispatchQueue.global(qos: .userInitiated).async { [] in
+                        
+                        showToast = true
                         
                         loader.contract.addComment(postID: postID, author: usernameString ?? "Hacker", message: whatToPost)
                                 

@@ -170,7 +170,7 @@ struct HomeView2: View {
                                         .onAppear{
                                             print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
                                             if (index == loader.items.count-1 && loader.noMorePosts == false) {
-                                                loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 4)
+                                                loader.getPosts(index: nextIndex, currentId: post.id, getPosts: 8)
                                             }
                                         }
                                 }
@@ -263,8 +263,10 @@ struct HomeView2: View {
                         Image(postUser.getAvatarString())
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 45)
-                            .padding([.trailing], 5)
+                            .frame(height: 45)
+                            .padding(.trailing, 5)
+
+
                         
                         VStack{
                             Text(eachPost.title)
@@ -277,7 +279,9 @@ struct HomeView2: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
-                    .padding([.top, .leading, .trailing], 20)
+                    .padding([.top, .leading], 20)
+                    .padding(.trailing, 10)
+
                     HStack{
                         Text(eachPost.message)
                             .font(.custom("Montserrat", size: 15))
