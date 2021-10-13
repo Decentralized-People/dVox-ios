@@ -479,7 +479,7 @@ struct CommentView: View {
             Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
 
                 var com = Comment(id: -1, author: "", message: "", ban: false)
-    
+                
                 let whatToPost = comment
                 
                 if (loader.contract.loaded == true) {
