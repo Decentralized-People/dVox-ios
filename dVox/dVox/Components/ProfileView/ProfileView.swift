@@ -55,18 +55,22 @@ struct ProfileView: View {
                             Image(username.getAvatarString())
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 55, alignment: .bottom)
+                                .frame(height: 55, alignment: .bottom)
                                 .padding([.trailing], 10)
                                 .padding(.vertical)
+                            
                             
                             
                             VStack{
                                 
                                 Text(username.getUsernameString())
-                                    .font(.custom("Montserrat-Bold", size: 20))
-                                    .frame(alignment: .bottom)
+                                    .font(.custom("Montserrat-Bold", size: 100))
+                                    .frame(alignment: .center)
                                     .padding(.vertical)
-                                
+                                    .minimumScaleFactor(0.01)
+                                    .lineLimit(1)
+                                    .foregroundColor(Color("BlackColor"))
+                                    .fixedSize(horizontal: false, vertical: true)
                             }
                             
                             Spacer()

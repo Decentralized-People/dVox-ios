@@ -28,7 +28,7 @@ class PostLoader2: ObservableObject  {
     
     init(_contract: SmartContract){
         contract = _contract
-        getPosts(index: 0, currentId: -1, getPosts: 6)
+        getPosts(index: 0, currentId: -1, getPosts: 12)
     }
     
     func getPosts(index: Int, currentId: Int, getPosts: Int){
