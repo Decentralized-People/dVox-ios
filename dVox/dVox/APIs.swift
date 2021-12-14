@@ -36,7 +36,7 @@ class APIs{
                     
                     // Retrieving specific APIs
                     let Credentials = document.get("credentials")
-                    let ContractAddress = document.get("contractAddress")
+                    let ContractAddress = document.get("contractAddressPublic")
                     let InfuraURL = document.get("infuraCODE")
                     
                     group.leave()
