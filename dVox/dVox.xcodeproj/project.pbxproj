@@ -100,6 +100,7 @@
 		28E24F2D26B9B8850092EA14 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8B299C1E276C25FA0024F71D /* Other */,
 				8BDA6ABF26C80C340008B40D /* ProfileView */,
 				28E24F2F26B9BA190092EA14 /* ComposeView */,
 				28E24F2E26B9B8BE0092EA14 /* HomeView */,
@@ -136,6 +137,13 @@
 				3E4CD4796A0472B854D98463 /* Pods_dVox.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8B299C1E276C25FA0024F71D /* Other */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 		8B6C722026951D4D004A34A3 = {
@@ -546,7 +554,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.13;
+				MARKETING_VERSION = 1.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dpearth.dvox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -572,7 +580,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.13;
+				MARKETING_VERSION = 1.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dpearth.dvox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
