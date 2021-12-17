@@ -134,13 +134,17 @@ struct ComposeView: View {
                         
                         Button(action: {
                             withAnimation(.default) {
-                                let currentAnim = self.title_attempts
-                                
+                                let currentTitleAttempts = self.title_attempts
+                                let currentMessageAttempts = self.message_attempts
+                                let currentHashtagAttempts = self.hashtag_attempts
+
                                 self.title_attempts += titleShake()
                                 self.message_attempts += messageShake()
                                 self.hashtag_attempts += hashtagShake();
                                 
-                                if (self.title_attempts == currentAnim){
+                                if (self.title_attempts == currentTitleAttempts &&
+                                    self.message_attempts == currentMessageAttempts &&
+                                    self.hashtag_attempts == currentHashtagAttempts){
                                     print(hashtag_attempts)
                                     if (!shouldAppear) {
                                         showPopUp = true;
