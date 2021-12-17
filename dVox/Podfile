@@ -7,8 +7,10 @@ target 'dVox' do
    
    pod 'web3swift', :git => 'https://github.com/lvyikai/web3swift.git', :branch => 'develop'
 
-   pod 'Starscream', '~> 4.0.4'
+   pod 'Starscream', '~> 3.1.1'
  
+   pod 'Firebase/Core'
+   pod 'Firebase/Messaging'
    pod 'Firebase/Auth'
    pod 'Firebase/Firestore'
    pod 'Firebase/Crashlytics'
