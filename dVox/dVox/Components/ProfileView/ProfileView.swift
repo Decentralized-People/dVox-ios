@@ -158,11 +158,12 @@ struct ProfileView: View {
                         Spacer()
                         if self.generating == false {
                             Button(action: {
-                                self.generating = true
-                                self.disabled = true
-                                username.saveOldUsername()
-                                username.generateUsername(firstRun: false)
-                                self.disabled = false
+                                  forceSignOut()
+//                                self.generating = true
+//                                self.disabled = true
+//                                username.saveOldUsername()
+//                                username.generateUsername(firstRun: false)
+//                                self.disabled = false
                             })
                             {
                                 (Text("Regenerate Profile")
@@ -287,6 +288,20 @@ struct ProfileView: View {
         let status = SecItemAdd(query as CFDictionary, nil)
         guard status == errSecSuccess else { return print("save error: \(account)")
         }
+    }
+    
+    func forceSignOut(){
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+        }
+        let firebaseAuth = Auth.auth()
+           do {
+             try firebaseAuth.signOut()
+           } catch let signOutError as NSError {
+             print("Error signing out: %@", signOutError)
+           }
+        print("Signed out!")
+         
     }
 }
 

@@ -177,6 +177,8 @@ struct LoginView: View {
         }
     
         //If input is correct
+        
+        
         googleLogin(email: email_input)
         return 0
     }

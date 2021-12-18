@@ -11,6 +11,7 @@ import UIKit
 import MessageUI
 
 import NavigationStack
+import FirebaseMessaging
 
 //var contract = SmartContract();
 
@@ -69,6 +70,10 @@ struct MainView: View {
                                 .preferredColorScheme(.light)
                                 .background(Color("BlackColor"))
                                 .tag(0)
+                                .onAppear(perform: {
+                                    UserDefaults.standard.set(true, forKey: "READY_TO_LOAD")
+                                    apis.getAPIs()
+                                })
 
                             
                             ComposeView(_apis: apis, _username: username, _loader: loader)
@@ -142,6 +147,7 @@ struct MainView: View {
                 
             }
         }
+
     }
         
 }
