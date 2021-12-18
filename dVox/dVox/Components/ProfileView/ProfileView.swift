@@ -81,7 +81,7 @@ struct ProfileView: View {
                         
                         HStack{
                             Text("Statistics")
-                                .font(.custom("Montserrat-Bold", size: 20))
+                                .font(.custom("Montserrat-Bold", size: 18))
                                 .padding(.top)
                                 .onAppear(perform: {
                                     dvoxCreatedPosts = UserDefaults.standard.integer(forKey: "dVoxCreatedPosts")
@@ -158,12 +158,11 @@ struct ProfileView: View {
                         Spacer()
                         if self.generating == false {
                             Button(action: {
-                                  forceSignOut()
-//                                self.generating = true
-//                                self.disabled = true
-//                                username.saveOldUsername()
-//                                username.generateUsername(firstRun: false)
-//                                self.disabled = false
+                                self.generating = true
+                                self.disabled = true
+                                username.saveOldUsername()
+                                username.generateUsername(firstRun: false)
+                                self.disabled = false
                             })
                             {
                                 (Text("Regenerate Profile")
@@ -288,25 +287,5 @@ struct ProfileView: View {
         let status = SecItemAdd(query as CFDictionary, nil)
         guard status == errSecSuccess else { return print("save error: \(account)")
         }
-    }
-    
-    func forceSignOut(){
-        if let bundleID = Bundle.main.bundleIdentifier {
-            UserDefaults.standard.removePersistentDomain(forName: bundleID)
-        }
-        let firebaseAuth = Auth.auth()
-           do {
-             try firebaseAuth.signOut()
-           } catch let signOutError as NSError {
-             print("Error signing out: %@", signOutError)
-           }
-        print("Signed out!")
-         
-    }
-}
-
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView(_apis: APIs(), _username: Username())
     }
 }

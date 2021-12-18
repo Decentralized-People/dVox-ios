@@ -10,7 +10,7 @@
 
 import UIKit
 import SwiftUI
-
+import NavigationStack
 import Firebase
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -33,12 +33,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            }
         
         
-        let apis = APIs()
-        
-        apis.resetAPIs()
-        apis.getAPIs()
-                
-        
         if (Auth.auth().currentUser == nil) {
             
             let loginView = LoginView() //LoginView()
@@ -57,9 +51,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
         } else {
         
-            self.getSchoolFeed(email: UserDefaults.standard.string(forKey: "Email")! as! String)
-
-            let mainView = MainView() //LoginView()
+            let mainView = MainView()
+                .environmentObject(NavigationStack())//LoginView()
 
             // Use a UIHostingController as window root view controller.
             if let windowScene = scene as? UIWindowScene {
@@ -160,7 +153,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         print("SUCCESS!")
                     
                         
-                        let mainview = MainView() //LoginView()
+                        let mainview = MainView()
+                            .environmentObject(NavigationStack())//LoginView()
 
                         // Use a UIHostingController as window root view controller.
                         window!.rootViewController = UIHostingController(rootView: mainview)
@@ -183,9 +177,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     
                     print("Getting a new location for: \(self.emailEnding(email: email))")
                     
-                    let schoolLocation = String(document.get(self.emailEnding(email: email)) as? String ?? "error")
+                    var schoolLocation = String(document.get(self.emailEnding(email: email)) as? String ?? "error")
                     
                     print("Add new Location: \(schoolLocation)")
+                    
+                    if schoolLocation == "error"{
+                        schoolLocation = "publicOnly"
+                    } else{
+                        UserDefaults.standard.set(true, forKey: "SCHOOL_ENABLE")
+                    }
                     
                     UserDefaults.standard.set(schoolLocation, forKey: "SCHOOL_LOCATION")
                     

@@ -31,10 +31,8 @@ class APIs{
             
             //First - get location & subscribe to it
             let schoolLoc = UserDefaults.standard.string(forKey: "SCHOOL_LOCATION") ?? "error"
-            
-            
-            let readyToLoad = UserDefaults.standard.bool(forKey: "READY_TO_LOAD") ?? false
-
+            let enableSchool = UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE")
+            let readyToLoad = UserDefaults.standard.bool(forKey: "READY_TO_LOAD")
     
             ///
             /// SCHOOL
@@ -43,7 +41,7 @@ class APIs{
             ///     HERE
             ///
             if (readyToLoad){
-                if schoolLoc != "error"{
+                if schoolLoc != "error" && schoolLoc != "publicOnly" && enableSchool {
                     let LocDoc = Firestore.firestore().collection("Locations").document(schoolLoc)
                     LocDoc.getDocument{ [self] (document, error) in
                         if let document = document, document.exists {
@@ -88,8 +86,7 @@ class APIs{
                     LocDoc.getDocument{ [self] (document, error) in
                         if let document = document, document.exists {
                             ContractAddress = document.get("address") as! String
-                            let notifications = Notifications()
-                            notifications.subscribeTo(topic: schoolLoc)
+                
                         }
                         
                         //Get the reference to the Firestore API document

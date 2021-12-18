@@ -47,7 +47,8 @@ struct MainView: View {
     
     
     var body: some View {
-        
+        NavigationStackView(transitionType: .default) {
+            
         ZStack{
             
             Color("BlackColor")
@@ -85,6 +86,13 @@ struct MainView: View {
                             
                             ProfileView(_apis: apis, _username: username)
                                 .tag(2)
+                                .padding(.horizontal, 10)
+                                .padding(.bottom, 20)
+                                .preferredColorScheme(.light)
+                                .background(Color("BlackColor"))
+                            
+                            SettingsView(_apis: apis)
+                                .tag(3)
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)
                                 .preferredColorScheme(.light)
@@ -140,6 +148,19 @@ struct MainView: View {
                                 .opacity(selection == 2 ? 1 : 0.4)
                         })
                         Spacer()
+                                
+                        // Fourth Tab Button
+                        Button(action: {
+                            self.selection = 3
+                        }, label: {
+                            Image("fi-rr-settings")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 25, alignment: .center)
+                                .foregroundColor(Color(red: 32/255, green: 43/255, blue: 63/255))
+                                .opacity(selection == 3 ? 1 : 0.4)
+                        })
+                        Spacer()
                     }) ,alignment: .bottom)
                     
                     
@@ -148,6 +169,7 @@ struct MainView: View {
             }
         }
 
+    }
     }
         
 }

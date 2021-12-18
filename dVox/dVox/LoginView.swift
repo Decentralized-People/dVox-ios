@@ -24,7 +24,7 @@ struct LoginView: View {
 
     @State var attempts: Int = 0
     
-    @State var authenticationSuccess: Bool = false
+    @AppStorage("SIGN_OUT") var authenticationSuccess: Bool = false
     
     @State var showToast: Bool = false
 

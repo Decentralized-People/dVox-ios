@@ -17,8 +17,12 @@ class Notifications{
     }
 
     func subscribeTo(topic: String){
-        Messaging.messaging().subscribe(toTopic: topic) { error in
-            print("Subscribed to \(topic)!")
+        var givenTopic = topic
+        if givenTopic == "publicOnly"{
+            givenTopic = "Public"
+        }
+        Messaging.messaging().subscribe(toTopic: givenTopic) { error in
+            print("Subscribed to \(givenTopic)!")
         }
     }
 }

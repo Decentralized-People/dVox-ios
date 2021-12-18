@@ -21,6 +21,8 @@
 		8B13BC8126D579C600D24C29 /* SwiftUIPullToRefresh in Frameworks */ = {isa = PBXBuildFile; productRef = 8B13BC8026D579C600D24C29 /* SwiftUIPullToRefresh */; };
 		8B16CBEC26C73EAB0072DA3F /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B16CBEB26C73EAB0072DA3F /* Comment.swift */; };
 		8B1A345C276D64150079CD4B /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1A345B276D64150079CD4B /* Notifications.swift */; };
+		8B1A345F276D82C60079CD4B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1A345E276D82C60079CD4B /* SettingsView.swift */; };
+		8B1A3461276E196E0079CD4B /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1A3460276E196E0079CD4B /* Server.swift */; };
 		8B3B2E1526A5E13D001224F6 /* PostContract.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B3B2E1426A5E13D001224F6 /* PostContract.json */; };
 		8B5B590926C80F36008D4114 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5B590826C80F36008D4114 /* CommentView.swift */; };
 		8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B65B70626A5D7B50040E559 /* SmartContract.swift */; };
@@ -59,6 +61,8 @@
 		8B13BC7D26D5750B00D24C29 /* PostLoader2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLoader2.swift; sourceTree = "<group>"; };
 		8B16CBEB26C73EAB0072DA3F /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		8B1A345B276D64150079CD4B /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		8B1A345E276D82C60079CD4B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		8B1A3460276E196E0079CD4B /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		8B3B2E1426A5E13D001224F6 /* PostContract.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PostContract.json; sourceTree = "<group>"; };
 		8B5B590826C80F36008D4114 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		8B65B70626A5D7B50040E559 /* SmartContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartContract.swift; sourceTree = "<group>"; };
@@ -102,6 +106,7 @@
 		28E24F2D26B9B8850092EA14 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8B1A345D276D829C0079CD4B /* SettingsView */,
 				8B299C1E276C25FA0024F71D /* Other */,
 				8BDA6ABF26C80C340008B40D /* ProfileView */,
 				28E24F2F26B9BA190092EA14 /* ComposeView */,
@@ -133,6 +138,14 @@
 			path = ComposeView;
 			sourceTree = "<group>";
 		};
+		8B1A345D276D829C0079CD4B /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				8B1A345E276D82C60079CD4B /* SettingsView.swift */,
+			);
+			path = SettingsView;
+			sourceTree = "<group>";
+		};
 		8B1D7B50269F48B7000C0CC1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				8B1A345B276D64150079CD4B /* Notifications.swift */,
+				8B1A3460276E196E0079CD4B /* Server.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -386,6 +400,7 @@
 				8B0A5CFB26CB1EFF00D76809 /* SavedPosts.xcdatamodeld in Sources */,
 				8B0A5CFD26CB20A500D76809 /* PersistenceController.swift in Sources */,
 				8B786BBB26C93B4B00A8164E /* CommentLoader.swift in Sources */,
+				8B1A345F276D82C60079CD4B /* SettingsView.swift in Sources */,
 				8B801F2526C9D0D400F36D1F /* Username.swift in Sources */,
 				8B13BC7E26D5750B00D24C29 /* PostLoader2.swift in Sources */,
 				0D44E9BB2696599500697753 /* MainView.swift in Sources */,
@@ -394,6 +409,7 @@
 				8BF617E126C4350200EB7BE9 /* APIs.swift in Sources */,
 				8BD9755E26C972D0009D54C1 /* ShimmerPost.swift in Sources */,
 				0D19E49026CF2FE600912F71 /* TextLimiter.swift in Sources */,
+				8B1A3461276E196E0079CD4B /* Server.swift in Sources */,
 				8B6C723126951D4D004A34A3 /* LoginView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
