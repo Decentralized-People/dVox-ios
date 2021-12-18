@@ -6,6 +6,7 @@
 //
 import Foundation
 import Firebase
+import SwiftUI
 
 
 /// Gets all API keys from Firebase Database.
@@ -20,48 +21,119 @@ class APIs{
     /// Gets all APIs from Firestore.
     func getAPIs(){
         
-                
         let group = DispatchGroup()
         
         group.enter()
-        
+
         DispatchQueue.main.async {
             
-            //Get the reference to the Firestore API document
-            let ApiDoc = Firestore.firestore().collection("APIs").document("7rMOmCufceCpoXgxLRKo")
+            var ContractAddress = "Public"
             
-            /// Executes when the document is received
-            ApiDoc.getDocument{ [self] (document, error) in
-                if let document = document, document.exists{
-                    
-                    // Retrieving specific APIs
-                    let Credentials = document.get("credentials")
-                    let ContractAddress = document.get("contractAddress")
-                    let InfuraURL = document.get("infuraCODE")
-                    
-                    group.leave()
-                    
-                    setOnSuccess(credentials: Credentials as! String, contractAddress: ContractAddress as! String, infuraURL: InfuraURL as! String)
-                } else {
-                    //On error
-                    setOnError()
-                    group.leave()
-                }
-            }
-        }
-        group.notify(queue: .main) {
-            if (self.retriveKey(for: "Credentials") != "error" &&
-                self.retriveKey(for: "ContractAddress") != "error" &&
-                self.retriveKey(for: "InfuraURL") != "error" &&
-                self.retriveKey(for: "Credentials") != nil &&
-                self.retriveKey(for: "ContractAddress") != nil &&
-                self.retriveKey(for: "InfuraURL") != nil) {
-                
-                print("All keys are recieved succesfully.")
+            //First - get location & subscribe to it
+            let schoolLoc = UserDefaults.standard.string(forKey: "SCHOOL_LOCATION") ?? "error"
+            
+            
+            let readyToLoad = UserDefaults.standard.bool(forKey: "READY_TO_LOAD") ?? false
 
-            } else {
+    
+            ///
+            /// SCHOOL
+            ///  SERVER
+            ///    GOES
+            ///     HERE
+            ///
+            if (readyToLoad){
+                if schoolLoc != "error"{
+                    let LocDoc = Firestore.firestore().collection("Locations").document(schoolLoc)
+                    LocDoc.getDocument{ [self] (document, error) in
+                        if let document = document, document.exists {
+                            ContractAddress = document.get("address") as! String
+                            
+                        }
+                        
+                        //Get the reference to the Firestore API document
+                        let ApiDoc = Firestore.firestore().collection("APIs").document("7rMOmCufceCpoXgxLRKo")
+                        
+                        /// Executes when the document is received
+                        ApiDoc.getDocument{ [self] (document, error) in
+                            if let document = document, document.exists{
+                                
+                                // Retrieving specific APIs
+                                let Credentials = document.get("credentials")
+                                let InfuraURL = document.get("infuraCODE")
+                                group.leave()
+                                
+                                setOnSuccess(credentials: Credentials as! String, contractAddress: ContractAddress as! String, infuraURL: InfuraURL as! String)
+                                
+                                // Subscribe to school notifications
+                                let notifications = Notifications()
+                                notifications.subscribeTo(topic: schoolLoc)
+                                
+                            } else {
+                                //On error
+                                setOnError()
+                                group.leave()
+                            }
+                        }
+                    }
+                    
+                ///
+                /// PUBLIC
+                ///  SERVER
+                ///    GOES
+                ///     HERE
+                ///
+                } else {
+                    let LocDoc = Firestore.firestore().collection("Locations").document("Public")
+                    LocDoc.getDocument{ [self] (document, error) in
+                        if let document = document, document.exists {
+                            ContractAddress = document.get("address") as! String
+                            let notifications = Notifications()
+                            notifications.subscribeTo(topic: schoolLoc)
+                        }
+                        
+                        //Get the reference to the Firestore API document
+                        let ApiDoc = Firestore.firestore().collection("APIs").document("7rMOmCufceCpoXgxLRKo")
+                        
+                        // Executes when the document is received
+                        ApiDoc.getDocument{ [self] (document, error) in
+                            if let document = document, document.exists{
+                                
+                                // Retrieving specific APIs
+                                let Credentials = document.get("credentials")
+                                let InfuraURL = document.get("infuraCODE")
+                                group.leave()
+                                
+                                setOnSuccess(credentials: Credentials as! String, contractAddress: ContractAddress as! String, infuraURL: InfuraURL as! String)
+                                
+                                // Subscribe to public notifications
+                                let notifications = Notifications()
+                                notifications.subscribeTo(topic: "Public")
+                                
+                            } else {
+                                //On error
+                                setOnError()
+                                group.leave()
+                            }
+                        }
+                    }
+                }
                 
-                print("Error while getting API keys.")
+            }
+            group.notify(queue: .main) {
+                if (self.retriveKey(for: "Credentials") != "error" &&
+                    self.retriveKey(for: "ContractAddress") != "error" &&
+                    self.retriveKey(for: "InfuraURL") != "error" &&
+                    self.retriveKey(for: "Credentials") != nil &&
+                    self.retriveKey(for: "ContractAddress") != nil &&
+                    self.retriveKey(for: "InfuraURL") != nil) {
+                    
+                    print("All keys are recieved succesfully.")
+
+                } else {
+                    
+                    print("Error while getting API keys.")
+                }
             }
         }
     }

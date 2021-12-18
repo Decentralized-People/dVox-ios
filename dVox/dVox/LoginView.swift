@@ -60,7 +60,7 @@ struct LoginView: View {
                     //************************** WHITE CARD **************************//
                     VStack(alignment: .center) {
                         
-                        Text("Enter your college email")
+                        Text("Enter your email address")
                             .multilineTextAlignment(.leading)
                             .padding(.top, 20)
                             .padding(.horizontal, 20)
@@ -75,7 +75,7 @@ struct LoginView: View {
                         
                         
                         //********************* TEXT INPUT *********************//
-                        TextField("name@kzoo.edu", text: $email_input)
+                        TextField("name@domain.com", text: $email_input)
                             .font(.custom("Montserrat-Regular", size: 20))
                             .minimumScaleFactor(0.01)
                             .lineLimit(3)
@@ -166,31 +166,37 @@ struct LoginView: View {
         
         //If input is incorrect
         if !isValidCollegeEmail(testStr: email_input){
-            print("Please use a vaild (kzoo.edu) college email");
+            print("Please use a vaild email address");
             //!!! ADD TOAST HERE !!!//
             
             //showIncorrectEmailAlert = true
-            toastMessage = "Please use a vaild (kzoo.edu) college email"
+            toastMessage = "Please use a vaild email address"
             showToast = true
             
             return 1
         }
     
         //If input is correct
+        
+        
         googleLogin(email: email_input)
         return 0
     }
     
     //Checking for valid University email
     func isValidCollegeEmail(testStr:String) -> Bool {
-        if (testStr.lowercased() == "dvox-test-email@yandex.com"){
-            return true
-        } else {
-            let name = "[A-Z0-9a-z]([A-Z0-9a-z._%+-]{0,30}[A-Z0-9a-z])?"
-            let emailRegEx = name + "@kzoo.edu"
-            let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-            return emailTest.evaluate(with: testStr)
-        }
+//        if (testStr.lowercased() == "dvox-test-email@yandex.com"){
+//            return true
+//        } else {
+//            let name = "[A-Z0-9a-z]([A-Z0-9a-z._%+-]{0,30}[A-Z0-9a-z])?"
+//            let emailRegEx = name + "@kzoo.edu"
+//            let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+//            return emailTest.evaluate(with: testStr)
+//        }
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: testStr)
     }
     
     // Google login function that sends email

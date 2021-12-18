@@ -9,6 +9,12 @@ import Foundation
 import SwiftUI
 import AlertToast
 
+struct LoginView_Previews: PreviewProvider {
+    static var previews: some View {
+        ComposeView(_apis: APIs(), _username: Username(), _loader: PostLoader2(_contract: SmartContract()))
+    }
+}
+
 struct ComposeView: View {
     
     //@State var hashtag = ""
@@ -39,6 +45,9 @@ struct ComposeView: View {
     @State var toastMessage: String = "It will appear in our decentralized storage soon"
     
     @State var showToast: Bool = false
+    
+    @State var checked: Bool = false
+
 
     @State var loader: PostLoader2
     
@@ -46,6 +55,11 @@ struct ComposeView: View {
     
     var username: Username
     
+    
+    
+    @AppStorage("COMPOSE_ALERT") var shouldAppear = false;
+    
+    @State private var showPopUp = false
     
     
     init(_apis: APIs, _username: Username, _loader: PostLoader2){
@@ -62,6 +76,7 @@ struct ComposeView: View {
                 ZStack{
                     
                     Color("WhiteColor")
+                    
                     
                     VStack{
                         HStack{
@@ -119,12 +134,26 @@ struct ComposeView: View {
                         
                         Button(action: {
                             withAnimation(.default) {
+                                let currentTitleAttempts = self.title_attempts
+                                let currentMessageAttempts = self.message_attempts
+                                let currentHashtagAttempts = self.hashtag_attempts
+
                                 self.title_attempts += titleShake()
                                 self.message_attempts += messageShake()
                                 self.hashtag_attempts += hashtagShake();
+                                
+                                if (self.title_attempts == currentTitleAttempts &&
+                                    self.message_attempts == currentMessageAttempts &&
+                                    self.hashtag_attempts == currentHashtagAttempts){
+                                    print(hashtag_attempts)
+                                    if (!shouldAppear) {
+                                        showPopUp = true;
+                                    } else {
+                                        createPost();
+                                    }
+                                }
                             }
-                            print(hashtag_attempts)
-                            createPost();
+                        
                         })
                         {
                             (Text("Create Post")
@@ -146,6 +175,94 @@ struct ComposeView: View {
                            //Choose .hud to toast alert from the top of the screen
                     AlertToast(displayMode: .hud, type: .complete(Color("BlackColor")), title: toastTitle, subTitle: toastMessage, custom: .custom(backgroundColor: Color("WhiteColor"), titleColor: Color("BlackColor"), subTitleColor: Color("BlackColor"), titleFont: Font.custom("Montserrat-Regular", size: 15.0),  subTitleFont: Font.custom("Montserrat-Regular", size: 12.0)))
                 }
+            }
+            
+            if $showPopUp.wrappedValue {
+            VStack{
+                ZStack{
+                    VStack{
+                    
+                        VStack{
+                            Text("Do you want to continue?")
+                                .font(.custom("Montserrat-Bold", size: 20))
+                                .foregroundColor(Color("BlackColor"))
+                                .frame(maxWidth: 350, alignment: .leading)
+                                .padding([.top, .leading, .trailing], 10)
+                                .padding(.vertical, 5)
+                            
+                            Text("Once your message appears on our decentralized servers, there is no way to remove or edit it.")
+                                .font(.custom("Montserrat", size: 14))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 10)
+                            
+                            HStack{
+                            
+                                Toggle("Do not ask me again", isOn: $shouldAppear)
+                                  .toggleStyle(CheckboxToggleStyle(style: .square))
+                                  .foregroundColor(.black)
+                                  .font(.custom("Montserrat", size: 14))
+                                
+                                
+                                Spacer()
+                                
+                            }
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 5)
+
+
+                        }
+                        
+                        HStack{
+                        
+                            Button(action: {
+                                withAnimation(.default) {
+                                    self.title_attempts += titleShake()
+                                    self.message_attempts += messageShake()
+                                    self.hashtag_attempts += hashtagShake();
+                                    showPopUp = false;
+                                }
+                                print(hashtag_attempts)
+                            })
+                            {
+                                (Text("Cancel")
+                                    .padding(10))
+                                    .foregroundColor(Color("BlackColor"))
+                                    .font(.custom("Montserrat-Bold", size: 20))
+                                    .minimumScaleFactor(0.01)
+                                    .lineLimit(3)
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                withAnimation(.default) {
+                                    self.title_attempts += titleShake()
+                                    self.message_attempts += messageShake()
+                                    self.hashtag_attempts += hashtagShake();
+                                    showPopUp = false;
+                                }
+                                print(hashtag_attempts)
+                                createPost();
+                                
+                            })
+                            {
+                                (Text("Send")
+                                    .padding(10))
+                                    .foregroundColor(Color("BlackColor"))
+                                    .font(.custom("Montserrat-Bold", size: 20))
+                                    .minimumScaleFactor(0.01)
+                                    .lineLimit(3)
+                            }
+                        }
+                        .padding(.horizontal, 30)
+                    }
+                }
+                .padding(10)
+                .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+                .frame(width: 350, height: 300)
+                .cornerRadius(20).shadow(radius: 20)
+                
+            }
             }
         }
     }
@@ -252,5 +369,37 @@ struct ComposeView: View {
             
             return path
         }
+    }
+    
+    struct CheckboxToggleStyle: ToggleStyle {
+      @Environment(\.isEnabled) var isEnabled
+      let style: Style // custom param
+
+      func makeBody(configuration: Configuration) -> some View {
+        Button(action: {
+          configuration.isOn.toggle() // toggle the state binding
+        }, label: {
+          HStack {
+            Image(systemName: configuration.isOn ? "checkmark.\(style.sfSymbolName).fill" : style.sfSymbolName)
+              .imageScale(.large)
+            configuration.label
+          }
+        })
+        .buttonStyle(PlainButtonStyle()) // remove any implicit styling from the button
+        .disabled(!isEnabled)
+      }
+
+      enum Style {
+        case square, circle
+
+        var sfSymbolName: String {
+          switch self {
+          case .square:
+            return "square"
+          case .circle:
+            return "circle"
+          }
+        }
+      }
     }
 }

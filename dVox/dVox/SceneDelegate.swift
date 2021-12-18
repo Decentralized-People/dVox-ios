@@ -39,12 +39,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         apis.getAPIs()
                 
         
-        var userAuthed = false
-        if (UserDefaults.standard.bool(forKey: "userAuthed") == true){
-            userAuthed = true
-        }
-        
-        if (Auth.auth().currentUser == nil && userAuthed != true) {
+        if (Auth.auth().currentUser == nil) {
             
             let loginView = LoginView() //LoginView()
 
@@ -62,6 +57,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
         } else {
         
+            self.getSchoolFeed(email: UserDefaults.standard.string(forKey: "Email")! as! String)
+
             let mainView = MainView() //LoginView()
 
             // Use a UIHostingController as window root view controller.
@@ -71,7 +68,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.window = window
                 window.makeKeyAndVisible()
             }
-            print("No user found!")
         }
 
     
@@ -146,6 +142,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Get the saved email
         let email = UserDefaults.standard.object(forKey: "Email")
         
+        self.getSchoolFeed(email: email! as! String)
+        UserDefaults.standard.set( true, forKey: "userAuthed")
+        
         // Check the email and the deep link
         if email != nil {
             if Auth.auth().isSignIn(withEmailLink: link) {
@@ -159,8 +158,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     
                     if error == nil {
                         print("SUCCESS!")
-                        
-                        UserDefaults.standard.set( true, forKey: "userAuthed")
+                    
                         
                         let mainview = MainView() //LoginView()
 
@@ -173,5 +171,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-}
+    func getSchoolFeed(email: String){
 
+        DispatchQueue.global(qos: .userInitiated).async { [] in
+            
+            let ref = Firestore.firestore().collection("Locations").document("#locations_dictionary")
+            
+            ref.getDocument{ (document, error) in
+                
+                if let document = document, document.exists {
+                    
+                    print("Getting a new location for: \(self.emailEnding(email: email))")
+                    
+                    let schoolLocation = String(document.get(self.emailEnding(email: email)) as? String ?? "error")
+                    
+                    print("Add new Location: \(schoolLocation)")
+                    
+                    UserDefaults.standard.set(schoolLocation, forKey: "SCHOOL_LOCATION")
+                    
+                }
+            }
+        }
+    }
+    
+    func emailEnding(email: String) -> String{
+        let idx = email.firstIndex(of: "@")
+        let emailEnding = String(email[idx!...])
+        return emailEnding.replacingOccurrences(of: ".", with: "_")
+
+    }
+    
+}
