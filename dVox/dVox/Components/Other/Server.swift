@@ -32,13 +32,13 @@ class Server{
             return
         } else {
             UserDefaults.standard.set(true, forKey: "SCHOOL_ENABLE")
+            UserDefaults.standard.set(true, forKey: "SERVER_CHANGING")
             apis.setOnError()
             apis.getAPIs()
             UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED")
             loader.reloadIfNeeded()
-            loader.items = []
-            loader.getPosts(index: 0, currentId: -1, getPosts:12)
-            loader.noMorePosts = false
+            UserDefaults.standard.set(true, forKey: "SERVER_CHANGED")
+
         }
     }
     
@@ -47,13 +47,13 @@ class Server{
             UserDefaults.standard.set(false, forKey: "SCHOOL_ENABLE")
         } else {
             UserDefaults.standard.set(false, forKey: "SCHOOL_ENABLE")
+            UserDefaults.standard.set(true, forKey: "SERVER_CHANGING")
             apis.setOnError()
             apis.getAPIs()
             UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED")
             loader.reloadIfNeeded()
-            loader.items = []
-            loader.getPosts(index: 0, currentId: -1, getPosts:12)
-            loader.noMorePosts = false
+            UserDefaults.standard.set(true, forKey: "SERVER_CHANGED")
+
         }
     }
     

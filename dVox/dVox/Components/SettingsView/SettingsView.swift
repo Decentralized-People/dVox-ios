@@ -19,6 +19,7 @@ struct SettingsView: View {
     @AppStorage("SHOW_OBJECTIONABLE") var showObjectionable = true;
     @AppStorage("SIGN_OUT") var signOut: Bool = true
     @AppStorage("SCHOOL_LOCATION") var schoolLoc: String = "publicOnly"
+    @State var showToast: Bool = false
 
     @EnvironmentObject var navigationModel: NavigationStack
 
@@ -211,12 +212,7 @@ struct SettingsView: View {
                                   .foregroundColor(.black)
                                   .font(.custom("Montserrat", size: 14))
                                   .onChange(of: publicServer, perform: { value in
-                                      schoolServer = !value
-                                      if !value{
-                                          server.switchToSchool()
-                                      } else {
-                                          server.switchToPublic()
-                                      }
+                                      publicToggle(value: value)
                                     })
                                 } else {
                                     Toggle("", isOn: $publicServer)
@@ -224,13 +220,9 @@ struct SettingsView: View {
                                       .foregroundColor(.black)
                                       .font(.custom("Montserrat", size: 14))
                                       .onChange(of: publicServer, perform: { value in
-                                          schoolServer = !value
-                                          if !value{
-                                              server.switchToSchool()
-                                          } else {
-                                              server.switchToPublic()
-                                          }
+                                          publicToggle(value: value)
                                         })
+                                          
                                 }
                             }
                             
@@ -250,12 +242,7 @@ struct SettingsView: View {
                                       .foregroundColor(.black)
                                       .font(.custom("Montserrat", size: 14))
                                       .onChange(of: schoolServer, perform: { value in
-                                          publicServer = !value
-                                          if value{
-                                              server.switchToSchool()
-                                          } else {
-                                              server.switchToPublic()
-                                          }
+                                          schoolToggle(value: value)
                                       })
                                 }
                             }
@@ -271,7 +258,7 @@ struct SettingsView: View {
                                 .padding(.top, 1)
                                 .padding(.horizontal, 20)
 
-                                                        
+                                    
                             
                             }
                             
@@ -294,12 +281,61 @@ struct SettingsView: View {
                         
                     }
                 }
+                
             }
             .padding(20)
             .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+            .toast(isPresenting: $showToast, duration: 4){
+
+                       // `.alert` is the default displayMode
+                       //AlertToast(type: .regular, title: "Message Sent!")
+                       //Choose .hud to toast alert from the top of the screen
+                AlertToast(displayMode: .banner(.slide), type: .loading, title: "Switching...", custom: .custom(backgroundColor: Color("WhiteColor"), titleColor: Color("BlackColor"), subTitleColor: Color("BlackColor"), titleFont: Font.custom("Montserrat-Regular", size: 15.0),  subTitleFont: Font.custom("Montserrat-Regular", size: 12.0)))
+                
+            }
+        
         }
+        
     
     }
+    
+    func schoolToggle(value: Bool){
+        showToast = true
+        var seconds = 1.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+        publicServer = !value
+            if value{
+                server.switchToSchool()
+                showToast = true;
+            } else {
+                server.switchToPublic()
+                showToast = true;
+            }
+        }
+        seconds = 4.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            showToast = false;
+        }
+    }
+    
+    func publicToggle(value: Bool){
+        showToast = true
+        var seconds = 1.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            schoolServer = !value
+            if !value{
+                server.switchToSchool()
+            } else {
+                server.switchToPublic()
+            }
+        }
+        seconds = 4.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            showToast = false;
+        }
+
+    }
+    
     
     func forceSignOut(){
         if let bundleID = Bundle.main.bundleIdentifier {

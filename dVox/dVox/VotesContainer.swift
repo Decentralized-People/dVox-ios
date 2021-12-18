@@ -17,12 +17,18 @@ class VotesContainer{
     }
     
     func addVote(postId: Int, vote: Int) {
-        votesDictionary[String(postId)] = String(vote)
+        let apis = APIs()
+        let location = apis.retriveKey(for: "ContractAddress") ?? "error"
+        let id = String(postId) + location
+        votesDictionary[id] = String(vote)
         UserDefaults.standard.set(votesDictionary, forKey: "VotesContainer")
     }
     
     func getVote(postId: Int) -> String{
-        return votesDictionary[String(postId)] ?? "no data"
+        let apis = APIs()
+        let location = apis.retriveKey(for: "ContractAddress")  ?? "error"
+        let id = String(postId) + location
+        return votesDictionary[id] ?? "no data"
     }
     
 }

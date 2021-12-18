@@ -129,8 +129,14 @@ class SmartContract: ObservableObject{
         
         let post = Post(id: id, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false);
         
-        let transaction = contract.read("posts", parameters: [BigUInt(id)] as [AnyObject], transactionOptions: transactionOptions);
+        if UserDefaults.standard.bool(forKey: "SERVER_CHANGING"){
+            return Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: true)
+        }
+
+        
         do {
+            let transaction = contract.read("posts", parameters: [BigUInt(id)] as [AnyObject], transactionOptions: transactionOptions);
+
             let result = try transaction?.call(transactionOptions: transactionOptions)
             
             post.title = result?["title"] as! String

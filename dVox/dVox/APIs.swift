@@ -126,6 +126,7 @@ class APIs{
                     self.retriveKey(for: "InfuraURL") != nil) {
                     
                     print("All keys are recieved succesfully.")
+                    UserDefaults.standard.set(false, forKey: "SERVER_CHANGING")
 
                 } else {
                     

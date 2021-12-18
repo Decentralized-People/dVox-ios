@@ -52,6 +52,17 @@ struct HomeView2: View {
         ZStack {
             Color("BlackColor")
                 .ignoresSafeArea()
+                .onAppear(perform: {
+                    if (UserDefaults.standard.bool(forKey: "SERVER_CHANGED") == true ){
+                        loader.items = []
+                        loader.getPosts(index: 0, currentId: -1, getPosts:12)
+                        loader.noMorePosts = false
+                        refresh.released = false
+                        refresh.started = false
+                        refresh.startOffset = 0
+                        UserDefaults.standard.set(false, forKey: "SERVER_CHANGED")
+                    }
+                })
             
             ZStack{
                 Color("BlackColor")
