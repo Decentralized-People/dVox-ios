@@ -40,7 +40,17 @@ class PostLoader2: ObservableObject  {
         loadMore(numberOfPosts: getPosts, currentId: currentId)
     }
 
+    
+    func reloadIfNeeded(){
+        let reload = UserDefaults.standard.bool(forKey: "RELOAD_NEEDED")
+        if reload{
+            contract = SmartContract()
+            UserDefaults.standard.set(false, forKey: "RELOAD_NEEDED")
+        }
+    }
+    
     func loadMore(numberOfPosts: Int, currentId: Int) {
+        
         
         print("Loading...")
     

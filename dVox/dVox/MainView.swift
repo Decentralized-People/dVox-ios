@@ -91,7 +91,7 @@ struct MainView: View {
                                 .preferredColorScheme(.light)
                                 .background(Color("BlackColor"))
                             
-                            SettingsView(_apis: apis)
+                            SettingsView(_apis: apis, _loader: loader)
                                 .tag(3)
                                 .padding(.horizontal, 10)
                                 .padding(.bottom, 20)

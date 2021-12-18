@@ -10,10 +10,21 @@ import Foundation
 
 class Server{
     
-    var apis: APIs
+    var apis: APIs!
+    var loader: PostLoader2!
     
-    init(_apis: APIs){
+    init(_apis: APIs, _loader: PostLoader2){
         apis = _apis;
+        loader = _loader
+    }
+    
+    func setCurrentLocation(_loc: String){
+        UserDefaults.standard.set(_loc, forKey: "ContractAddress")
+    }
+    
+    func getCurrnetLocation() -> String {
+        let location = UserDefaults.standard.string(forKey: "ContractAddress") ?? "error"
+        return location
     }
     
     func switchToSchool(){
@@ -23,6 +34,11 @@ class Server{
             UserDefaults.standard.set(true, forKey: "SCHOOL_ENABLE")
             apis.setOnError()
             apis.getAPIs()
+            UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED")
+            loader.reloadIfNeeded()
+            loader.items = []
+            loader.getPosts(index: 0, currentId: -1, getPosts:12)
+            loader.noMorePosts = false
         }
     }
     
@@ -33,6 +49,11 @@ class Server{
             UserDefaults.standard.set(false, forKey: "SCHOOL_ENABLE")
             apis.setOnError()
             apis.getAPIs()
+            UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED")
+            loader.reloadIfNeeded()
+            loader.items = []
+            loader.getPosts(index: 0, currentId: -1, getPosts:12)
+            loader.noMorePosts = false
         }
     }
     

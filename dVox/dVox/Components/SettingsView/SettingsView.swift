@@ -22,15 +22,16 @@ struct SettingsView: View {
 
     @EnvironmentObject var navigationModel: NavigationStack
 
+
     var server: Server
     
     var apis: APIs
 
-    init(_apis: APIs){
+    init(_apis: APIs, _loader: PostLoader2){
         apis = _apis
         schoolServer = UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE")
         publicServer = !(UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE"))
-        server = Server(_apis: _apis)
+        server = Server(_apis: _apis, _loader: _loader)
         print("School loc: \(schoolLoc)")
     }
     
@@ -204,6 +205,7 @@ struct SettingsView: View {
                                 
                                 Spacer()
                                 
+                                if schoolAvailible(){
                                 Toggle("", isOn: $publicServer)
                                   .toggleStyle(CheckboxToggleStyle(style: .square))
                                   .foregroundColor(.black)
@@ -215,10 +217,24 @@ struct SettingsView: View {
                                       } else {
                                           server.switchToPublic()
                                       }
-                                  })
+                                    })
+                                } else {
+                                    Toggle("", isOn: $publicServer)
+                                      .toggleStyle(CheckboxToggleStyleAlwaysOn(style: .square))
+                                      .foregroundColor(.black)
+                                      .font(.custom("Montserrat", size: 14))
+                                      .onChange(of: publicServer, perform: { value in
+                                          schoolServer = !value
+                                          if !value{
+                                              server.switchToSchool()
+                                          } else {
+                                              server.switchToPublic()
+                                          }
+                                        })
+                                }
                             }
                             
-                            if (schoolLoc != "publicOnly" && schoolLoc != "error"){
+                            if schoolAvailible() {
                                 HStack{
                                     Text("Kalamazoo College")
                                         .font(.custom("Montserrat-Regular", size: 15))
@@ -302,8 +318,47 @@ struct SettingsView: View {
          
     }
     
+    
+    func schoolAvailible() -> Bool{
+        if (schoolLoc != "publicOnly" && schoolLoc != "error"){
+            return true
+        }
+         return false
+    }
+    
 }
 
+struct CheckboxToggleStyleAlwaysOn: ToggleStyle {
+  @Environment(\.isEnabled) var isEnabled
+  let style: Style // custom param
+
+  func makeBody(configuration: Configuration) -> some View {
+    Button(action: {
+      configuration.isOn.toggle() // toggle the state binding
+    }, label: {
+      HStack {
+        Image(systemName: "checkmark.\(style.sfSymbolName).fill")
+          .imageScale(.large)
+        configuration.label
+      }
+    })
+    .buttonStyle(PlainButtonStyle()) // remove any implicit styling from the button
+    .disabled(!isEnabled)
+  }
+
+  enum Style {
+    case square, circle
+
+    var sfSymbolName: String {
+      switch self {
+      case .square:
+        return "square"
+      case .circle:
+        return "circle"
+      }
+    }
+  }
+}
 
 
 struct CheckboxToggleStyle: ToggleStyle {
@@ -340,7 +395,7 @@ struct CheckboxToggleStyle: ToggleStyle {
 
 struct SettingsView_Preview: PreviewProvider {
     static var previews: some View {
-        SettingsView(_apis: APIs())
+        SettingsView(_apis: APIs(), _loader: PostLoader2(_contract: SmartContract()))
     }
 }
 

@@ -179,7 +179,7 @@ struct LoginView: View {
         //If input is correct
         
         
-        googleLogin(email: email_input)
+        googleLogin(email: email_input.lowercased())
         return 0
     }
     

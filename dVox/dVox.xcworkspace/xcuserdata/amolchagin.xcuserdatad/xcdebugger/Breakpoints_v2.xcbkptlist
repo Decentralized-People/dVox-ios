@@ -252,8 +252,8 @@
             filePath = "dVox/Components/HomeView/HomeView2.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -300,8 +300,8 @@
             filePath = "dVox/Components/HomeView/HomeView2.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -444,8 +444,8 @@
             filePath = "dVox/Components/HomeView/PostLoader2.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "loadMore(numberOfPosts:currentId:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -460,8 +460,8 @@
             filePath = "dVox/Components/HomeView/HomeView2.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -540,9 +540,9 @@
             filePath = "dVox/Components/SettingsView/SettingsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "init(_apis:)"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "init(_apis:_loader:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -576,6 +576,22 @@
             endingLineNumber = "67"
             landmarkName = "getAPIs()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0B171287-3E2E-4E41-8FAB-A1CAB57293C3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "dVox/Components/SettingsView/SettingsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
