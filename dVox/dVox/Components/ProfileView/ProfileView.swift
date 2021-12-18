@@ -166,12 +166,12 @@ struct ProfileView: View {
                             })
                             {
                                 (Text("Regenerate Profile")
-                                    .padding([.leading, .bottom, .trailing], 20))
+                                    .padding([.leading, .bottom, .trailing], 10))
                                     .foregroundColor(Color("BlackColor"))
                                     .font(.custom("Montserrat-Bold", size: 20))
                                     .minimumScaleFactor(0.01)
                                     .lineLimit(3)
-                                    .padding(.top, 20)
+                                    .padding(.top, 10)
                             }
                         } else {
                             HStack{
@@ -193,12 +193,12 @@ struct ProfileView: View {
                                 })
                                 {
                                     (Text("Save")
-                                        .padding([.leading, .bottom, .trailing], 20))
+                                        .padding([.leading, .bottom, .trailing], 10))
                                         .foregroundColor(buttonColor)
                                         .font(.custom("Montserrat-Bold", size: 20))
                                         .minimumScaleFactor(0.01)
                                         .lineLimit(3)
-                                        .padding(.top, 20)
+                                        .padding(.top, 10)
                                         .padding(.leading, 35)
 
                                 }.disabled(disabled)
@@ -213,12 +213,12 @@ struct ProfileView: View {
                                 })
                                 {
                                     (Text("Cancel")
-                                        .padding([.leading, .bottom, .trailing], 20))
+                                        .padding([.leading, .bottom, .trailing], 10))
                                         .foregroundColor(buttonColor)
                                         .font(.custom("Montserrat-Bold", size: 20))
                                         .minimumScaleFactor(0.01)
                                         .lineLimit(3)
-                                        .padding(.top, 20)
+                                        .padding(.top, 10)
                                         .padding(.trailing, 35)
                                 }.disabled(disabled)
                                 

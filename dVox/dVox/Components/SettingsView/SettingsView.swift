@@ -56,12 +56,13 @@ struct SettingsView: View {
                         //***************** VOICE  YOUR THOUGHTS *****************//
                         Text("dVox")
                             .font(.custom("Montserrat-Bold", size: 100))
-                            .minimumScaleFactor(0.01)
                             .lineLimit(1)
                             .foregroundColor(Color("BlackColor"))
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 20)
-                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.horizontal, 10)
+                            .padding(.bottom, 10)
+                            .fixedSize(horizontal: false, vertical: false)
+                            .minimumScaleFactor(0.01)
+                            .font(.largeTitle)
                         //***************** VOICE  YOUR THOUGHTS *****************//
                         Spacer()
 
@@ -101,17 +102,7 @@ struct SettingsView: View {
                             }
                             .padding(.top, 1)
                             
-                            HStack{
-                                
-                                Link("Repositories", destination: URL(string: "https://dvox.dpearth.com/repositories")!)
-                                    .font(.custom("Montserrat-Regular", size: 15))
-                                    .padding(.horizontal, 0)
-                                    .accentColor(Color("BlackColor"))
-                                    .overlay(Rectangle().frame(height: 1).offset(y: 4), alignment: .bottom)
-
-                                Spacer()
-                            }
-                            .padding(.top, 1)
+                
                         }
                             .padding(.bottom, 10)
                         
@@ -248,11 +239,32 @@ struct SettingsView: View {
                             }
                             HStack{
                                 HStack{
-                                    Text("Don't see your college server? Sign in with your college email or request adding your school using the next form: https://dvox.dpearth.com/request")
-                                        .font(.custom("Montserrat-Regular", size: 10))
-                                        .accentColor(Color("BlackColor"))
-                                        .lineLimit(3)
+                                    VStack{
+                                        Text("Don't see your college server? You have 2 options:")
+                                            .font(.custom("Montserrat-Regular", size: 10))
+                                            .accentColor(Color("BlackColor"))
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.01)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            
 
+                                        Text("• Sign in with your college email (e.g., @kzoo.edu)")
+                                            .font(.custom("Montserrat-Regular", size: 10))
+                                            .accentColor(Color("BlackColor"))
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.01)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding([.leading], 10)
+                                        
+                                        Text("• Request adding your school: https://dvox.dpearth.com/request")
+                                            .font(.custom("Montserrat-Regular", size: 10))
+                                            .accentColor(Color("BlackColor"))
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.01)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding([.leading], 10)
+
+                                    }
 
                                 }
                                 .padding(.top, 1)
@@ -271,7 +283,7 @@ struct SettingsView: View {
                         {
                          
                             (Text("Sign Out")
-                                .padding([.leading, .bottom, .trailing], 20))
+                                .padding([.leading, .bottom, .trailing], 10))
                                 .foregroundColor(Color("BlackColor"))
                                 .font(.custom("Montserrat-Bold", size: 20))
                                 .minimumScaleFactor(0.01)

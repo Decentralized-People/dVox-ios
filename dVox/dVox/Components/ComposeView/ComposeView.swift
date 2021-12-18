@@ -157,12 +157,12 @@ struct ComposeView: View {
                         })
                         {
                             (Text("Create Post")
-                                .padding([.leading, .bottom, .trailing], 20))
+                                .padding([.leading, .bottom, .trailing], 10))
                                 .foregroundColor(Color("BlackColor"))
                                 .font(.custom("Montserrat-Bold", size: 20))
                                 .minimumScaleFactor(0.01)
                                 .lineLimit(3)
-                                .padding(.top, 20)
+                                .padding(.top, 10)
                         }
                     }
                 }
