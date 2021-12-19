@@ -154,7 +154,7 @@ struct SettingsView: View {
                             
                             HStack{
                                 
-                                Text("New Posts Notifications")
+                                Text("Posts Notifications (selected server)")
                                     .font(.custom("Montserrat-Regular", size: 15))
                                     .padding(.horizontal, 0)
                             
@@ -278,7 +278,9 @@ struct SettingsView: View {
                         }
                         Button(action: {
                
-                              forceSignOut()
+                            let not = Notifications()
+                            not.sendNotification(title: "New title", author: "Author")
+                                //forceSignOut()
                         })
                         {
                          

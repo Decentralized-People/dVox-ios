@@ -31,6 +31,10 @@ class Server{
         if UserDefaults.standard.string(forKey: "SCHOOL_LOCATION") == "publicOnly"{
             return
         } else {
+            
+            let not = Notifications()
+            not.unSubscribeFromAll()
+            
             UserDefaults.standard.set(true, forKey: "SCHOOL_ENABLE")
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGING")
             apis.setOnError()
@@ -38,7 +42,6 @@ class Server{
             UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED")
             loader.reloadIfNeeded()
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGED")
-
         }
     }
     
@@ -46,6 +49,9 @@ class Server{
         if UserDefaults.standard.string(forKey: "SCHOOL_LOCATION") == "publicOnly"{
             UserDefaults.standard.set(false, forKey: "SCHOOL_ENABLE")
         } else {
+            let not = Notifications()
+            not.unSubscribeFromAll()
+            
             UserDefaults.standard.set(false, forKey: "SCHOOL_ENABLE")
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGING")
             apis.setOnError()
@@ -53,7 +59,6 @@ class Server{
             UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED")
             loader.reloadIfNeeded()
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGED")
-
         }
     }
     
