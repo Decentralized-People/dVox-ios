@@ -18,8 +18,18 @@ class Notifications{
         subscriptionDictionary = UserDefaults.standard.object(forKey: "SubscriptionsContainer") as? [String:String] ?? [:]
     }
 
+    func resubscribe(){
+        let schoolLocation = UserDefaults.standard.string(forKey: "SCHOOL_LOCATION")
+        let schoolEnabled = UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE")
+        if schoolEnabled{
+            subscribeTo(topic: schoolLocation ?? "Public")
+        } else {
+            subscribeTo(topic:  "Public")
+        }
+    }
     
     func subscribeTo(topic: String){
+        UserDefaults.standard.set(true, forKey: "NOTIFICATIONS_ON")
         var givenTopic = topic
         if givenTopic == "publicOnly"{
             givenTopic = "PublicLocation"
@@ -52,6 +62,8 @@ class Notifications{
         Messaging.messaging().unsubscribe(fromTopic: givenTopic) { error in
             print("UNSubscribed from \(givenTopic)!")
         }
+        
+        
     }
     
     func unSubscribeFromAll(){
@@ -61,24 +73,44 @@ class Notifications{
 
         subscriptionDictionary = UserDefaults.standard.object(forKey: "SubscriptionsContainer") as? [String:String] ?? [:]
         UserDefaults.standard.set(subscriptionDictionary, forKey: "SubscriptionsContainer")
-
-     
+        
+        UserDefaults.standard.set(false, forKey: "NOTIFICATIONS_ON")
     }
     
     func notificationsOff(){
-        
+        unSubscribeFrom(topic: subscriptionDictionary["School"] ?? "error");
+        unSubscribeFrom(topic: subscriptionDictionary["Public"] ?? "error");
+
+        subscriptionDictionary = UserDefaults.standard.object(forKey: "SubscriptionsContainer") as? [String:String] ?? [:]
+        UserDefaults.standard.set(subscriptionDictionary, forKey: "SubscriptionsContainer")
     }
     
+    
     func sendNotification(title: String, author: String){
-        
+    
         DispatchQueue.global(qos: .userInitiated).async { [] in
+            
+                let schoolEnabled = UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE")
+                let schoolLocation = UserDefaults.standard.string(forKey: "SCHOOL_LOCATION")
 
-                let ref = Firestore.firestore().collection("Notifications").document("KalamazooCollege")
+                let notificationTitle = title
+                let notificationContent = "A new message from \(author)"
+                
+                if (schoolEnabled){
+                    let ref = Firestore.firestore().collection("Notifications").document(schoolLocation ?? "error")
 
-                ref.updateData([
-                    "title": title,
-                    "content": author
-                ])
+                    ref.updateData([
+                        "title": notificationTitle,
+                        "content": notificationContent
+                    ])
+                } else {
+                    let ref = Firestore.firestore().collection("Notifications").document("PublicLocation")
+
+                    ref.updateData([
+                        "title": notificationTitle,
+                        "content": notificationContent
+                    ])
+                }
             
         }
         /// Update UI at the main thread

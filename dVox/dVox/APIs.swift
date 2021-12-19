@@ -63,10 +63,7 @@ class APIs{
                                 
                                 setOnSuccess(credentials: Credentials as! String, contractAddress: ContractAddress as! String, infuraURL: InfuraURL as! String)
                                 
-                                // Subscribe to school notifications
-                                let notifications = Notifications()
-                                notifications.subscribeTo(topic: schoolLoc)
-                                
+                  
                             } else {
                                 //On error
                                 setOnError()
@@ -104,8 +101,6 @@ class APIs{
                                 setOnSuccess(credentials: Credentials as! String, contractAddress: ContractAddress as! String, infuraURL: InfuraURL as! String)
                                 
                                 // Subscribe to public notifications
-                                let notifications = Notifications()
-                                notifications.subscribeTo(topic: "Public")
                                 
                             } else {
                                 //On error

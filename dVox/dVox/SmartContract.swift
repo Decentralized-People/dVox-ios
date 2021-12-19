@@ -207,9 +207,11 @@ class SmartContract: ObservableObject{
     
     func createPost(title: String, author: String, message: String, hashtag: String){
         let transaction = contract.write("createPost", parameters: [title, author, message, hashtag] as [AnyObject], transactionOptions: transactionOptions);
+        let not = Notifications()
         do {
             let result = try transaction?.send(password: "web3swift", transactionOptions: transactionOptions)
             print("Post created!" , result ?? "Error")
+            not.sendNotification(title: title, author: author)
         } catch {
                 print(error.localizedDescription)
         }

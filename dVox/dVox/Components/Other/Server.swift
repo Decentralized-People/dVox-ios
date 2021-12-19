@@ -42,6 +42,11 @@ class Server{
             UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED")
             loader.reloadIfNeeded()
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGED")
+            
+            if UserDefaults.standard.bool(forKey: "NOTIFICATIONS_ON") == true{
+                not.resubscribe()
+            }
+            
         }
     }
     
@@ -59,6 +64,10 @@ class Server{
             UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED")
             loader.reloadIfNeeded()
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGED")
+            
+            if UserDefaults.standard.bool(forKey: "NOTIFICATIONS_ON") == true{
+                not.resubscribe()
+            } 
         }
     }
     

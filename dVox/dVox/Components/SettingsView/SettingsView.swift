@@ -15,7 +15,7 @@ struct SettingsView: View {
     
     @State var schoolServer: Bool
     @State var publicServer: Bool
-    @AppStorage("POSTS_NOTIFICATIONS") var postsNotifications = true;
+    @State var postsNotifications: Bool
     @AppStorage("SHOW_OBJECTIONABLE") var showObjectionable = true;
     @AppStorage("SIGN_OUT") var signOut: Bool = true
     @AppStorage("SCHOOL_LOCATION") var schoolLoc: String = "publicOnly"
@@ -33,6 +33,13 @@ struct SettingsView: View {
         schoolServer = UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE")
         publicServer = !(UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE"))
         server = Server(_apis: _apis, _loader: _loader)
+        
+        if UserDefaults.standard.bool(forKey: "NOTIFICATIONS_ON") == true {
+            postsNotifications = true
+        } else {
+            postsNotifications = false
+        }
+        
         print("School loc: \(schoolLoc)")
     }
     
@@ -165,6 +172,9 @@ struct SettingsView: View {
                                   .toggleStyle(CheckboxToggleStyle(style: .square))
                                   .foregroundColor(.black)
                                   .font(.custom("Montserrat", size: 14))
+                                  .onChange(of: postsNotifications, perform: { value in
+                                      notificationsToggle(value: value)
+                                    })
                                 
                             }
                             .padding(.top, 1)
@@ -277,10 +287,7 @@ struct SettingsView: View {
                         }
                         }
                         Button(action: {
-               
-                            let not = Notifications()
-                            not.sendNotification(title: "New title", author: "Author")
-                                //forceSignOut()
+                            forceSignOut()
                         })
                         {
                          
@@ -313,6 +320,15 @@ struct SettingsView: View {
     
     }
     
+    func notificationsToggle(value: Bool){
+        let not = Notifications()
+        if value == false {
+            not.unSubscribeFromAll()
+        } else {
+            not.resubscribe()
+        }
+    }
+    
     func schoolToggle(value: Bool){
         showToast = true
         var seconds = 1.0
@@ -333,19 +349,23 @@ struct SettingsView: View {
     }
     
     func publicToggle(value: Bool){
+        if schoolAvailible(){
         showToast = true
-        var seconds = 1.0
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-            schoolServer = !value
-            if !value{
-                server.switchToSchool()
-            } else {
-                server.switchToPublic()
+            var seconds = 1.0
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+                schoolServer = !value
+                if !value{
+                    server.switchToSchool()
+                    showToast = true;
+                } else {
+                    server.switchToPublic()
+                    showToast = true;
+                }
             }
-        }
-        seconds = 4.0
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-            showToast = false;
+            seconds = 4.0
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+                showToast = false;
+            }
         }
 
     }

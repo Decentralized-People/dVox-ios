@@ -151,7 +151,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     
                     if error == nil {
                         print("SUCCESS!")
-                    
+                        
                         
                         let mainview = MainView()
                             .environmentObject(NavigationStack())//LoginView()
@@ -188,6 +188,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }
                     
                     UserDefaults.standard.set(schoolLocation, forKey: "SCHOOL_LOCATION")
+                    
+                    let notifications = Notifications()
+                    notifications.subscribeTo(topic: schoolLocation)
                     
                 }
             }
