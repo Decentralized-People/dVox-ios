@@ -31,4 +31,10 @@ class BanContainer{
         return banDictionary[id] ?? false
     }
     
+    func resetContainer(){
+        banDictionary = UserDefaults.standard.object(forKey: "BanContainer") as? [String:Bool] ?? [:]
+        banDictionary.removeAll()
+        UserDefaults.standard.set(banDictionary, forKey: "BanContainer")
+    }
+    
 }

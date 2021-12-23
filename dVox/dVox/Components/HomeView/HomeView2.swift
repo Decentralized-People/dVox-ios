@@ -177,7 +177,7 @@ struct HomeView2: View {
                             LazyVStack{
                                 ForEach(loader.items.indices, id: \.self) { index in
                                     let post = Post(id: Int(loader.items[index].postId), title: loader.items[index].title ?? "No data provided", author: loader.items[index].author ?? "No data provided", message: loader.items[index].message ?? "No data provided", hastag: loader.items[index].hashtag ?? "No data provided", upVotes: Int(loader.items[index].upVotes), downVotes: Int(loader.items[index].downVotes), commentsNumber: Int(loader.items[index].commentsNumber), ban: false)
-                                    CardRow(_apis: apis, _username: username, _post: post, _votesDictionary: votesDictionary, _commentLoader: commentLoader)
+                                    CardRow(_apis: apis, _username: username, _post: post, _votesDictionary: votesDictionary, _commentLoader: commentLoader, _loader: loader, _index: index)
                                         .onAppear{
                                             print("(\(index)) Post with id \(post.id) appeared: \n \(post.title) ")
                                             if (index == loader.items.count-1 && loader.noMorePosts == false) {
@@ -238,6 +238,8 @@ struct HomeView2: View {
     struct CardRow: View {
         @State var eachPost: Post
         
+        @ObservedObject var loader: PostLoader2
+        
         @State private var isActive = false
         
         @State var upVote = 0
@@ -255,20 +257,50 @@ struct HomeView2: View {
         @State var commentView: CommentView!
         
         @ObservedObject var commentLoader: CommentLoader
+        
+        @State var overlayOn: Bool = false;
+        
+        @State var overlayOfOverlayOn: Bool = false;
     
-        init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer, _commentLoader: CommentLoader){
+        @State var currentSelection: Int = 0;
+        
+        var curIndex: Int;
+        
+        var questionArray = ["Hide this post?", "Block the author?", "Report the post"]
+        
+        
+        @State var postIsHidden = false
+        @State var hiddenPostProps = ["Title", "Author", "Message", "Hashtag"]
+    
+        init(_apis: APIs, _username: Username, _post: Post, _votesDictionary: VotesContainer, _commentLoader: CommentLoader, _loader: PostLoader2, _index: Int){
             apis = _apis
             username = _username
             eachPost = _post
             votesDictionary = _votesDictionary
             commentLoader = _commentLoader
+            loader = _loader
+            curIndex = _index
             postUser.stringToUsername(usernameString: eachPost.author)
         }
         
         var body: some View {
             
             ZStack{
-                
+              
+                if postIsHidden {
+                    hiddenPost
+                } else {
+                    postBody
+                    if overlayOn {
+                        postOverlay
+                    }
+                }
+
+            }
+        }
+        
+        var postBody: some View {
+            ZStack{
                 VStack{
                     HStack{
                         Image(postUser.getAvatarString())
@@ -339,79 +371,330 @@ struct HomeView2: View {
                 .foregroundColor(Color("BlackColor"))
                 .padding(.horizontal, 10)
                 
+                VStack{
+                        
+                    HStack{
+                        Spacer()
+                        Button(action: {
+                            withAnimation(.linear(duration: 0.2), {
+                                overlayOn = true
+                            })
+                        }){
+                        Image("fi-rr-menu-dots")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20)
+                        }
+                    }
+                    .padding(.top, 10)
+                    .padding(.trailing, 30)
+                    
+                    Spacer()
+                }
             }
         }
         
-        //        struct HomeView_Previews: PreviewProvider {
-        //            static var previews: some View {
-        //                var apis = APIs()
-        //                HomeView(_apis: apis, _username: Username(), _codeDM: PersistenceController(), _postLoader: PostLoader(PersistenceController()))
-        //            }
-        //        }
+        var hiddenPost: some View {
+            ZStack{
+                VStack{
+                    HStack{
+                        Image("@avatar_hacker")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 45)
+                            .padding(.trailing, 5)
+
+
+                        
+                        VStack{
+                            Text(hiddenPostProps[0])
+                                .font(.custom("Montserrat-Bold", size: 20))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Text(hiddenPostProps[1])
+                                .font(.custom("Montserrat", size: 14))
+                                
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                    }
+                    .padding([.top, .leading], 20)
+                    .padding(.trailing, 10)
+
+                    HStack{
+                        Text(hiddenPostProps[2])
+                            .font(.custom("Montserrat", size: 15))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .lineLimit(6)
+                    }
+                    .padding(.horizontal, 20.0)
+                    HStack{
+                        
+                        
+                        Text(hiddenPostProps[3])
+                            .font(.custom("Montserrat-Bold", size: 14))
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding([.leading, .bottom, .trailing], 20)
+                    }
+                    
+                }
+                .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+                .foregroundColor(Color("BlackColor"))
+                .padding(.horizontal, 10)
+            }
+        }
         
-//        struct RoundedCorners: Shape {
-//            var tl: CGFloat = 0.0
-//            var tr: CGFloat = 0.0
-//            var bl: CGFloat = 0.0
-//            var br: CGFloat = 0.0
-//
-//            func path(in rect: CGRect) -> Path {
-//                var path = Path()
-//
-//                let w = rect.size.width
-//                let h = rect.size.height
-//
-//                // Make sure we do not exceed the size of the rectangle
-//                let tr = min(min(self.tr, h/2), w/2)
-//                let tl = min(min(self.tl, h/2), w/2)
-//                let bl = min(min(self.bl, h/2), w/2)
-//                let br = min(min(self.br, h/2), w/2)
-//
-//                path.move(to: CGPoint(x: w / 2.0, y: 0))
-//                path.addLine(to: CGPoint(x: w - tr, y: 0))
-//                path.addArc(center: CGPoint(x: w - tr, y: tr), radius: tr,
-//                            startAngle: Angle(degrees: -90), endAngle: Angle(degrees: 0), clockwise: false)
-//
-//                path.addLine(to: CGPoint(x: w, y: h - br))
-//                path.addArc(center: CGPoint(x: w - br, y: h - br), radius: br,
-//                            startAngle: Angle(degrees: 0), endAngle: Angle(degrees: 90), clockwise: false)
-//
-//                path.addLine(to: CGPoint(x: bl, y: h))
-//                path.addArc(center: CGPoint(x: bl, y: h - bl), radius: bl,
-//                            startAngle: Angle(degrees: 90), endAngle: Angle(degrees: 180), clockwise: false)
-//
-//                path.addLine(to: CGPoint(x: 0, y: tl))
-//                path.addArc(center: CGPoint(x: tl, y: tl), radius: tl,
-//                            startAngle: Angle(degrees: 180), endAngle: Angle(degrees: 270), clockwise: false)
-//
-//                return path
-//            }
-//        }
-//
+        var postOverlay: some View {
+                        
+            ZStack{
+                
+            
+            // ALL QUESTIONS // // // // // // // // // // // // // // // // //
+            HStack{
+                Spacer()
+
+                VStack{
+                    ZStack{
+                        VStack{
+                                
+                            HStack{
+                                Spacer()
+                                Button(action: {
+                                    withAnimation(.default, {
+                                        overlayOn = false
+                                    })
+                                }){
+                                Image("fi-rr-cross-small")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20)
+                                }
+                            }
+                            .padding(.top, 10)
+                            .padding(.trailing, 10)
+                            
+                            Spacer()
+                        }
+                        
+                        VStack{
+                            HStack{
+                                Button(action: {
+                                    currentSelection = 0;
+                                    overlayOfOverlayOn = true
+                                })
+                                {
+                                Image("fi-rr-eye-crossed")
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20)
+                                
+                                Text("Hide post")
+                                    .foregroundColor(Color("BlackColor"))
+                                    .font(.custom("Montserrat-Bold", size: 14))
+                                
+                                Spacer()
+                                }
+                                .padding(.trailing, 60)
+
+                            }
+                            HStack{
+                                Button(action: {
+                                    currentSelection = 1;
+                                    overlayOfOverlayOn = true
+                                })
+                                {
+                                Image("fi-rr-user-delete")
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20)
+                                Text("Block Author")
+                                    .foregroundColor(Color("BlackColor"))
+                                    .font(.custom("Montserrat-Bold", size: 14))
+                                
+                                Spacer()
+                                }
+                                .padding(.trailing, 60)
+
+                            }
+                            .padding(.vertical, 5)
+                            HStack{
+                                Button(action: {
+                                    currentSelection = 2;
+                                    overlayOfOverlayOn = true
+                                })
+                                {
+                                Image("fi-rr-flag")
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20)
+                                Text("Report")
+                                    .foregroundColor(Color("BlackColor"))
+                                    .font(.custom("Montserrat-Bold", size: 14))
+                                
+                                Spacer()
+                                }
+                                .padding(.trailing, 60)
+                            }
+                            .padding(.bottom, 5)
+                        }
+                        .padding(10)
+                    }
+                    .padding(.leading, 10)
+                    .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+                    .cornerRadius(20).shadow(radius: 20)
+                    .frame(width: 300, height: 130)
+                    
+                    Spacer()
+                }
+            }
+            .padding(.trailing, 10)
+            // // // // // // // // // // // // // // // // // // // // // // // //
+                if overlayOfOverlayOn{
+                    HStack{
+                        Spacer()
+
+                        VStack{
+                            ZStack{
+                                VStack{
+                                        
+                                    HStack{
+                                        Spacer()
+                                        Button(action: {
+                                            withAnimation(.default, {
+                                                overlayOn = false
+                                            })
+                                        }){
+                                        Image("fi-rr-cross-small")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20)
+                                        }
+                                    }
+                                    .padding(.top, 10)
+                                    .padding(.trailing, 10)
+                                    
+                                    Spacer()
+                                }
+                                
+                                VStack{
+                                  
+                                   
+                                    HStack{
+                                        Button(action: {
+                                        })
+                                        {
+                                            
+                                            
+                                        Text(questionArray[currentSelection])
+                                            .foregroundColor(Color("BlackColor"))
+                                            .font(.custom("Montserrat-Bold", size: 14))
+                                            .lineLimit(3)
+                                        
+                                        }
+                                        .padding(.horizontal, 30)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    HStack{
+                                    
+                                        Button(action: {
+                                            withAnimation(.default) {
+                                                overlayOfOverlayOn = false
+                                                overlayOn = false
+                                            }
+                                        })
+                                        {
+                                            (Text("No")
+                                                .padding(10))
+                                                .foregroundColor(Color("BlackColor"))
+                                                .font(.custom("Montserrat-Bold", size: 14))
+                                                .minimumScaleFactor(0.01)
+                                                .lineLimit(3)
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        Button(action: {
+                                            withAnimation(.default) {
+                                                overlayOfOverlayOn = false
+                                                overlayOn = false
+                                                postIsHidden = true
+                                                postOptions(action: 0, postId: eachPost.id)
+                                            }
+                                            
+                                        })
+                                        {
+                                            (Text("Yes")
+                                                .padding(10))
+                                                .foregroundColor(Color("BlackColor"))
+                                                .font(.custom("Montserrat-Bold", size: 14))
+                                                .minimumScaleFactor(0.01)
+                                                .lineLimit(3)
+                                        }
+                                    }
+                                    .padding(.horizontal, 30)
+                                    
+                                    
+                                }
+                                .padding(30)
+                            }
+                            .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+                            .cornerRadius(20).shadow(radius: 20)
+                            .frame(width: 300, height: 130)
+                            
+                            Spacer()
+                        }
+                    }
+                    .padding(.trailing, 10)
+                }
+            
+            
+            }
+           
+            
+        }
+        
+        /// Action:
+        ///  0 - Hide the post
+        ///  1 - Block the author
+        ///  2 - Report the post
+        func postOptions(action: Int, postId: Int){
+            switch action{
+                
+            case 0:
+                let banContainer = BanContainer()
+                banContainer.setBan(postId: postId, ban: true)
+                print("removing..\(postId)")
+                hiddenPostProps[0] = returnStars(str: loader.items[curIndex].title ?? "****")
+                hiddenPostProps[1] = returnStars(str: loader.items[curIndex].author ?? "****")
+                hiddenPostProps[2] = returnStars(str: loader.items[curIndex].message ?? "****")
+                hiddenPostProps[3] = returnStars(str: loader.items[curIndex].hashtag ?? "****")
+                postIsHidden = true
     
-//    func ban(post: Int) {
-//
-//        Timer.scheduledTimer(withTimeInterval: 0, repeats: true) { [self] timer in
-//
-//            let add = apis.retriveKey(for: "ContractAddress") ?? "error"
-//            let inf = apis.retriveKey(for: "InfuraURL") ?? "error"
-//            let cre = apis.retriveKey(for: "Credentials") ?? "error"
-//
-//            if (add != "error" && inf != "error" && cre != "error") {
-//
-//                /// Get data at a background thread
-//                DispatchQueue.global(qos: .userInitiated).async { [] in
-//                    let contract = SmartContract(credentials: cre, infura: inf, address: add)
-//                    contract.banPost(postId: post)
-//                }
-//                /// Update UI at the main thread
-//                DispatchQueue.main.async {
-//
-//                    timer.invalidate()
-//                }
-//            }
-//        }
-//    }
+            case 1:
+                print("def")
+
+                
+            case 2:
+                
+                print("def")
+
+            default:
+                print("def")
+            }
+        }
         
+        func returnStars(str: String) -> String {
+            var stringToReturn = "";
+            for _ in str {
+                stringToReturn.append("*")
+            }
+            return stringToReturn
+
+        }
+        
+        struct HomeView_Previews: PreviewProvider {
+
+            static var previews: some View {
+                HomeView2(_apis: APIs(), _username: Username(), _loader: PostLoader2(_contract: SmartContract()), _commentsLoader: CommentLoader(_contract: SmartContract()))
+            }
+        }
     }
 }

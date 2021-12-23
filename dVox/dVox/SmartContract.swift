@@ -129,7 +129,9 @@ class SmartContract: ObservableObject{
         
         let post = Post(id: id, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: false);
         
-        if UserDefaults.standard.bool(forKey: "SERVER_CHANGING"){
+        let banContainer = BanContainer()
+        
+        if UserDefaults.standard.bool(forKey: "SERVER_CHANGING") || banContainer.getBan(postId: id){
             return Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: true)
         }
 

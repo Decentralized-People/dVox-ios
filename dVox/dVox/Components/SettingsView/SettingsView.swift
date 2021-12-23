@@ -59,20 +59,6 @@ struct SettingsView: View {
                             Spacer()
                         }
                         
-                        Spacer()
-                        //***************** VOICE  YOUR THOUGHTS *****************//
-                        Text("dVox")
-                            .font(.custom("Montserrat-Bold", size: 100))
-                            .lineLimit(1)
-                            .foregroundColor(Color("BlackColor"))
-                            .padding(.horizontal, 10)
-                            .padding(.bottom, 10)
-                            .fixedSize(horizontal: false, vertical: false)
-                            .minimumScaleFactor(0.01)
-                            .font(.largeTitle)
-                        //***************** VOICE  YOUR THOUGHTS *****************//
-                        Spacer()
-
                         
                         ScrollView {
                             
@@ -269,6 +255,25 @@ struct SettingsView: View {
                   .foregroundColor(.black)
                   .font(.custom("Montserrat", size: 14))
                 
+            }
+            .padding(.top, 1)
+            
+            HStack{
+                Button(action: {
+                    var banContainer: BanContainer = BanContainer()
+                    banContainer.resetContainer()
+                    server.reloadRequired()
+                })
+                {
+       
+                Text("Reset all hidden posts")
+                    .foregroundColor(Color("BlackColor"))
+                    .font(.custom("Montserrat-Regular", size: 15))
+                    .padding(.horizontal, 0)
+                
+                Spacer()
+                    
+                }
             }
             .padding(.top, 1)
         }

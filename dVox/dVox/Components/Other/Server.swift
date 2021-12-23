@@ -50,6 +50,10 @@ class Server{
         }
     }
     
+    func reloadRequired(){
+        UserDefaults.standard.set(true, forKey: "SERVER_CHANGED")
+    }
+    
     func switchToPublic(){
         if UserDefaults.standard.string(forKey: "SCHOOL_LOCATION") == "publicOnly"{
             UserDefaults.standard.set(false, forKey: "SCHOOL_ENABLE")

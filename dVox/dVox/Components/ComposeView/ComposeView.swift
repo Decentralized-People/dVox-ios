@@ -178,6 +178,11 @@ struct ComposeView: View {
             }
             
             if $showPopUp.wrappedValue {
+            VisualEffectView(effect: UIBlurEffect(style: .dark))
+                .ignoresSafeArea()
+                .opacity(0.5)
+                .padding(-20)
+                
             VStack{
                 ZStack{
                     VStack{
@@ -262,7 +267,7 @@ struct ComposeView: View {
                 .frame(width: 350, height: 300)
                 .cornerRadius(20).shadow(radius: 20)
                 
-            }
+                }
             }
         }
     }
@@ -369,6 +374,11 @@ struct ComposeView: View {
             
             return path
         }
+    }
+    struct VisualEffectView: UIViewRepresentable {
+        var effect: UIVisualEffect?
+        func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }
+        func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) { uiView.effect = effect }
     }
     
     struct CheckboxToggleStyle: ToggleStyle {
