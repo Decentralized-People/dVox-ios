@@ -260,13 +260,33 @@ struct SettingsView: View {
             
             HStack{
                 Button(action: {
-                    var banContainer: BanContainer = BanContainer()
+                    let banContainer: BanContainer = BanContainer()
                     banContainer.resetContainer()
                     server.reloadRequired()
                 })
                 {
        
                 Text("Reset all hidden posts")
+                    .foregroundColor(Color("BlackColor"))
+                    .font(.custom("Montserrat-Regular", size: 15))
+                    .padding(.horizontal, 0)
+                
+                Spacer()
+                    
+                }
+            }
+            .padding(.top, 1)
+            
+            
+            HStack{
+                Button(action: {
+                    let banAuthorContainer: BanAuthorContainer = BanAuthorContainer()
+                    banAuthorContainer.resetContainer()
+                    server.reloadRequired()
+                })
+                {
+       
+                Text("Unblock all authors")
                     .foregroundColor(Color("BlackColor"))
                     .font(.custom("Montserrat-Regular", size: 15))
                     .padding(.horizontal, 0)

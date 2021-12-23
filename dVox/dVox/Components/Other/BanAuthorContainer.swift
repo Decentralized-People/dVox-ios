@@ -1,18 +1,17 @@
 //
-//  BanContainer.swift
-//  BanContainer
+//  BanAuthorContainer.swift
+//  dVox
 //
-//  Created by Aleksandr Molchagin on 8/19/21.
+//  Created by Aleksandr Molchagin on 12/23/21.
 //
-
 import Foundation
 
-class BanContainer{
+class BanAuthorContainer{
     
     var banDictionary: [String:Bool]
 
     init(){
-        banDictionary = UserDefaults.standard.object(forKey: "BanContainer") as? [String:Bool] ?? [:]
+        banDictionary = UserDefaults.standard.object(forKey: "BanAuthorContainer") as? [String:Bool] ?? [:]
     }
     
     func setBan(postId: Int, ban: Bool) {
@@ -20,7 +19,7 @@ class BanContainer{
         let location = apis.retriveKey(for: "ContractAddress") ?? "error"
         let id = String(postId) + location
         banDictionary[id] = ban
-        UserDefaults.standard.set(banDictionary, forKey: "BanContainer")
+        UserDefaults.standard.set(banDictionary, forKey: "BanAuthorContainer")
     }
     
     func getBan(postId: Int) -> Bool{
@@ -31,9 +30,9 @@ class BanContainer{
     }
     
     func resetContainer(){
-        banDictionary = UserDefaults.standard.object(forKey: "BanContainer") as? [String:Bool] ?? [:]
+        banDictionary = UserDefaults.standard.object(forKey: "BanAuthorContainer") as? [String:Bool] ?? [:]
         banDictionary.removeAll()
-        UserDefaults.standard.set(banDictionary, forKey: "BanContainer")
+        UserDefaults.standard.set(banDictionary, forKey: "BanAuthorContainer")
     }
     
 }

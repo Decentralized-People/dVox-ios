@@ -39,6 +39,7 @@ struct HomeView2: View {
     
     let state: Bool = true
     
+    
     init(_apis: APIs, _username: Username, _loader: PostLoader2, _commentsLoader: CommentLoader){
         apis = _apis
         username = _username
@@ -53,7 +54,7 @@ struct HomeView2: View {
             Color("BlackColor")
                 .ignoresSafeArea()
                 .onAppear(perform: {
-                    if (UserDefaults.standard.bool(forKey: "SERVER_CHANGED") == true ){
+                    if (UserDefaults.standard.bool(forKey: "SERVER_CHANGED")){
                         loader.items = []
                         loader.getPosts(index: 0, currentId: -1, getPosts:12)
                         loader.noMorePosts = false
@@ -266,7 +267,7 @@ struct HomeView2: View {
         
         var curIndex: Int;
         
-        var questionArray = ["Hide this post?", "Block the author?", "Report the post"]
+        var questionArray = ["Hide this post?", "Block this author?", "Report this post"]
         
         
         @State var postIsHidden = false
@@ -504,7 +505,7 @@ struct HomeView2: View {
                                 Image("fi-rr-user-delete")
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 20)
-                                Text("Block Author")
+                                Text("Block author")
                                     .foregroundColor(Color("BlackColor"))
                                     .font(.custom("Montserrat-Bold", size: 14))
                                 
@@ -557,6 +558,7 @@ struct HomeView2: View {
                                         Spacer()
                                         Button(action: {
                                             withAnimation(.default, {
+                                                overlayOfOverlayOn = false
                                                 overlayOn = false
                                             })
                                         }){
@@ -597,7 +599,6 @@ struct HomeView2: View {
                                         Button(action: {
                                             withAnimation(.default) {
                                                 overlayOfOverlayOn = false
-                                                overlayOn = false
                                             }
                                         })
                                         {
@@ -615,8 +616,7 @@ struct HomeView2: View {
                                             withAnimation(.default) {
                                                 overlayOfOverlayOn = false
                                                 overlayOn = false
-                                                postIsHidden = true
-                                                postOptions(action: 0, postId: eachPost.id)
+                                                postOptions(action: currentSelection, postId: eachPost.id)
                                             }
                                             
                                         })
@@ -669,8 +669,11 @@ struct HomeView2: View {
                 postIsHidden = true
     
             case 1:
-                print("def")
-
+                let banAuthorConatiner = BanAuthorContainer()
+                banAuthorConatiner.setBan(postId: postId, ban: true)
+                loader.items = []
+                loader.getPosts(index: 0, currentId: -1, getPosts:12)
+                loader.noMorePosts = false
                 
             case 2:
                 

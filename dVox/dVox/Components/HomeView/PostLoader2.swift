@@ -22,10 +22,8 @@ class PostLoader2: ObservableObject  {
     
     let codeDM: PersistenceController = PersistenceController()
     
-    
     @Published var votesDictionary: VotesContainer = VotesContainer()
-    
-    
+        
     init(_contract: SmartContract){
         contract = _contract
         getPosts(index: 0, currentId: -1, getPosts: 12)
