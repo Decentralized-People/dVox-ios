@@ -74,218 +74,37 @@ struct SettingsView: View {
                         Spacer()
 
                         
-                        Group {
+                        ScrollView {
+                            
+                            About
+                                .padding(.bottom, 10)
+
+                                Divider()
+                                .padding(.bottom, 10)
+
+                            
+                            NotificationsView
+                                .padding(.bottom, 10)
+
+                                Divider()
+                                .padding(.bottom, 10)
+
+
+                            ViewOptions
+                                .padding(.bottom, 10)
+
+                                
+                                Divider()
+                                .padding(.bottom, 10)
+
+
+                            ServerView
+                                
+
                         
-                        VStack {
-                            
-                            HStack{
-                                Text("About")
-                                    .font(.custom("Montserrat-Bold", size: 18))
-                                Spacer()
-
-                            }
-                            HStack{
-                                
-                                Link("End-user license agreement", destination: URL(string: "https://dvox.dpearth.com/license")!)
-                                    .font(.custom("Montserrat-Regular", size: 15))
-                                    .padding(.horizontal, 0)
-                                    .accentColor(Color("BlackColor"))
-                                    .overlay(Rectangle().frame(height: 1).offset(y: 4), alignment: .bottom)
-
-                                Spacer()
-                            }
-                            .padding(.top, 1)
-                            
-                            HStack{
-                                
-                                Link("Acknowledgements", destination: URL(string: "https://dvox.dpearth.com/acknowledgements")!)
-                                    .font(.custom("Montserrat-Regular", size: 15))
-                                    .padding(.horizontal, 0)
-                                    .accentColor(Color("BlackColor"))
-                                    .overlay(Rectangle().frame(height: 1).offset(y: 4), alignment: .bottom)
-                                
-                                            
-                                Spacer()
-                            }
-                            .padding(.top, 1)
-                            
-                
+                        
                         }
-                            .padding(.bottom, 10)
                         
-                        Divider()
-                            .padding(.bottom, 10)
-
-                        
-                        VStack {
-                            
-                            HStack{
-                                Text("View Options")
-                                    .font(.custom("Montserrat-Bold", size: 18))
-                                Spacer()
-
-                            }
-                            
-                            HStack{
-                                
-                                
-                                Text("Show objectionable content (I am over 18)")
-                                    .font(.custom("Montserrat-Regular", size: 15))
-                                    .padding(.horizontal, 0)
-                                    
-                                
-                                                      
-                                Spacer()
-                                
-                                Toggle("", isOn: $showObjectionable)
-                                  .toggleStyle(CheckboxToggleStyle(style: .square))
-                                  .foregroundColor(.black)
-                                  .font(.custom("Montserrat", size: 14))
-                                
-                            }
-                            .padding(.top, 1)
-                        }
-                            .padding(.bottom, 10)
-                        
-                        Divider()
-                            .padding(.bottom, 10)
-                        
-                        VStack {
-                            
-                            HStack{
-                                Text("Notifications")
-                                    .font(.custom("Montserrat-Bold", size: 18))
-                                Spacer()
-
-                            }
-                            
-                            HStack{
-                                
-                                Text("Posts Notifications (selected server)")
-                                    .font(.custom("Montserrat-Regular", size: 15))
-                                    .padding(.horizontal, 0)
-                            
-                                                      
-                                Spacer()
-                                
-                                Toggle("", isOn: $postsNotifications)
-                                  .toggleStyle(CheckboxToggleStyle(style: .square))
-                                  .foregroundColor(.black)
-                                  .font(.custom("Montserrat", size: 14))
-                                  .onChange(of: postsNotifications, perform: { value in
-                                      notificationsToggle(value: value)
-                                    })
-                                
-                            }
-                            .padding(.top, 1)
-                            
-                            
-                        }
-                            .padding(.bottom, 10)
-                        
-                        Divider()
-                            .padding(.bottom, 10)
-                        
-                        VStack{
-                        
-                            HStack{
-                                Text("Available Servers")
-                                    .font(.custom("Montserrat-Bold", size: 18))
-                                Spacer()
-
-                            }
-                            
-                            HStack{
-                                
-                                Text("Public")
-                                    .font(.custom("Montserrat-Regular", size: 15))
-                                    .padding(.horizontal, 20)
-                                    .padding(.top, 1)
-                                    .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("BlackColor")))
-                          
-                                    .foregroundColor(Color("WhiteColor"))
-                                
-                                Spacer()
-                                
-                                if schoolAvailible(){
-                                Toggle("", isOn: $publicServer)
-                                  .toggleStyle(CheckboxToggleStyle(style: .square))
-                                  .foregroundColor(.black)
-                                  .font(.custom("Montserrat", size: 14))
-                                  .onChange(of: publicServer, perform: { value in
-                                      publicToggle(value: value)
-                                    })
-                                } else {
-                                    Toggle("", isOn: $publicServer)
-                                      .toggleStyle(CheckboxToggleStyleAlwaysOn(style: .square))
-                                      .foregroundColor(.black)
-                                      .font(.custom("Montserrat", size: 14))
-                                      .onChange(of: publicServer, perform: { value in
-                                          publicToggle(value: value)
-                                        })
-                                          
-                                }
-                            }
-                            
-                            if schoolAvailible() {
-                                HStack{
-                                    Text("Kalamazoo College")
-                                        .font(.custom("Montserrat-Regular", size: 15))
-                                        .padding(.horizontal, 20)
-                                        .padding(.top, 1)
-                                        .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("BlackColor")))
-                                        .foregroundColor(Color("WhiteColor"))
-                                    
-                                    Spacer()
-                                    
-                                    Toggle("", isOn: $schoolServer)
-                                      .toggleStyle(CheckboxToggleStyle(style: .square))
-                                      .foregroundColor(.black)
-                                      .font(.custom("Montserrat", size: 14))
-                                      .onChange(of: schoolServer, perform: { value in
-                                          schoolToggle(value: value)
-                                      })
-                                }
-                            }
-                            HStack{
-                                HStack{
-                                    VStack{
-                                        Text("Don't see your college server? You have 2 options:")
-                                            .font(.custom("Montserrat-Regular", size: 10))
-                                            .accentColor(Color("BlackColor"))
-                                            .lineLimit(1)
-                                            .minimumScaleFactor(0.01)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            
-
-                                        Text("• Sign in with your college email (e.g., @kzoo.edu)")
-                                            .font(.custom("Montserrat-Regular", size: 10))
-                                            .accentColor(Color("BlackColor"))
-                                            .lineLimit(1)
-                                            .minimumScaleFactor(0.01)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding([.leading], 10)
-                                        
-                                        Text("• Request adding your school: https://dvox.dpearth.com/request")
-                                            .font(.custom("Montserrat-Regular", size: 10))
-                                            .accentColor(Color("BlackColor"))
-                                            .lineLimit(1)
-                                            .minimumScaleFactor(0.01)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding([.leading], 10)
-
-                                    }
-
-                                }
-                                .padding(.top, 1)
-                                .padding(.horizontal, 20)
-
-                                    
-                            
-                            }
-                            
-                        }
-                        }
                         Button(action: {
                             forceSignOut()
                         })
@@ -318,6 +137,218 @@ struct SettingsView: View {
         }
         
     
+    }
+    
+    
+    var ServerView: some View{
+        VStack{
+        
+            HStack{
+                Text("Available Servers")
+                    .font(.custom("Montserrat-Bold", size: 18))
+                Spacer()
+
+            }
+            
+            HStack{
+                
+                Text("Public")
+                    .font(.custom("Montserrat-Regular", size: 15))
+                    .padding(.horizontal, 20)
+                    .padding(.top, 1)
+                    .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("BlackColor")))
+          
+                    .foregroundColor(Color("WhiteColor"))
+                
+                Spacer()
+                
+                if schoolAvailible(){
+                Toggle("", isOn: $publicServer)
+                  .toggleStyle(CheckboxToggleStyle(style: .square))
+                  .foregroundColor(.black)
+                  .font(.custom("Montserrat", size: 14))
+                  .onChange(of: publicServer, perform: { value in
+                      publicToggle(value: value)
+                    })
+                } else {
+                    Toggle("", isOn: $publicServer)
+                      .toggleStyle(CheckboxToggleStyleAlwaysOn(style: .square))
+                      .foregroundColor(.black)
+                      .font(.custom("Montserrat", size: 14))
+                      .onChange(of: publicServer, perform: { value in
+                          publicToggle(value: value)
+                        })
+                          
+                }
+            }
+            
+            if schoolAvailible() {
+                HStack{
+                    Text("Kalamazoo College")
+                        .font(.custom("Montserrat-Regular", size: 15))
+                        .padding(.horizontal, 20)
+                        .padding(.top, 1)
+                        .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("BlackColor")))
+                        .foregroundColor(Color("WhiteColor"))
+                    
+                    Spacer()
+                    
+                    Toggle("", isOn: $schoolServer)
+                      .toggleStyle(CheckboxToggleStyle(style: .square))
+                      .foregroundColor(.black)
+                      .font(.custom("Montserrat", size: 14))
+                      .onChange(of: schoolServer, perform: { value in
+                          schoolToggle(value: value)
+                      })
+                }
+            }
+            HStack{
+                HStack{
+                    VStack{
+                        Text("Don't see your college server? You have 2 options:")
+                            .font(.custom("Montserrat-Regular", size: 10))
+                            .accentColor(Color("BlackColor"))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.01)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            
+
+                        Text("• Sign in with your college email (e.g., @kzoo.edu)")
+                            .font(.custom("Montserrat-Regular", size: 10))
+                            .accentColor(Color("BlackColor"))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.01)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding([.leading], 10)
+                        
+                        Text("• Request adding your school: https://dvox.dpearth.com/request")
+                            .font(.custom("Montserrat-Regular", size: 10))
+                            .accentColor(Color("BlackColor"))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.01)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding([.leading], 10)
+
+                    }
+
+                }
+                .padding(.top, 1)
+                .padding(.horizontal, 20)
+
+                    
+            
+            }
+            
+        }
+        
+    }
+    
+    var ViewOptions: some View {
+        VStack {
+            
+            HStack{
+                Text("View Options")
+                    .font(.custom("Montserrat-Bold", size: 18))
+                Spacer()
+
+            }
+            
+            HStack{
+                
+                
+                Text("Show objectionable content (I am over 18)")
+                    .font(.custom("Montserrat-Regular", size: 15))
+                    .padding(.horizontal, 0)
+                    
+                
+                                      
+                Spacer()
+                
+                Toggle("", isOn: $showObjectionable)
+                  .toggleStyle(CheckboxToggleStyle(style: .square))
+                  .foregroundColor(.black)
+                  .font(.custom("Montserrat", size: 14))
+                
+            }
+            .padding(.top, 1)
+        }
+        
+    }
+    
+    
+    
+    var NotificationsView: some View {
+        VStack {
+            
+            HStack{
+                Text("Notifications")
+                    .font(.custom("Montserrat-Bold", size: 18))
+                Spacer()
+
+            }
+            
+            HStack{
+                
+                Text("Posts Notifications (selected server)")
+                    .font(.custom("Montserrat-Regular", size: 15))
+                    .padding(.horizontal, 0)
+            
+                                      
+                Spacer()
+                
+                Toggle("", isOn: $postsNotifications)
+                  .toggleStyle(CheckboxToggleStyle(style: .square))
+                  .foregroundColor(.black)
+                  .font(.custom("Montserrat", size: 14))
+                  .onChange(of: postsNotifications, perform: { value in
+                      notificationsToggle(value: value)
+                    })
+                
+            }
+            .padding(.top, 1)
+            
+            
+        }
+    
+     
+    }
+    
+    var About: some View {
+        VStack {
+            
+            HStack{
+                Text("About")
+                    .font(.custom("Montserrat-Bold", size: 18))
+                Spacer()
+
+            }
+            HStack{
+                
+                Link("End-user license agreement", destination: URL(string: "https://dvox.dpearth.com/license")!)
+                    .font(.custom("Montserrat-Regular", size: 15))
+                    .padding(.horizontal, 0)
+                    .accentColor(Color("BlackColor"))
+                    .overlay(Rectangle().frame(height: 1).offset(y: 4), alignment: .bottom)
+
+                Spacer()
+            }
+            .padding(.top, 1)
+            
+            HStack{
+                
+                Link("Acknowledgements", destination: URL(string: "https://dvox.dpearth.com/acknowledgements")!)
+                    .font(.custom("Montserrat-Regular", size: 15))
+                    .padding(.horizontal, 0)
+                    .accentColor(Color("BlackColor"))
+                    .overlay(Rectangle().frame(height: 1).offset(y: 4), alignment: .bottom)
+                
+                            
+                Spacer()
+            }
+            .padding(.top, 1)
+            
+
+        }
     }
     
     func notificationsToggle(value: Bool){
