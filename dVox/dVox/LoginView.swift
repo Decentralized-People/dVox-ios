@@ -90,6 +90,8 @@ struct LoginView: View {
                         
 
                         //******************** NEXT BUTTON *********************//
+                        
+                        
                         Button(action: {
                             withAnimation(.default) {
                                 self.attempts += nextClick(input: email_input)
@@ -106,6 +108,21 @@ struct LoginView: View {
                                 .lineLimit(3)
                                 .padding(.top, 20)
                         }
+                        
+                        
+                        Text("By clicking Next button, you agree to the [Terms of Service (tap)](https://dvox.dpearth.com/terms), you agree to post only appropriate content, and you confirm that you are 18+")
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .foregroundColor(Color("BlackColor"))
+                            .font(.custom("Montserrat-Regular", size: 10))
+                            .minimumScaleFactor(0.01)
+                            .lineLimit(2)
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 20)
+                            .padding(.top, 5)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .accentColor(Color("BlackColor"))
+                            
                         //******************** NEXT BUTTON *********************//
                         
                         //!!! ALERT TOAST - SHOULD BE REDONE !!!//

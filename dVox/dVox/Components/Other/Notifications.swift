@@ -22,9 +22,9 @@ class Notifications{
         let schoolLocation = UserDefaults.standard.string(forKey: "SCHOOL_LOCATION")
         let schoolEnabled = UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE")
         if schoolEnabled{
-            subscribeTo(topic: schoolLocation ?? "Public")
+            subscribeTo(topic: schoolLocation ?? "error")
         } else {
-            subscribeTo(topic:  "Public")
+            subscribeTo(topic: "Public")
         }
     }
     
@@ -63,18 +63,17 @@ class Notifications{
             print("UNSubscribed from \(givenTopic)!")
         }
         
-        
+        subscriptionDictionary.removeValue(forKey: givenTopic);
+        UserDefaults.standard.set(subscriptionDictionary, forKey: "SubscriptionsContainer")
     }
     
     func unSubscribeFromAll(){
        
         unSubscribeFrom(topic: subscriptionDictionary["School"] ?? "error");
         unSubscribeFrom(topic: subscriptionDictionary["Public"] ?? "error");
-
-        subscriptionDictionary = UserDefaults.standard.object(forKey: "SubscriptionsContainer") as? [String:String] ?? [:]
-        UserDefaults.standard.set(subscriptionDictionary, forKey: "SubscriptionsContainer")
         
         UserDefaults.standard.set(false, forKey: "NOTIFICATIONS_ON")
+
     }
     
     func notificationsOff(){

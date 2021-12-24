@@ -23,6 +23,7 @@ struct SettingsView: View {
 
     @EnvironmentObject var navigationModel: NavigationStack
 
+    @State var fuse: Bool = true;
 
     var server: Server
     
@@ -34,11 +35,7 @@ struct SettingsView: View {
         publicServer = !(UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE"))
         server = Server(_apis: _apis, _loader: _loader)
         
-        if UserDefaults.standard.bool(forKey: "NOTIFICATIONS_ON") == true {
-            postsNotifications = true
-        } else {
-            postsNotifications = false
-        }
+        postsNotifications = UserDefaults.standard.bool(forKey: "NOTIFICATIONS_ON")
         
         print("School loc: \(schoolLoc)")
     }
@@ -162,7 +159,12 @@ struct SettingsView: View {
                       .foregroundColor(.black)
                       .font(.custom("Montserrat", size: 14))
                       .onChange(of: publicServer, perform: { value in
-                          publicToggle(value: value)
+                          if !fuse {
+                              publicToggle(value: value)
+                              fuse = true
+                          } else {
+                              fuse = false
+                          }
                         })
                           
                 }
@@ -184,7 +186,12 @@ struct SettingsView: View {
                       .foregroundColor(.black)
                       .font(.custom("Montserrat", size: 14))
                       .onChange(of: schoolServer, perform: { value in
-                          schoolToggle(value: value)
+                          if !fuse {
+                              schoolToggle(value: value)
+                              fuse = true
+                          } else {
+                              fuse = false
+                          }
                       })
                 }
             }
@@ -238,25 +245,6 @@ struct SettingsView: View {
                 Spacer()
 
             }
-            
-            HStack{
-                
-                
-                Text("Show objectionable content (I am over 18)")
-                    .font(.custom("Montserrat-Regular", size: 15))
-                    .padding(.horizontal, 0)
-                    
-                
-                                      
-                Spacer()
-                
-                Toggle("", isOn: $showObjectionable)
-                  .toggleStyle(CheckboxToggleStyle(style: .square))
-                  .foregroundColor(.black)
-                  .font(.custom("Montserrat", size: 14))
-                
-            }
-            .padding(.top, 1)
             
             HStack{
                 Button(action: {

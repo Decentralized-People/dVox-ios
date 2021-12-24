@@ -33,7 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            }
         
         
-        if (Auth.auth().currentUser == nil) {
+        if (Auth.auth().currentUser != nil) {
             
             let loginView = LoginView() //LoginView()
 

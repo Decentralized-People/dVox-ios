@@ -41,6 +41,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         return true
     }
     
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult)
+                       -> Void) {
+      // If you are receiving a notification message while your app is in the background,
+      // this callback will not be fired till the user taps on the notification launching the application.
+      // TODO: Handle data of notification
+
+      // With swizzling disabled you must let Messaging know about the message, for Analytics
+      // Messaging.messaging().appDidReceiveMessage(userInfo)
+
+      // Print full message.
+      print(userInfo)
+
+      completionHandler(UIBackgroundFetchResult.newData)
+    }
+    
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         messaging.token{ token, _ in
             guard let token = token else{
@@ -63,7 +80,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    func userNotificationCenter(
+       _ center: UNUserNotificationCenter,
+       willPresent notification: UNNotification,
+       withCompletionHandler completionHandler:
+       @escaping (UNNotificationPresentationOptions) -> Void
+     ) {
+       completionHandler([[.banner, .sound]])
+         print("I HAVE ARRIVED!")
+     }
+
+     func userNotificationCenter(
+       _ center: UNUserNotificationCenter,
+       didReceive response: UNNotificationResponse,
+       withCompletionHandler completionHandler: @escaping () -> Void
+     ) {
+       completionHandler()
+         print("I HAVE ARRIVED! 2")
+
+     }
 
 
 }
+
+
 
