@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+import Firebase
 import NavigationStack
 
 struct HomeView2: View {
@@ -267,7 +267,7 @@ struct HomeView2: View {
         
         var curIndex: Int;
         
-        var questionArray = ["Hide this post?", "Block this author?", "Report this post"]
+        var questionArray = ["Hide this post?", "Block this author?", "Report this post?"]
         
         
         @State var postIsHidden = false
@@ -674,13 +674,34 @@ struct HomeView2: View {
                 loader.items = []
                 loader.getPosts(index: 0, currentId: -1, getPosts:12)
                 loader.noMorePosts = false
-                
+
             case 2:
                 
-                print("def")
+                /// Get data at a background thread
+                DispatchQueue.global(qos: .userInitiated).async { [] in
 
+                    var doc = UserDefaults.standard.string(forKey: "SCHOOL_LOCATION") ?? "Error"
+                    
+                    var ref = Firestore.firestore().collection("Reports").document("PublicLocation")
+
+                    if UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE"){
+                        ref = Firestore.firestore().collection("Reports").document(doc)
+                    }
+                    ref.updateData([
+                        "\(postId)": "Requested to ban"
+                    ])
+                
+                }
+                /// Update UI at the main thread
+                DispatchQueue.main.async {
+                                    
+       
+                }
+
+                    
+                
             default:
-                print("def")
+                print("HomeView2. Check the switcher. The operation is wrong.")
             }
         }
         
