@@ -26,7 +26,6 @@ struct ProfileView: View {
     @State var dvoxCommentedPosts: Int = UserDefaults.standard.integer(forKey: "dVoxCommentedPosts")
     @State var dvoxUpVotedPosts: Int = UserDefaults.standard.integer(forKey: "dVoxUpVotedPosts")
     @State var dvoxDownVotedPosts: Int = UserDefaults.standard.integer(forKey: "dVoxDownVotedPosts")
-
     
     init(_apis: APIs, _username: Username){
         apis = _apis

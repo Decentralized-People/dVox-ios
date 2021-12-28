@@ -155,7 +155,7 @@ class SmartContract: ObservableObject{
         }
         
         let banAuthorContainer = BanAuthorContainer()
-        if banAuthorContainer.getBan(postId: id){
+        if banAuthorContainer.getBan(author: post.title){
             return Post(id: -1, title: "", author: "", message: "", hastag: "", upVotes: 0, downVotes: 0, commentsNumber: 0, ban: true)
         }
         

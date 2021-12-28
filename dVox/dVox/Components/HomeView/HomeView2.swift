@@ -670,7 +670,7 @@ struct HomeView2: View {
     
             case 1:
                 let banAuthorConatiner = BanAuthorContainer()
-                banAuthorConatiner.setBan(postId: postId, ban: true)
+                banAuthorConatiner.setBan(author: loader.items[curIndex].title ?? "error", ban: true)
                 loader.items = []
                 loader.getPosts(index: 0, currentId: -1, getPosts:12)
                 loader.noMorePosts = false

@@ -29,6 +29,14 @@ struct SettingsView: View {
     var server: Server
     
     var apis: APIs
+    
+    
+    @State var showPopUp: Bool = false;
+    @State var popUpSelector = 0;
+    @State var popUpText = ["Reset all hidden posts?", "Unblock all the authors?"]
+    @State var popUpSubText = ["Once you reset the hidden posts, you will be able to see all of them until you hide them again.",
+    "Once you unblock all the authors, you will be able to see all their posts until you block them again."]
+
 
     init(_apis: APIs, _loader: PostLoader2){
         apis = _apis
@@ -117,12 +125,102 @@ struct SettingsView: View {
                 AlertToast(displayMode: .banner(.slide), type: .loading, title: "Switching...", custom: .custom(backgroundColor: Color("WhiteColor"), titleColor: Color("BlackColor"), subTitleColor: Color("BlackColor"), titleFont: Font.custom("Montserrat-Regular", size: 15.0),  subTitleFont: Font.custom("Montserrat-Regular", size: 12.0)))
                 
             }
+            
+            
+            if $showPopUp.wrappedValue {
+            VisualEffectView(effect: UIBlurEffect(style: .dark))
+                .ignoresSafeArea()
+                .opacity(0.5)
+                .padding(-20)
+                
+            VStack{
+                ZStack{
+                    VStack{
+                    
+                        VStack{
+                            Text(popUpText[popUpSelector])
+                                .font(.custom("Montserrat-Bold", size: 20))
+                                .foregroundColor(Color("BlackColor"))
+                                .frame(maxWidth: 350, alignment: .leading)
+                                .padding([.top, .leading, .trailing], 10)
+                                .padding(.vertical, 5)
+                            
+                            Text(popUpSubText[popUpSelector])
+                                .font(.custom("Montserrat", size: 14))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 10)
+                        
+
+                        }
+                        
+                        HStack{
+                        
+                            Button(action: {
+                                withAnimation(.default) {
+                                    showPopUp = false
+                                }
+                            })
+                            {
+                                (Text("No")
+                                    .padding(10))
+                                    .foregroundColor(Color("BlackColor"))
+                                    .font(.custom("Montserrat-Bold", size: 20))
+                                    .minimumScaleFactor(0.01)
+                                    .lineLimit(3)
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                withAnimation(.default) {
+                                    popUpAction(action: popUpSelector)
+                                    withAnimation(.default){
+                                        showPopUp = false
+                                    }
+                                }
+                                
+                            })
+                            {
+                                (Text("Yes")
+                                    .padding(10))
+                                    .foregroundColor(Color("BlackColor"))
+                                    .font(.custom("Montserrat-Bold", size: 20))
+                                    .minimumScaleFactor(0.01)
+                                    .lineLimit(3)
+                            }
+                        }
+                        .padding(.horizontal, 30)
+                    }
+                }
+                .padding(10)
+                .background(RoundedCorners(tl: 20, tr: 20, bl: 20, br: 20).fill(Color("WhiteColor")))
+                .frame(width: 350, height: 300)
+                .cornerRadius(20).shadow(radius: 20)
+                
+                }
+            }
         
         }
         
     
     }
     
+    func popUpAction(action: Int){
+        switch action{
+            case 0:
+                let banContainer: BanContainer = BanContainer()
+                banContainer.resetContainer()
+                server.reloadRequired()
+            case 1:
+                let banAuthorContainer: BanAuthorContainer = BanAuthorContainer()
+                banAuthorContainer.resetContainer()
+                server.reloadRequired()
+                
+            default:
+                print("SettingView. Check the switcher. The operation is wrong.")
+                
+        }
+    }
     
     var ServerView: some View{
         VStack{
@@ -251,9 +349,10 @@ struct SettingsView: View {
             
             HStack{
                 Button(action: {
-                    let banContainer: BanContainer = BanContainer()
-                    banContainer.resetContainer()
-                    server.reloadRequired()
+                    withAnimation(.default){
+                        popUpSelector = 0;
+                        showPopUp = true;
+                    }
                 })
                 {
        
@@ -271,9 +370,10 @@ struct SettingsView: View {
             
             HStack{
                 Button(action: {
-                    let banAuthorContainer: BanAuthorContainer = BanAuthorContainer()
-                    banAuthorContainer.resetContainer()
-                    server.reloadRequired()
+                    withAnimation(.default){
+                        popUpSelector = 1;
+                    showPopUp = true;
+                    }
                 })
                 {
        
@@ -444,6 +544,13 @@ struct SettingsView: View {
     }
     
 }
+
+struct VisualEffectView: UIViewRepresentable {
+    var effect: UIVisualEffect?
+    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }
+    func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) { uiView.effect = effect }
+}
+
 
 struct CheckboxToggleStyleAlwaysOn: ToggleStyle {
   @Environment(\.isEnabled) var isEnabled

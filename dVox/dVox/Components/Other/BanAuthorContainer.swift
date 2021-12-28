@@ -14,18 +14,18 @@ class BanAuthorContainer{
         banDictionary = UserDefaults.standard.object(forKey: "BanAuthorContainer") as? [String:Bool] ?? [:]
     }
     
-    func setBan(postId: Int, ban: Bool) {
+    func setBan(author: String, ban: Bool) {
         let apis = APIs()
         let location = apis.retriveKey(for: "ContractAddress") ?? "error"
-        let id = String(postId) + location
+        let id = author + location
         banDictionary[id] = ban
         UserDefaults.standard.set(banDictionary, forKey: "BanAuthorContainer")
     }
     
-    func getBan(postId: Int) -> Bool{
+    func getBan(author: String) -> Bool{
         let apis = APIs()
         let location = apis.retriveKey(for: "ContractAddress")  ?? "error"
-        let id = String(postId) + location
+        let id = author + location
         return banDictionary[id] ?? false
     }
     
