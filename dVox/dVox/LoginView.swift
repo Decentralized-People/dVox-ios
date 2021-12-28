@@ -104,24 +104,11 @@ struct LoginView: View {
                                 .padding([.leading, .bottom, .trailing], 20))
                                 .foregroundColor(Color("BlackColor"))
                                 .font(.custom("Montserrat-Bold", size: 20))
-                                .minimumScaleFactor(0.01)
+                                .minimumScaleFactor(1)
                                 .lineLimit(3)
                                 .padding(.top, 20)
                         }
                         
-                        
-                        Text("By clicking Next button, you agree to the [Terms of Service (tap)](https://dvox.dpearth.com/terms), you agree to post only appropriate content, and you confirm that you are 18+")
-                            .multilineTextAlignment(.leading)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundColor(Color("BlackColor"))
-                            .font(.custom("Montserrat-Regular", size: 10))
-                            .minimumScaleFactor(0.01)
-                            .lineLimit(2)
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 20)
-                            .padding(.top, 5)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .accentColor(Color("BlackColor"))
                             
                         //******************** NEXT BUTTON *********************//
                         
@@ -135,13 +122,26 @@ struct LoginView: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 50)
                     
+                    //************************** WHITE CARD **************************//
                     
+                    Text("By clicking Next button, you agree to the [Terms of Service](https://dvox.dpearth.com/terms), you agree to post only appropriate content, and you confirm that you are 18+")
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(Color("GreyColor"))
+                        .font(.custom("Montserrat-Regular", size: 10))
+                        .minimumScaleFactor(0.01)
+                        .lineLimit(2)
+                        .padding(.horizontal, 40)
+                        .padding(.bottom, 20)
+                        .padding(.top, 5)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .accentColor(Color("WhiteColor").opacity(0.75))
 
                 }
                 
-                //************************** WHITE CARD **************************//
             }
             .preferredColorScheme(.light)
+            
             //******* MAIN V STACK *******//
         }
         .toast(isPresenting: $showToast){

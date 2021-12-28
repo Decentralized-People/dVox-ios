@@ -15,6 +15,7 @@ struct SettingsView: View {
     
     @State var schoolServer: Bool
     @State var publicServer: Bool
+    @State var alwaysTrue: Bool = true
     @State var postsNotifications: Bool
     @AppStorage("SHOW_OBJECTIONABLE") var showObjectionable = true;
     @AppStorage("SIGN_OUT") var signOut: Bool = true
@@ -23,7 +24,7 @@ struct SettingsView: View {
 
     @EnvironmentObject var navigationModel: NavigationStack
 
-    @State var fuse: Bool = true;
+    @State var fuse: Bool = false;
 
     var server: Server
     
@@ -145,29 +146,27 @@ struct SettingsView: View {
                 
                 Spacer()
                 
-                if schoolAvailible(){
-                Toggle("", isOn: $publicServer)
-                  .toggleStyle(CheckboxToggleStyle(style: .square))
-                  .foregroundColor(.black)
-                  .font(.custom("Montserrat", size: 14))
-                  .onChange(of: publicServer, perform: { value in
-                      publicToggle(value: value)
-                    })
-                } else {
-                    Toggle("", isOn: $publicServer)
+                if $publicServer.wrappedValue {
+                    Toggle("", isOn: $alwaysTrue)
                       .toggleStyle(CheckboxToggleStyleAlwaysOn(style: .square))
                       .foregroundColor(.black)
                       .font(.custom("Montserrat", size: 14))
-                      .onChange(of: publicServer, perform: { value in
-                          if !fuse {
-                              publicToggle(value: value)
-                              fuse = true
-                          } else {
-                              fuse = false
+                      .onChange(of: alwaysTrue, perform: { value in
+                          alwaysTrue = true
+                      })
+                      .onAppear(perform: {
+                          if UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE"){
+                              publicToggle(value: true)
                           }
-                        })
-                          
+                      })
                 }
+                else {
+                    Toggle("", isOn: $publicServer)
+                      .toggleStyle(CheckboxToggleStyle(style: .square))
+                      .foregroundColor(.black)
+                      .font(.custom("Montserrat", size: 14))
+                }
+          
             }
             
             if schoolAvailible() {
@@ -181,18 +180,22 @@ struct SettingsView: View {
                     
                     Spacer()
                     
-                    Toggle("", isOn: $schoolServer)
-                      .toggleStyle(CheckboxToggleStyle(style: .square))
-                      .foregroundColor(.black)
-                      .font(.custom("Montserrat", size: 14))
-                      .onChange(of: schoolServer, perform: { value in
-                          if !fuse {
-                              schoolToggle(value: value)
-                              fuse = true
-                          } else {
-                              fuse = false
-                          }
-                      })
+                    if $schoolServer.wrappedValue {
+                        Toggle("", isOn: $alwaysTrue)
+                          .toggleStyle(CheckboxToggleStyleAlwaysOn(style: .square))
+                          .foregroundColor(.black)
+                          .font(.custom("Montserrat", size: 14))
+                          .onAppear(perform: {
+                              if !UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE"){
+                                  schoolToggle(value: true)
+                              }
+                          })
+                    } else {
+                        Toggle("", isOn: $schoolServer)
+                          .toggleStyle(CheckboxToggleStyle(style: .square))
+                          .foregroundColor(.black)
+                          .font(.custom("Montserrat", size: 14))
+                    }
                 }
             }
             HStack{
@@ -314,7 +317,7 @@ struct SettingsView: View {
                   .foregroundColor(.black)
                   .font(.custom("Montserrat", size: 14))
                   .onChange(of: postsNotifications, perform: { value in
-                      notificationsToggle(value: value)
+                      notificationsToggle(newValue: value)
                     })
                 
             }
@@ -364,9 +367,9 @@ struct SettingsView: View {
         }
     }
     
-    func notificationsToggle(value: Bool){
+    func notificationsToggle(newValue: Bool){
         let not = Notifications()
-        if value == false {
+        if newValue == false {
             not.unSubscribeFromAll()
         } else {
             not.resubscribe()

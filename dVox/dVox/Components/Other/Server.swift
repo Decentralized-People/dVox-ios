@@ -18,22 +18,11 @@ class Server{
         loader = _loader
     }
     
-    func setCurrentLocation(_loc: String){
-        UserDefaults.standard.set(_loc, forKey: "ContractAddress")
-    }
-    
-    func getCurrnetLocation() -> String {
-        let location = UserDefaults.standard.string(forKey: "ContractAddress") ?? "error"
-        return location
-    }
-    
     func switchToSchool(){
         if UserDefaults.standard.string(forKey: "SCHOOL_LOCATION") == "publicOnly"{
             return
         } else {
             
-            let not = Notifications()
-            not.unSubscribeFromAll()
             
             UserDefaults.standard.set(true, forKey: "SCHOOL_ENABLE")
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGING")
@@ -43,7 +32,9 @@ class Server{
             loader.reloadIfNeeded()
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGED")
             
-            if UserDefaults.standard.bool(forKey: "NOTIFICATIONS_ON") == true{
+            let not = Notifications()
+            not.tempUnsubscribe()
+            if UserDefaults.standard.bool(forKey: "NOTIFICATIONS_ON"){
                 not.resubscribe()
             }
             
@@ -58,9 +49,6 @@ class Server{
         if UserDefaults.standard.string(forKey: "SCHOOL_LOCATION") == "publicOnly"{
             UserDefaults.standard.set(false, forKey: "SCHOOL_ENABLE")
         } else {
-            let not = Notifications()
-            not.unSubscribeFromAll()
-            
             UserDefaults.standard.set(false, forKey: "SCHOOL_ENABLE")
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGING")
             apis.setOnError()
@@ -69,7 +57,9 @@ class Server{
             loader.reloadIfNeeded()
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGED")
             
-            if UserDefaults.standard.bool(forKey: "NOTIFICATIONS_ON") == true{
+            let not = Notifications()
+            not.tempUnsubscribe()
+            if UserDefaults.standard.bool(forKey: "NOTIFICATIONS_ON"){
                 not.resubscribe()
             } 
         }
