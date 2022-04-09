@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    @Published var view = LoginView()
+    @Published var view = LoginView(_error: false)
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -35,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if (Auth.auth().currentUser == nil) {
             
-            let loginView = LoginView() //LoginView()
+            let loginView = LoginView(_error: false) //LoginView()
 
             // Use a UIHostingController as window root view controller.
             if let windowScene = scene as? UIWindowScene {
@@ -135,6 +135,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Get the saved email
         let email = UserDefaults.standard.object(forKey: "Email")
         
+        if email == nil {
+            showErrorLoginView()
+            return
+        }
+        
         self.getSchoolFeed(email: email! as! String)
         UserDefaults.standard.set( true, forKey: "userAuthed")
         
@@ -160,9 +165,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         window!.rootViewController = UIHostingController(rootView: mainview)
                         window!.makeKeyAndVisible()
                         
+                    } else{
+                        //error
+                        showErrorLoginView()
                     }})
+            } else {
+                //error
+                showErrorLoginView()
             }
+        } else {
+            //error
+            showErrorLoginView()
         }
+    }
+    
+    func showErrorLoginView(){
+        let loginViewError = LoginView(_error: true)
+        // Use a UIHostingController as window root view controller.
+        window!.rootViewController = UIHostingController(rootView: loginViewError)
+        window!.makeKeyAndVisible()
     }
     
     func getSchoolFeed(email: String){

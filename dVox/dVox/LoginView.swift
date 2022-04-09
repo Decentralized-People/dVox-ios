@@ -14,8 +14,10 @@ import Firebase
 
 struct LoginView: View {
     
-    init(){
-        
+    @State var error: Bool
+    
+    init(_error: Bool){
+        error = _error
     }
     
     @State var email_input = ""
@@ -87,6 +89,19 @@ struct LoginView: View {
                             .padding(.horizontal, 20)
                         //********************* TEXT INPUT *********************//
                         
+                        if error {
+                            Text("Something went wrong. Please try to request a new link.")
+                                .multilineTextAlignment(.leading)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundColor(Color("RedColor"))
+                                .font(.custom("Montserrat-Regular", size: 10))
+                                .minimumScaleFactor(0.01)
+                                .lineLimit(2)
+                                .padding(.horizontal, 20)
+                                .padding(.top, 5)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .accentColor(Color("WhiteColor").opacity(0.75))
+                        }
                         
 
                         //******************** NEXT BUTTON *********************//
@@ -156,7 +171,7 @@ struct LoginView: View {
 
     struct LoginView_Previews: PreviewProvider {
         static var previews: some View {
-            LoginView()
+            LoginView(_error: false)
                 
         }
     }
@@ -197,6 +212,7 @@ struct LoginView: View {
         
         
         googleLogin(email: email_input.lowercased())
+        error = false
         return 0
     }
     

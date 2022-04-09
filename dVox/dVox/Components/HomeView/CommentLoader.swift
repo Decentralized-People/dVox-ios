@@ -29,6 +29,15 @@ class CommentLoader: ObservableObject  {
         print("Getting new comments, cycle \(index)")
         loadMore(post: post, numberOfComments: getComments, currentId: currentId)
     }
+    
+    func reloadIfNeeded(){
+        let reload = UserDefaults.standard.bool(forKey: "RELOAD_NEEDED_comment")
+        if reload{
+            contract = SmartContract()
+            UserDefaults.standard.set(false, forKey: "RELOAD_NEEDED_comment")
+        }
+    }
+    
 
     func loadMore(post: Post, numberOfComments: Int, currentId: Int) {
     

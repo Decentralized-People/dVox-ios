@@ -12,10 +12,12 @@ class Server{
     
     var apis: APIs!
     var loader: PostLoader2!
+    var commenLoader: CommentLoader!
     
-    init(_apis: APIs, _loader: PostLoader2){
+    init(_apis: APIs, _loader: PostLoader2, _commentLoader: CommentLoader){
         apis = _apis;
         loader = _loader
+        commenLoader = _commentLoader
     }
     
     func switchToSchool(){
@@ -29,7 +31,9 @@ class Server{
             apis.setOnError()
             apis.getAPIs()
             UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED")
+            UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED_comments")
             loader.reloadIfNeeded()
+            commenLoader.reloadIfNeeded()
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGED")
             
             let not = Notifications()
@@ -54,7 +58,9 @@ class Server{
             apis.setOnError()
             apis.getAPIs()
             UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED")
+            UserDefaults.standard.set(true, forKey: "RELOAD_NEEDED_comments")
             loader.reloadIfNeeded()
+            commenLoader.reloadIfNeeded()
             UserDefaults.standard.set(true, forKey: "SERVER_CHANGED")
             
             let not = Notifications()

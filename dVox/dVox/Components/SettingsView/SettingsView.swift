@@ -38,11 +38,11 @@ struct SettingsView: View {
     "Once you unblock all the authors, you will be able to see all their posts until you block them again."]
 
 
-    init(_apis: APIs, _loader: PostLoader2){
+    init(_apis: APIs, _loader: PostLoader2, _commentLoader: CommentLoader){
         apis = _apis
         schoolServer = UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE")
         publicServer = !(UserDefaults.standard.bool(forKey: "SCHOOL_ENABLE"))
-        server = Server(_apis: _apis, _loader: _loader)
+        server = Server(_apis: _apis, _loader: _loader, _commentLoader: _commentLoader)
         
         postsNotifications = UserDefaults.standard.bool(forKey: "NOTIFICATIONS_ON")
         
@@ -529,7 +529,7 @@ struct SettingsView: View {
              print("Error signing out: %@", signOutError)
            }
 
-        navigationModel.push(LoginView(), withId: "lol")// 4
+        navigationModel.push(LoginView(_error: false), withId: "lol")// 4
 
         print("Signed out!")
          
@@ -617,11 +617,11 @@ struct CheckboxToggleStyle: ToggleStyle {
   }
 }
 
-struct SettingsView_Preview: PreviewProvider {
-    static var previews: some View {
-        SettingsView(_apis: APIs(), _loader: PostLoader2(_contract: SmartContract()))
-    }
-}
+//struct SettingsView_Preview: PreviewProvider {
+//    static var previews: some View {
+//        SettingsView(_apis: APIs(), _loader: PostLoader2(_contract: SmartContract()))
+//    }
+//}
 
 extension Binding where Value == Bool {
     func negate() -> Bool {

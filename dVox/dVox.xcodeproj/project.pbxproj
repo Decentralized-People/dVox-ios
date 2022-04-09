@@ -25,6 +25,7 @@
 		8B1A3461276E196E0079CD4B /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1A3460276E196E0079CD4B /* Server.swift */; };
 		8B1A3463276EDF3A0079CD4B /* BanContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1A3462276EDF3A0079CD4B /* BanContainer.swift */; };
 		8B3B2E1526A5E13D001224F6 /* PostContract.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B3B2E1426A5E13D001224F6 /* PostContract.json */; };
+		8B51C04A2802050400DDF5BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B51C0492802050400DDF5BA /* GoogleService-Info.plist */; };
 		8B5B590926C80F36008D4114 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5B590826C80F36008D4114 /* CommentView.swift */; };
 		8B65B70726A5D7B50040E559 /* SmartContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B65B70626A5D7B50040E559 /* SmartContract.swift */; };
 		8B6C722D26951D4D004A34A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C722C26951D4D004A34A3 /* AppDelegate.swift */; };
@@ -67,6 +68,7 @@
 		8B1A3460276E196E0079CD4B /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		8B1A3462276EDF3A0079CD4B /* BanContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BanContainer.swift; sourceTree = "<group>"; };
 		8B3B2E1426A5E13D001224F6 /* PostContract.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PostContract.json; sourceTree = "<group>"; };
+		8B51C0492802050400DDF5BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8B5B590826C80F36008D4114 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		8B65B70626A5D7B50040E559 /* SmartContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartContract.swift; sourceTree = "<group>"; };
 		8B6C722926951D4D004A34A3 /* dVox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dVox.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,6 +194,7 @@
 			children = (
 				8B749F4C269E693F00380245 /* dVox.entitlements */,
 				2806D72A26B194DF00FEC670 /* GoogleService-Info.plist */,
+				8B51C0492802050400DDF5BA /* GoogleService-Info.plist */,
 				8BB34013269686FB00AEE389 /* Assets */,
 				8B6C722C26951D4D004A34A3 /* AppDelegate.swift */,
 				8B6C722E26951D4D004A34A3 /* SceneDelegate.swift */,
@@ -333,6 +336,7 @@
 			files = (
 				8BB3401A269747F800AEE389 /* Montserrat-Light.ttf in Resources */,
 				8B3B2E1526A5E13D001224F6 /* PostContract.json in Resources */,
+				8B51C04A2802050400DDF5BA /* GoogleService-Info.plist in Resources */,
 				2806D72B26B194DF00FEC670 /* GoogleService-Info.plist in Resources */,
 				8BB34019269747F700AEE389 /* Montserrat-Bold.ttf in Resources */,
 				8BB34018269747F700AEE389 /* Montserrat-Regular.ttf in Resources */,
@@ -582,7 +586,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.16;
+				MARKETING_VERSION = 1.18;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dpearth.dvox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -608,7 +612,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.16;
+				MARKETING_VERSION = 1.18;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dpearth.dvox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
